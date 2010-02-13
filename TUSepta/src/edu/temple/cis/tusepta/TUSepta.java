@@ -3,6 +3,11 @@ package edu.temple.cis.tusepta;
 import android.app.Activity;
 import android.os.Bundle;
 
+/**
+ * 
+ * @author Yu Liang
+ *
+ */
 public class TUSepta extends Activity {
     /** Called when the activity is first created. */
     @Override
