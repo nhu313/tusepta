@@ -6,6 +6,7 @@ import android.os.Bundle;
 /**
  * 
  * @author Yu Liang
+ * Wanwisa
  *
  */
 public class TUSepta extends Activity {
