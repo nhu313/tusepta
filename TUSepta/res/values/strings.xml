@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, TUSepta!</string>
-    <string name="app_name">TUSepta</string>
+    <string name="hello">Hello World, HelloAn!</string>
+    <string name="app_name">HelloAn</string>
+<string name="MENU_DELETE">Delete</string>
+<string name="MENU_ADD">Add</string>
+<string name="MENU_SAVE">Save</string>
+<string name="MENU_CANCEL">Cancel</string>
 </resources>
