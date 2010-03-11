@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="edu.temple.cis.tusepta"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".TUSepta"
-                  android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+	package="edu.temple.cis.tusepta" android:versionCode="1"
+	android:versionName="1.0">
+	<application android:icon="@drawable/icon" android:label="@string/app_name">
+		<activity android:name=".TUSepta" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 
-    <activity android:name=".favorite.FavoriteRoutesAct" android:screenOrientation="portrait"></activity>
-<activity android:name=".favorite.RouteAct" android:screenOrientation="landscape"></activity>
-<activity android:name=".service.ServiceAct" android:screenOrientation="portrait"></activity>
-<activity android:name=".news.NewsAct" android:screenOrientation="portrait"></activity>
-</application>
-    <uses-sdk android:minSdkVersion="2" />
+		<activity android:name=".favorite.FavoriteRoutesAct"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".favorite.RouteAct"
+			android:screenOrientation="landscape"></activity>
+		<activity android:name=".service.ServiceAct"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".news.NewsAct"
+			android:screenOrientation="portrait"></activity>
+	</application>
+	<uses-sdk android:minSdkVersion="2" />
 
-<permission android:name="android.permission.INTERNET"></permission>
+	<permission android:name="android.permission.INTERNET"></permission>
 </manifest> 
