@@ -8,10 +8,12 @@ import java.util.List;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import android.app.ListActivity;
 import android.os.Bundle;
 import edu.temple.cis.tusepta.R;
+import edu.temple.cis.tusepta.Utils;
 
 /**
  * @author Yu Liang
@@ -40,6 +42,9 @@ public class NewsAct extends ListActivity {
 		    }
 			NewsListAdapter adapter = new NewsListAdapter(this, newsList);
 			setListAdapter(adapter);
+		} catch (TwitterException te) {
+			te.printStackTrace();
+			Utils.showMessage(this, "Cannot access Septa's twitter website: " + te.getMessage());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
