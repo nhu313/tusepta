@@ -1,6 +1,8 @@
 package edu.temple.cis.tusepta;
 
+import edu.temple.cis.tusepta.test.TestAct;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 /**
@@ -15,5 +17,8 @@ public class TUSepta extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        Intent itTest = new Intent(this, TestAct.class);
+        startActivity(itTest);
     }
 }
