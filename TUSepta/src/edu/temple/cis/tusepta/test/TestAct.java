@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import edu.temple.cis.tusepta.R;
+import edu.temple.cis.tusepta.favorite.FavoriteRoutesAct;
 import edu.temple.cis.tusepta.news.NewsAct;
 
 /**
@@ -28,20 +29,38 @@ public class TestAct extends Activity {
 		setContentView(R.layout.test);
 		
 		Button btTestNews = (Button) findViewById(R.id.TestNews);
-		btTestNews.setOnClickListener(new TestNewButtonOnClish(this));
+		btTestNews.setOnClickListener(new TestNewsButtonOnClish(this));
+		
+		Button btTestFavorteRoutes = (Button) findViewById(R.id.TestFavoriteRoutes);
+		btTestFavorteRoutes.setOnClickListener(new TestFavoriteButtonOnClish(this));
 	}
 	
-	class TestNewButtonOnClish implements OnClickListener {
+	class TestNewsButtonOnClish implements OnClickListener {
 
 		private Context ctx;
 		
-		TestNewButtonOnClish(Context ctx) {
+		TestNewsButtonOnClish(Context ctx) {
 			this.ctx = ctx;
 		}
 		@Override
 		public void onClick(View arg0) {
 			Intent itNews = new Intent(this.ctx, NewsAct.class);
 			startActivity(itNews);
+		}
+		
+	}
+
+	class TestFavoriteButtonOnClish implements OnClickListener {
+
+		private Context ctx;
+		
+		TestFavoriteButtonOnClish(Context ctx) {
+			this.ctx = ctx;
+		}
+		@Override
+		public void onClick(View arg0) {
+			Intent itFavorite = new Intent(this.ctx, FavoriteRoutesAct.class);
+			startActivity(itFavorite);
 		}
 		
 	}
