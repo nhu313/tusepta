@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import edu.temple.cis.tusepta.R;
+import edu.temple.cis.tusepta.Utils;
 
 /**
  * @author Yu Liang
@@ -45,15 +46,8 @@ public class ServiceAct extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			AlertDialog alert = new AlertDialog.Builder(parent.getContext()).create();
 			Service service = (Service) parent.getAdapter().getItem(position);
-			alert.setMessage(service.toString());
-			alert.setButton("OK", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					return;
-				}
-			});
-			alert.show();
+			Utils.showMessage(parent.getContext(), service.toString());
 		}
 	}
 }
