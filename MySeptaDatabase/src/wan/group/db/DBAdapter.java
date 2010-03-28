@@ -1,5 +1,6 @@
 package wan.group.db;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class DBAdapter {
+
+public class DBAdapter extends Activity {
 	
     //For Service Table -------------------------------------------
 	public static final String KEY_ServiceID = "serviceID";
@@ -40,21 +42,21 @@ public class DBAdapter {
     private static final String DATABASE_Schedule = "Schedule";
     private static final int DATABASE_VERSION = 1;
 
-    // Create tblService
+    // Create Service Table
     private static final String DATABASE_CREATE_Service =
         "create table Service (seviceID integer primary key autoincrement, "
         + "shortName text not null, longName text not null, " 
         + "color text not null);";
-    // Create tblRoute
+    // Create Route Table
     private static final String DATABASE_CREATE_Route =
         "create table Route (routeID integer primary key autoincrement, "
         + "service_ID integer not null, routeNumber text not null, " 
         + "routeName text not null, favoriteRoute integer not null);";
-    // Create tblStop
+    // Create Stop Table
     private static final String DATABASE_CREATE_Stop =
         "create table Stop (stopID integer primary key autoincrement, "
         + "route_ID integer not null, stop text not null);";
-    // Create tblRoute
+    // Create Schedule Table
     private static final String DATABASE_CREATE_Schedule =
         "create table Schedule (scheduleID integer primary key autoincrement, "
         + "stop_ID integer not null, dayOfService text not null, " 
