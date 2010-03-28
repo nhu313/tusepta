@@ -6,10 +6,14 @@ package edu.temple.cis.tusepta.favorite;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import edu.temple.cis.tusepta.R;
 import edu.temple.cis.tusepta.service.ServiceAct;
@@ -38,6 +42,29 @@ public class FavoriteRoutesAct extends Activity {
 		ListView favoriteList = (ListView) findViewById(R.id.FavoriteList);
 		favoriteList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		favoriteList.setAdapter(routeAdapter);
+		
+		ImageButton btAdd = (ImageButton) findViewById(R.id.FR_AddFavoriteRoute);
+		btAdd.setOnClickListener(new AddButtonOnClick());
+		ImageButton btDel = (ImageButton) findViewById(R.id.FR_DelFavoriteRoute);
+		btDel.setOnClickListener(new DelButtonOnClick());
+	}
+	
+	class AddButtonOnClick implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			handleAdd();
+		}
+		
+	}
+	
+	class DelButtonOnClick implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			handleDelete();
+		}
+		
 	}
 
 	/* (non-Javadoc)

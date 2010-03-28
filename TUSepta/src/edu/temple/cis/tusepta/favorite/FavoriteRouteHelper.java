@@ -34,6 +34,14 @@ public class FavoriteRouteHelper {
 				}
 			}
 		}
+		
+		if (routes.isEmpty()) {
+			Route emptyRoute = new Route();
+			emptyRoute.setRoute_id(0);
+			emptyRoute.setRoute_long_name("Empty");
+			routes.add(emptyRoute);
+		}
+		
 		return routes;
 	}
 }

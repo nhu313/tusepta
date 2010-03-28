@@ -12,6 +12,9 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import edu.temple.cis.tusepta.R;
 import edu.temple.cis.tusepta.Utils;
 
@@ -29,6 +32,13 @@ public class NewsAct extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news);
+		
+		ImageButton ibFavorite = (ImageButton) findViewById(R.id.NewsFavorite);
+		ibFavorite.setOnClickListener(new FavortieNewsButtonOnClick());
+		
+		ImageButton ibAll = (ImageButton) findViewById(R.id.NewsAll);
+		ibAll.setOnClickListener(new AllNewsButtonOnClick());
+		
 		try {
 			Twitter twitter = new TwitterFactory().getInstance("tusepta", "tusepta2010");
 			List<Status> statuses = twitter.getFriendsTimeline();
@@ -50,4 +60,21 @@ public class NewsAct extends ListActivity {
 		}
 	}
 
+	class FavortieNewsButtonOnClick implements View.OnClickListener {
+
+		@Override
+		public void onClick(View arg0) {
+			
+		}
+		
+	}
+	
+	class AllNewsButtonOnClick implements View.OnClickListener {
+
+		@Override
+		public void onClick(View arg0) {
+			
+		}
+		
+	}
 }
