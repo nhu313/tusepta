@@ -6,4 +6,6 @@
 <string name="MENU_ADD">Add</string>
 <string name="MENU_SAVE">Save</string>
 <string name="MENU_CANCEL">Cancel</string>
+<string name="TB_FAVORITENEWS">My Favorite News</string>
+<string name="TB_ALLNEWS">All News</string>
 </resources>
