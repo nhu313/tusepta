@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView android:layout_width="fill_parent"
-	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/FavoriteList"></ListView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<ImageButton android:id="@+id/FR_AddFavoriteRoute"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:clickable="true"
+			android:src="@android:drawable/ic_input_add"></ImageButton>
+		<ImageButton android:id="@+id/FR_DelFavoriteRoute"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:clickable="true"
+			android:src="@android:drawable/ic_delete"></ImageButton>
+	</LinearLayout>
+	<ListView android:layout_width="fill_parent"
+		android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/FavoriteList" android:choiceMode="multipleChoice"></ListView>
+</LinearLayout>

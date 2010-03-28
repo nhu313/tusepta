@@ -4,5 +4,5 @@
   android:layout_width="wrap_content"
   android:layout_height="wrap_content">
 <Button android:layout_height="wrap_content" android:id="@+id/TestNews" android:text="Test News" android:layout_width="fill_parent"></Button>
-<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Test FavoriteRoutes" android:id="@+id/TestFavoriteRoutes"></Button>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TestFavoriteRoutes" android:text="Test FavoriteRoutes"></Button>
 </LinearLayout>
