@@ -23,6 +23,7 @@ public class DBAdapter extends Activity {
     public static final String KEY_RouteNumber = "routeNumber";
     public static final String KEY_RouteName = "routeName";
     public static final String KEY_FavoriteRoute = "favoriteRoute";
+    public static final String KEY_URL = "url";
     //For Stop Table -----------------------------------------------
     public static final String KEY_StopID = "stopID";
     public static final String KEY_Route_ID = "route_ID";
@@ -33,14 +34,26 @@ public class DBAdapter extends Activity {
     public static final String KEY_DayOfService = "dayOfService";
     public static final String KEY_Direction = "direction";
     public static final String KEY_Time = "time";  
+   //For BackupStop Table -----------------------------------------------
+    public static final String KEY_BackupStopID = "stopID";
+    public static final String KEY_BackupRoute_ID = "route_ID";
+    public static final String KEY_BackupStop = "stop";
+   //For BackupSchedule Table ---------------------------------------------
+    public static final String KEY_BackupScheduleID = "scheduleID";
+    public static final String KEY_BackupStop_ID = "stop_ID";
+    public static final String KEY_BackupDayOfService = "dayOfService";
+    public static final String KEY_BackupDirection = "direction";
+    public static final String KEY_BackupTime = "time";  
     //----------------------------------------------------------------    
     private static final String TAG = "DBAdapter";
-    private static final String DATABASE_NAME = "MySepta";
-    private static final String DATABASE_Service = "Service";
-    private static final String DATABASE_Route = "Route";
-    private static final String DATABASE_Stop = "Stop";
-    private static final String DATABASE_Schedule = "Schedule";
-    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "MySepta";    // Database Name
+    private static final String DATABASE_Service = "Service"; // Table 
+    private static final String DATABASE_Route = "Route";	  // Table
+    private static final String DATABASE_Stop = "Stop";       // Table
+    private static final String DATABASE_Schedule = "Schedule"; // Table
+    private static final String DATABASE_BackupStop = "BackupStop";  // Table
+    private static final String DATABASE_BackupSchedule = "BackupSchedule"; // Table
+    private static final int DATABASE_VERSION = 1;  // Database Version
 
     // Create Service Table
     private static final String DATABASE_CREATE_Service =
@@ -51,7 +64,7 @@ public class DBAdapter extends Activity {
     private static final String DATABASE_CREATE_Route =
         "create table Route (routeID integer primary key autoincrement, "
         + "service_ID integer not null, routeNumber text not null, " 
-        + "routeName text not null, favoriteRoute integer not null);";
+        + "routeName text not null, favoriteRoute integer not null, url text not null);";
     // Create Stop Table
     private static final String DATABASE_CREATE_Stop =
         "create table Stop (stopID integer primary key autoincrement, "
@@ -60,7 +73,16 @@ public class DBAdapter extends Activity {
     private static final String DATABASE_CREATE_Schedule =
         "create table Schedule (scheduleID integer primary key autoincrement, "
         + "stop_ID integer not null, dayOfService text not null, " 
-        + "direction text not null, time integer not null);";
+        + "direction text not null, time TIME not null);";
+ // Create BackupStop Table
+    private static final String DATABASE_CREATE_BackupStop =
+        "create table BackupStop (stopID integer primary key autoincrement, "
+        + "route_ID integer not null, stop text not null);";
+    // Create Schedule Table
+    private static final String DATABASE_CREATE_BackupSchedule =
+        "create table BackupSchedule (scheduleID integer primary key autoincrement, "
+        + "stop_ID integer not null, dayOfService text not null, " 
+        + "direction text not null, time TIME not null);";
         
     //-----------------------------------------------------------------------   
     private final Context context; 
@@ -80,7 +102,7 @@ public class DBAdapter extends Activity {
         {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
-
+       // Create all six tables
         @Override
         public void onCreate(SQLiteDatabase db) 
         {
@@ -88,8 +110,12 @@ public class DBAdapter extends Activity {
             db.execSQL(DATABASE_CREATE_Route);
             db.execSQL(DATABASE_CREATE_Stop);
             db.execSQL(DATABASE_CREATE_Schedule);
+            db.execSQL(DATABASE_CREATE_BackupStop);
+            db.execSQL(DATABASE_CREATE_BackupSchedule);
+            
         }
-
+        
+        // This function will be used when update version to the database
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, 
         int newVersion) 
@@ -114,6 +140,7 @@ public class DBAdapter extends Activity {
     {
         DBHelper.close();
     }
+    
     //----------------------------------------SERVICE-------------------------------------------//
     //---insert a Service into the database---
     public long insertService(String shortName, String longName, String color) 
@@ -184,12 +211,14 @@ public class DBAdapter extends Activity {
   //------------------------------ROUTE--------------------------------------------------------//
     
   //---insert a Route into the database---
-    public long insertRoute(long service_ID, String routeNumber, String routeName, long favoriteRoute) 
+    public long insertRoute(long service_ID, String routeNumber, 
+    		String routeName, long favoriteRoute, String url) 
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_Service_ID, service_ID);
         initialValues.put(KEY_RouteNumber, routeNumber);
         initialValues.put(KEY_RouteName, routeName);
+        initialValues.put(KEY_URL, url);
         return db.insert(DATABASE_Route, null, initialValues);
     }
 
@@ -208,7 +237,8 @@ public class DBAdapter extends Activity {
         		KEY_Service_ID,
         		KEY_RouteNumber,
                 KEY_RouteName,
-                KEY_FavoriteRoute},
+                KEY_FavoriteRoute,
+                KEY_URL},
                 null, 
                 null, 
                 null, 
@@ -226,7 +256,8 @@ public class DBAdapter extends Activity {
                 		KEY_Service_ID, 
                 		KEY_RouteNumber,
                 		KEY_RouteName,
-                		KEY_FavoriteRoute
+                		KEY_FavoriteRoute,
+                		KEY_URL
                 		}, 
                 		KEY_RouteID + "=" + routeID, 
                 		null,
@@ -242,13 +273,14 @@ public class DBAdapter extends Activity {
 
     //---updates a Route---
     public boolean updateRoute(long routeID, long service_ID, 
-    String routeNumber, String routeName, String favoriteRoute) 
+    String routeNumber, String routeName, String favoriteRoute, String url) 
     {
         ContentValues args = new ContentValues();
         args.put(KEY_Service_ID, service_ID);
         args.put(KEY_RouteNumber, routeNumber);
         args.put(KEY_RouteName, routeName);
         args.put(KEY_FavoriteRoute, favoriteRoute);
+        args.put(KEY_URL, url);
         return db.update(DATABASE_Route, args, 
                          KEY_RouteID + "=" + routeID, null) > 0;
     }
@@ -364,7 +396,7 @@ public class DBAdapter extends Activity {
                 		KEY_Direction,
                 		KEY_Time
                 		}, 
-                		KEY_RouteID + "=" + scheduleID, 
+                		KEY_ScheduleID + "=" + scheduleID, 
                 		null,
                 		null, 
                 		null, 
@@ -387,6 +419,142 @@ public class DBAdapter extends Activity {
         args.put(KEY_Time, time);
         return db.update(DATABASE_Schedule, args, 
                          KEY_ScheduleID + "=" + scheduleID, null) > 0;
+    }
+    
+  //-------------------------------------------------BackupSTOP---------------------------------------------//
+    
+    //---insert a BackupStop into the database---
+    public long insertBackupStop(long route_ID, String stop) 
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_BackupRoute_ID, route_ID);
+        initialValues.put(KEY_BackupStop, stop);
+        return db.insert(DATABASE_BackupStop, null, initialValues);
+    }
+
+    //---deletes a particular Stop---
+    public boolean deleteBackupStop(long stopID) 
+    {
+        return db.delete(DATABASE_BackupStop, KEY_BackupStopID + 
+        		"=" + stopID, null) > 0;
+    }
+
+    //---retrieves all the Stop---
+    public Cursor getAllBackupStop() 
+    {
+        return db.query(DATABASE_BackupStop, new String[] {
+        		KEY_BackupStopID, 
+        		KEY_BackupRoute_ID,
+        		KEY_BackupStop}, 
+                null, 
+                null, 
+                null, 
+                null, 
+                null);
+    }
+
+    //---retrieves a particular Stop---
+    public Cursor getBackupStop(long stopID) throws SQLException 
+    {
+        Cursor mCursor =
+                db.query(true, DATABASE_BackupStop, new String[] {
+                		KEY_BackupStopID,
+                		KEY_BackupRoute_ID, 
+                		KEY_BackupStop
+                		}, 
+                		KEY_BackupStopID + "=" + stopID, 
+                		null,
+                		null, 
+                		null, 
+                		null, 
+                		null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    //---updates a Stop---
+    public boolean updateBackupStop(long stopID, long route_ID, String stop) 
+    {
+        ContentValues args = new ContentValues();
+        args.put(KEY_BackupRoute_ID, route_ID);
+        args.put(KEY_BackupStop, stop);
+        return db.update(DATABASE_BackupStop, args, 
+                         KEY_BackupStopID + "=" + stopID, null) > 0;
+    }
+    
+    //-------------------------------------------BackupSCHEDULE----------------------------------------------//
+
+  //---insert a Route into the database---
+    public long insertBackupSchedule(long stop_ID, String dayOfService, String direction, String time) 
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_BackupStop_ID, stop_ID);
+        initialValues.put(KEY_BackupDayOfService, dayOfService);
+        initialValues.put(KEY_BackupDirection, direction);
+        initialValues.put(KEY_BackupTime, time);
+        return db.insert(DATABASE_BackupSchedule, null, initialValues);
+    }
+
+    //---deletes a particular Schedule---
+    public boolean deleteBackupSchedule(long scheduleID) 
+    {
+        return db.delete(DATABASE_BackupSchedule, KEY_BackupScheduleID + 
+        		"=" + scheduleID, null) > 0;
+    }
+
+    //---retrieves all the Schedule---
+    public Cursor getAllBackupSchedules() 
+    {
+        return db.query(DATABASE_BackupSchedule, new String[] {
+        		KEY_BackupScheduleID, 
+        		KEY_BackupStop_ID,
+        		KEY_BackupDayOfService,
+                KEY_BackupDirection,
+                KEY_BackupTime},
+                null, 
+                null, 
+                null, 
+                null,
+                null,
+                null);
+    }
+
+    //---retrieves a particular Schedule---
+    public Cursor getBackupSchedule(long scheduleID) throws SQLException 
+    {
+        Cursor mCursor =
+                db.query(true, DATABASE_BackupSchedule, new String[] {
+                		KEY_BackupScheduleID,
+                		KEY_BackupStop_ID, 
+                		KEY_BackupDayOfService,
+                		KEY_BackupDirection,
+                		KEY_BackupTime
+                		}, 
+                		KEY_BackupScheduleID + "=" + scheduleID, 
+                		null,
+                		null, 
+                		null, 
+                		null,
+                		null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    //---updates a Schedule---
+    public boolean updateBackupSchedule(long scheduleID, long stop_ID, 
+    String dayOfService, String direction, String time) 
+    {
+        ContentValues args = new ContentValues();
+        args.put(KEY_BackupStop_ID, stop_ID);
+        args.put(KEY_BackupDayOfService, dayOfService);
+        args.put(KEY_BackupDirection, direction);
+        args.put(KEY_BackupTime, time);
+        return db.update(DATABASE_BackupSchedule, args, 
+                         KEY_BackupScheduleID + "=" + scheduleID, null) > 0;
     }
     
 
