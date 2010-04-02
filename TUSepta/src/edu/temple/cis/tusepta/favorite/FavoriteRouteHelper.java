@@ -26,22 +26,18 @@ public class FavoriteRouteHelper {
 				FAVORITE_ROUTES, Context.MODE_WORLD_READABLE);
 		String fr = prefsFavoriteRoutes.getString(FAVORITE_ROUTES, null);
 		if (fr != null) {
+			/*
 			String[] fra = fr.split(SEP);
+			RouteHelper routeHelper = new RouteHelper(ctx);
 			Map<Integer, Route> routesMap = RouteHelper.getRoutesMap(ctx);
 			for (int i = 0; i < fra.length; i++) {
 				if (routesMap.containsKey(fra[i])) {
 					routes.add((Route) routesMap.get(fra[i]));
 				}
 			}
+			*/
 		}
-		
-		if (routes.isEmpty()) {
-			Route emptyRoute = new Route();
-			emptyRoute.setRoute_id(0);
-			emptyRoute.setRoute_long_name("Empty");
-			routes.add(emptyRoute);
-		}
-		
+
 		return routes;
 	}
 }

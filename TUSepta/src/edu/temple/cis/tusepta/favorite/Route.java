@@ -9,76 +9,72 @@ package edu.temple.cis.tusepta.favorite;
  */
 public class Route {
 	private int route_id;
-	private String route_short_name;
-	private String route_long_name;
-	private int route_type;
-	private String route_url;
+	private String name;
+	private String service_id;
+	private boolean isFavorite;
+
 	/**
 	 * @return the route_id
 	 */
 	public int getRoute_id() {
 		return route_id;
 	}
+
 	/**
 	 * @param routeId the route_id to set
 	 */
 	public void setRoute_id(int routeId) {
 		route_id = routeId;
 	}
+
 	/**
-	 * @return the route_short_name
+	 * @return the name
 	 */
-	public String getRoute_short_name() {
-		return route_short_name;
+	public String getName() {
+		return name;
 	}
+
 	/**
-	 * @param routeShortName the route_short_name to set
+	 * @param name the name to set
 	 */
-	public void setRoute_short_name(String routeShortName) {
-		route_short_name = routeShortName;
+	public void setName(String name) {
+		this.name = name;
 	}
+
 	/**
-	 * @return the route_long_name
+	 * @return the service_id
 	 */
-	public String getRoute_long_name() {
-		return route_long_name;
+	public String getService_id() {
+		return service_id;
 	}
+
 	/**
-	 * @param routeLongName the route_long_name to set
+	 * @param serviceId the service_id to set
 	 */
-	public void setRoute_long_name(String routeLongName) {
-		route_long_name = routeLongName;
+	public void setService_id(String serviceId) {
+		service_id = serviceId;
 	}
+
 	/**
-	 * @return the route_type
+	 * @return the isFavorite
 	 */
-	public int getRoute_type() {
-		return route_type;
+	public boolean isFavorite() {
+		return isFavorite;
 	}
+
 	/**
-	 * @param routeType the route_type to set
+	 * @param isFavorite the isFavorite to set
 	 */
-	public void setRoute_type(int routeType) {
-		route_type = routeType;
+	public void setFavorite(boolean isFavorite) {
+		this.isFavorite = isFavorite;
 	}
-	/**
-	 * @return the route_url
-	 */
-	public String getRoute_url() {
-		return route_url;
-	}
-	/**
-	 * @param routeUrl the route_url to set
-	 */
-	public void setRoute_url(String routeUrl) {
-		route_url = routeUrl;
-	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return this.route_short_name + " " + this.route_long_name;
+		return this.name;
 	}
 	
 	

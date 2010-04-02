@@ -23,7 +23,10 @@ public class RouteAct extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.routes);
 		
-		List<Route> routes = FavoriteRouteHelper.getFavoriteRoutes(this);
+		Bundle bundle = getIntent().getExtras();
+		int serviceID = bundle.getInt("SERVICEID");
+		RouteHelper routeHelper = new RouteHelper(this);
+		List<Route> routes = routeHelper.getRoutesList();
 		RouteListAdapter routeAdapter = new RouteListAdapter(this, routes);
 		setListAdapter(routeAdapter);
 	}

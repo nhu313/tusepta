@@ -21,77 +21,80 @@ public class RouteHelper {
 	
 	private final static String SEP = ",";
 
-	public static Map<Integer, Route> getRoutesMap(Context ctx) {
-		Map<Integer, Route> routes = new HashMap<Integer, Route>();
-		InputStream is = null;
-		try {
-			is = ctx.getResources().openRawResource(R.raw.routes);
-			Scanner in = new Scanner(is);
-			in.nextLine();
-			while (in.hasNext()) {
-				String s = in.nextLine();
-				String[] sa = s.split(SEP);
-				Route route = new Route();
-				if (sa.length > 3) {
-					route.setRoute_id(Integer.parseInt(sa[0]));
-					route.setRoute_short_name(sa[1]);
-					route.setRoute_long_name(sa[2]);
-					route.setRoute_type(Integer.parseInt(sa[3]));
-					if (sa.length > 4) {
-						route.setRoute_url(sa[4]);
-					}
-					routes.put(route.getRoute_id(), route);
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			if (is != null) {
-				try {
-					is.close();
-				} catch (Exception e) {
-				}
-			}
-		}
-		return routes;
-	}
-
-	public static List<Route> getRoutesList(Context ctx) {
-		List<Route> routes = new ArrayList<Route>();
-		InputStream is = null;
-		try {
-			is = ctx.getResources().openRawResource(R.raw.routes);
-			Scanner in = new Scanner(is);
-			in.nextLine();
-			while (in.hasNext()) {
-				String s = in.nextLine();
-				String[] sa = s.split(SEP);
-				Route route = new Route();
-				if (sa.length > 3) {
-					route.setRoute_id(Integer.parseInt(sa[0]));
-					route.setRoute_short_name(sa[1]);
-					route.setRoute_long_name(sa[2]);
-					route.setRoute_type(Integer.parseInt(sa[3]));
-					if (sa.length > 4) {
-						route.setRoute_url(sa[4]);
-					}
-					routes.add(route);
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			if (is != null) {
-				try {
-					is.close();
-				} catch (Exception e) {
-				}
-			}
-		}
-		return routes;
+	private Context ctx;
+	
+	Map<Integer, Route> routeMap;
+	List<Route> routeList;
+	Map<Integer, Route> favoriteRouteMap;
+	List<Route> favoriteRouteList;
+	
+	public RouteHelper(Context ctx) {
+		this.ctx = ctx;
 	}
 	
-	public static Route getRoute(Map<Integer, Route> routes, int routeID) {
-		return (Route) routes.get(routeID);
+	private void init() {
+		if (routeMap == null) {
+			routeMap = new HashMap<Integer, Route>();
+			routeList = new ArrayList<Route>();
+			favoriteRouteMap = new HashMap<Integer, Route>();
+			favoriteRouteList = new ArrayList<Route>();
+			InputStream is = null;
+			try {
+				is = this.ctx.getResources().openRawResource(R.raw.routes);
+				Scanner in = new Scanner(is);
+				in.nextLine();
+				int i = 0;
+				while (in.hasNext()) {
+					String s = in.nextLine();
+					String[] sa = s.split(SEP);
+					Route route = new Route();
+					if (sa.length > 3) {
+						route.setRoute_id(Integer.parseInt(sa[0]));
+						//route.setRoute_short_name(sa[1]);
+						route.setName(sa[2]);
+						if (i++%10 == 1) {
+							favoriteRouteMap.put(route.getRoute_id(), route);
+							favoriteRouteList.add(route);
+						} else {
+							routeMap.put(route.getRoute_id(), route);
+							routeList.add(route);
+						}
+					}
+				}
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			} finally {
+				if (is != null) {
+					try {
+						is.close();
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+	}
+	
+	public Map<Integer, Route> getRoutesMap() {
+		init();
+		return routeMap;
+	}
+
+	public List<Route> getRoutesList() {
+		init();
+		return routeList;
+	}
+	
+	public Map<Integer, Route> getFavoriteRoutesMap() {
+		init();
+		return favoriteRouteMap;
+	}
+
+	public List<Route> getFavoriteRoutesList() {
+		init();
+		return favoriteRouteList;
+	}
+	
+	public Route getRoute(int routeID) {
+		return (Route) routeMap.get(routeID);
 	}
 }
