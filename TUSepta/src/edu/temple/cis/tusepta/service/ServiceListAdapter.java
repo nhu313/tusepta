@@ -6,12 +6,16 @@ package edu.temple.cis.tusepta.service;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.temple.cis.tusepta.favorite.RouteAct;
 
 /**
  * @author Yu Liang
@@ -63,6 +67,7 @@ public class ServiceListAdapter extends BaseAdapter {
 	private final class ServiceView extends LinearLayout {
 
 		private TextView textView;
+		private Button button;
 
 		/**
 		 * @param context
@@ -72,18 +77,39 @@ public class ServiceListAdapter extends BaseAdapter {
 			super(context);
 			setOrientation(LinearLayout.VERTICAL);
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT, 
+					ViewGroup.LayoutParams.FILL_PARENT, 
 					ViewGroup.LayoutParams.WRAP_CONTENT);
 			params.setMargins(5, 3, 5, 0);
 			
+			this.button = new Button(context);
+			this.button.setText(service.toString());
+			this.button.setTag(service.getId());
+			this.button.setTextColor(Color.parseColor(service.getColor()));
+			this.button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					int serviceID = (Integer) view.getTag();
+					Intent intent = new Intent(view.getContext(), RouteAct.class);
+					Bundle bundle = new Bundle();
+					bundle.putInt("SERVICEID", serviceID);
+					intent.putExtras(bundle);
+					view.getContext().startActivity(intent);
+					//Utils.showMessage(view.getContext(), String.valueOf(serviceID));
+				}
+				
+			});
+
+			/**
 			this.textView = new TextView(context);
 			this.textView.setText(service.toString());
 			this.textView.setTextSize(16f);
 			this.textView.setTextColor(Color.parseColor(service.getColor()));
+			**/
 			
 			//this.setBackgroundColor(Color.parseColor(service.getColor()));
 			//this.textView.setBackgroundColor(Color.parseColor(service.getColor()));
-			this.addView(this.textView, params);
+			this.addView(this.button, params);
 		}
 		
 	}
