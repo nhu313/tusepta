@@ -13,8 +13,7 @@ import twitter4j.TwitterFactory;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
+import android.widget.Button;
 import edu.temple.cis.tusepta.R;
 import edu.temple.cis.tusepta.Utils;
 
@@ -33,10 +32,10 @@ public class NewsAct extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news);
 		
-		ImageButton ibFavorite = (ImageButton) findViewById(R.id.NewsFavorite);
+		Button ibFavorite = (Button) findViewById(R.id.FavoriteNews);
 		ibFavorite.setOnClickListener(new FavortieNewsButtonOnClick());
 		
-		ImageButton ibAll = (ImageButton) findViewById(R.id.NewsAll);
+		Button ibAll = (Button) findViewById(R.id.AllNews);
 		ibAll.setOnClickListener(new AllNewsButtonOnClick());
 		
 		try {
