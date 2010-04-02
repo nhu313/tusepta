@@ -12,6 +12,7 @@ public class DBAdapterTest extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
         DBAdapter db = new DBAdapter(this);
         
         db.open();        
@@ -25,7 +26,7 @@ public class DBAdapterTest extends Activity {
         db.close();
 	
         //---get a Service---
-        db.open();
+        //db.open();
         Cursor c = db.getService(2);
         if (c.moveToFirst())        
             DisplayService(c);
@@ -34,39 +35,7 @@ public class DBAdapterTest extends Activity {
             		Toast.LENGTH_LONG).show();
         db.close();
     
-     /*   //---get all Services---
-        db.open();
-        Cursor c2 = db.getAllServices();
-        if (c2.moveToFirst())
-        {
-            do {          
-                DisplayService(c2);
-            } while (c2.moveToNext());
-        }
-        db.close();
-        
-      //---delete a Service---
-        db.open();
-        if (db.deleteService(1))
-            Toast.makeText(this, "Delete successful.", 
-                Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(this, "Delete failed.", 
-                Toast.LENGTH_LONG).show();            
-        db.close();
-        
-      //After deleted one record ---get all Services---
-        db.open();
-        Cursor c3 = db.getAllServices();
-        if (c3.moveToFirst())
-        {
-            do {          
-                DisplayService(c3);
-            } while (c3.moveToNext());
-        }
-        db.close();
-        
-     */
+     
     
     }
 	

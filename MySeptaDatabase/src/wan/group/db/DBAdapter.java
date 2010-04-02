@@ -73,7 +73,7 @@ public class DBAdapter extends Activity {
     private static final String DATABASE_CREATE_Schedule =
         "create table Schedule (scheduleID integer primary key autoincrement, "
         + "stop_ID integer not null, dayOfService text not null, " 
-        + "direction text not null, time TIME not null);";
+        + "direction text not null, time REAL not null);";
  // Create BackupStop Table
     private static final String DATABASE_CREATE_BackupStop =
         "create table BackupStop (stopID integer primary key autoincrement, "
@@ -82,7 +82,7 @@ public class DBAdapter extends Activity {
     private static final String DATABASE_CREATE_BackupSchedule =
         "create table BackupSchedule (scheduleID integer primary key autoincrement, "
         + "stop_ID integer not null, dayOfService text not null, " 
-        + "direction text not null, time TIME not null);";
+        + "direction text not null, time REAL not null);";
         
     //-----------------------------------------------------------------------   
     private final Context context; 
@@ -351,7 +351,7 @@ public class DBAdapter extends Activity {
     //-------------------------------------------SCHEDULE----------------------------------------------//
 
   //---insert a Route into the database---
-    public long insertSchedule(long stop_ID, String dayOfService, String direction, String time) 
+    public long insertSchedule(long stop_ID, String dayOfService, String direction, float time) 
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_Stop_ID, stop_ID);
@@ -410,7 +410,7 @@ public class DBAdapter extends Activity {
 
     //---updates a Schedule---
     public boolean updateSchedule(long scheduleID, long stop_ID, 
-    String dayOfService, String direction, String time) 
+    String dayOfService, String direction, float time) 
     {
         ContentValues args = new ContentValues();
         args.put(KEY_Stop_ID, stop_ID);
@@ -487,7 +487,7 @@ public class DBAdapter extends Activity {
     //-------------------------------------------BackupSCHEDULE----------------------------------------------//
 
   //---insert a Route into the database---
-    public long insertBackupSchedule(long stop_ID, String dayOfService, String direction, String time) 
+    public long insertBackupSchedule(long stop_ID, String dayOfService, String direction, float time) 
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_BackupStop_ID, stop_ID);
@@ -546,7 +546,7 @@ public class DBAdapter extends Activity {
 
     //---updates a Schedule---
     public boolean updateBackupSchedule(long scheduleID, long stop_ID, 
-    String dayOfService, String direction, String time) 
+    String dayOfService, String direction, float time) 
     {
         ContentValues args = new ContentValues();
         args.put(KEY_BackupStop_ID, stop_ID);
