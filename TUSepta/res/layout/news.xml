@@ -2,26 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:id="@+id/LayoutForHeadline">
+		<TextView android:id="@+id/SeptaNewsTitle" android:layout_height="wrap_content"
+			android:text="Septa News" android:textColor="#FFFFFF"
+			android:gravity="center" android:layout_gravity="center"
+			android:layout_width="fill_parent" android:background="@android:drawable/alert_dark_frame">
+		</TextView>
+	</LinearLayout>
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:orientation="horizontal">
-		<ImageButton android:id="@+id/NewsFavorite"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:src="@drawable/love_25" android:clickable="true"
-			android:tag="@string/TB_FAVORITENEWS"></ImageButton>
-		<ImageButton android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/NewsAll"
-			android:src="@drawable/globe_25" android:clickable="true"
-			android:tag="@string/TB_ALLNEWS"></ImageButton>
-
-		
-	<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:id="@+id/TVNewsCaption" android:textStyle="bold" android:text="News of My Favorite Routes"></TextView>
-</LinearLayout>
-</LinearLayout>
-
-	<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@id/android:list" android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-
-	</ListView>
+		android:orientation="horizontal" android:layout_gravity="center"
+		android:gravity="center">
+		<Button android:id="@+id/FavoriteNews" android:layout_height="wrap_content"
+			android:width="150px" android:text="Favorite News"
+			android:layout_width="wrap_content" android:layout_marginTop="0px"
+			android:drawableLeft="@drawable/donate"></Button>
+		<Button android:id="@+id/AllNews" android:layout_height="wrap_content"
+			android:width="150px" android:text="All News" android:layout_width="wrap_content"
+			android:layout_marginTop="0px" android:drawableLeft="@drawable/homepage"></Button>
+	</LinearLayout>
+	<LinearLayout android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:id="@+id/LayoutForBody">
+		<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@id/android:list" android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+		</ListView>
+	</LinearLayout>
 </LinearLayout>

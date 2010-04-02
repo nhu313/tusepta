@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent" android:id="@+id/ServiceList">
-</ListView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:id="@+id/LayoutForHeadline">
+		<TextView android:id="@+id/ServiceListTitle"
+			android:layout_height="wrap_content" android:text="Services"
+			android:textColor="#FFFFFF" android:gravity="center"
+			android:layout_gravity="center" android:layout_width="fill_parent"
+			android:background="@android:drawable/alert_dark_frame">
+		</TextView>
+	</LinearLayout>
+	<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:id="@+id/ServiceList" android:background="@android:drawable/alert_dark_frame">
+	</ListView>
+</LinearLayout>
