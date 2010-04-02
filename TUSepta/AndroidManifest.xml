@@ -13,7 +13,7 @@
 		<activity android:name=".favorite.FavoriteRoutesAct"
 			android:screenOrientation="portrait"></activity>
 		<activity android:name=".favorite.RouteAct"
-			android:screenOrientation="landscape"></activity>
+			android:screenOrientation="portrait"></activity>
 		<activity android:name=".service.ServiceAct"
 			android:screenOrientation="portrait"></activity>
 		<activity android:name=".news.NewsAct"
