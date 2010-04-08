@@ -6,10 +6,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-public class DBAdapter {
+public class DBAdapter2 {
 	
 	public String nhuTag = "__________________";
 	    //For Service Table -------------------------------------------
@@ -77,8 +76,7 @@ public class DBAdapter {
 	    private DatabaseHelper DBHelper;
 	    private SQLiteDatabase db;
 
-	    public DBAdapter(Context ctx) 
-	    {
+	    public DBAdapter2(Context ctx){
 	        this.context = ctx;
 	        DBHelper = new DatabaseHelper(context);
 	    }
@@ -121,33 +119,33 @@ public class DBAdapter {
 	    }    
 	    
 	    //---opens the database---
-	    public DBAdapter open() throws SQLException, Exception 
-	    {
+	    public DBAdapter2 open() throws SQLException, Exception {
 	    	Log.i(nhuTag, " opening db through adapter");
 	        db = DBHelper.getWritableDatabase();
 	        return this;
 	    }
 
 	    //---closes the database---    
-	    public void close() 
-	    {
+	    public void close(){
 	        DBHelper.close();
 	    }
 	    
 	    //----------------------------------------SERVICE-------------------------------------------//
 	    //---insert a Service into the database---
-	    public long insertService(String shortName, String longName, String color) 
-	    {
+	    public long insertService(String shortName, String longName, String color){
+
 	    	Cursor mCursor = db.query(DATABASE_Service, new String[] {
 	        		KEY_ServiceID, KEY_ShortName, KEY_LongName, KEY_Color},
 	        		KEY_LongName + "=" + "'"+longName+"'",
 	        		null, null, null, null);
-	    	
 	    	if (mCursor.moveToFirst()){
 	    		Log.i(nhuTag, " Insert Service but already in system " 
 	    				+ longName + " " + mCursor.getLong(0));
-	    		return mCursor.getLong(0);
+	    		long ret = mCursor.getLong(0);
+	    		mCursor.close();
+	    		return ret;
 	    	} else {
+	    		mCursor.close();
 	    		ContentValues initialValues = new ContentValues();
 	    		initialValues.put(KEY_ShortName, shortName);
 	    		initialValues.put(KEY_LongName, longName);
@@ -157,16 +155,8 @@ public class DBAdapter {
 	    	}
 	    }
 
-	    //---deletes a particular Service---
-	    public boolean deleteService(long serviceID) 
-	    {
-	        return db.delete(DATABASE_Service, KEY_ServiceID + 
-	        		"=" + serviceID, null) > 0;
-	    }
-
 	    //---retrieves all the Services---
-	    public Cursor getAllServices() 
-	    {
+	    public Cursor getAllServices(){
 	        return db.query(DATABASE_Service, new String[] {
 	        		KEY_ServiceID, KEY_ShortName, KEY_LongName, KEY_Color}, 
 	                null, null, null, null, null);
@@ -178,30 +168,19 @@ public class DBAdapter {
 	        Cursor mCursor = db.query(DATABASE_Service, new String[] {
 	        		KEY_ServiceID, KEY_ShortName, KEY_LongName, KEY_Color},
 	        		KEY_ServiceID + "=" + serviceID, null, null, null, null);
-	        if (mCursor != null) {
-	            mCursor.moveToFirst();
+	        if (mCursor.moveToFirst()) {
+	            return mCursor;
 	        }
-	        return mCursor;
+	        return null;
 	    }
 
-	    //---updates a Service---
-	    public boolean updateService(long serviceID, String shortName, 
-	    String longName, String color) 
-	    {
-	        ContentValues args = new ContentValues();
-	        args.put(KEY_ShortName, shortName);
-	        args.put(KEY_LongName, longName);
-	        args.put(KEY_Color, color);
-	        return db.update(DATABASE_Service, args, 
-	                         KEY_ServiceID + "=" + serviceID, null) > 0;
-	    }
-	    
 	    public boolean isServiceEmpty(){
 			try{
 				Cursor c = db.query(DATABASE_Service, new String[] {
 						KEY_ServiceID, KEY_ShortName, KEY_LongName, KEY_Color}, 
 						null, null, null, null, null);
 				int numRows = c.getCount();
+				c.close();
 				if (numRows < 1) 
 					return true;
 			} catch (SQLException e){
@@ -222,8 +201,12 @@ public class DBAdapter {
                 		+ KEY_RouteName + " = '" + routeName + "'", 
                 		null, null, null, null, null);
 	    	if (mCursor.moveToFirst()){
-	    		return mCursor.getLong(0);
+	    		long ret = mCursor.getLong(0);
+	    		Log.i(nhuTag, "Inserting route, but route already inserted " + ret);
+	    		mCursor.close();
+	    		return ret;
 	    	} else {
+	    		mCursor.close();
 	    		Log.i(nhuTag, "Inserting Route: " + routeNumber + " " + routeName);
 		        ContentValues initialValues = new ContentValues();
 		        initialValues.put(KEY_ServiceID, service_ID);
@@ -235,34 +218,19 @@ public class DBAdapter {
 	    	}
 	    }
 
-	    //---deletes a particular Route---
-	    public boolean deleteRoute(long routeID) 
-	    {
-	        return db.delete(DATABASE_Route, KEY_RouteID + 
-	        		"=" + routeID, null) > 0;
-	    }
-
-	    //---retrieves all the Routes---
-	    public Cursor getAllRoutes() 
-	    {
-	        return db.query(DATABASE_Route, new String[] {
-	        		KEY_RouteID, KEY_ServiceID, KEY_RouteNumber,
-	                KEY_RouteName, KEY_IsFavorite, KEY_URL},
-	                null, null, null, null, null, null);
-	    }
-
 	    //---retrieves a particular Route---
-	    public Cursor getRoute(long routeID) throws SQLException 
-	    {
+	    public Cursor getRouteByService(long serviceID) throws SQLException {
 	        Cursor mCursor =
 	                db.query(true, DATABASE_Route, new String[] {
 	                		KEY_RouteID, KEY_ServiceID, KEY_RouteNumber, KEY_RouteName,
-	                		KEY_IsFavorite, KEY_URL }, KEY_RouteID + "=" + routeID, 
+	                		KEY_IsFavorite, KEY_URL }, KEY_ServiceID + "=" + serviceID, 
 	                		null, null, null, null, null);
-	        if (mCursor != null) {
-	            mCursor.moveToFirst();
+	        if (mCursor.moveToFirst()){
+	        	return mCursor;
+	        } else {
+	        	mCursor.close();
+	        	return null;
 	        }
-	        return mCursor;
 	    }
 
 	    //---updates a Route---

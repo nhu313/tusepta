@@ -1,12 +1,16 @@
-package edu.temple.cis.mysepta.data;
+package currentlyUnused;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.temple.cis.mysepta.data.Route;
+import edu.temple.cis.mysepta.data.RouteParser;
 
 import android.content.Context;
 import android.util.Log;
 
 public class SeptaDB extends DBAdapter{
+
 	private static final String bus_s = "http://www.septa.org/schedules/bus/index.html";
 	private static final String trolley_s = "http://www.septa.org/schedules/trolley/index.html";
 	private static final String rail_s = "http://www.septa.org/schedules/rail/index.html";
@@ -30,9 +34,9 @@ public class SeptaDB extends DBAdapter{
 			getService();
 
 			rp = new RouteParser();
-			getTrain();
+			//getTrain();
 			Log.i(nhuTag, "I'm calling rail");
-			getRail();
+			//getRail();
 			//getTrolley();
 			//getBus();			
 //		}
@@ -57,6 +61,7 @@ public class SeptaDB extends DBAdapter{
 	 * @return
 	 * @throws Exception
 	 */
+	/*
 	public List<Route> getTrain(){
 		if (train == null){
 			Log.i(nhuTag, " Inserting ");
@@ -96,4 +101,5 @@ public class SeptaDB extends DBAdapter{
 		}
 		return rail;
 	}
+	*/
 }
