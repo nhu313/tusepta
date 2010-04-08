@@ -10,7 +10,9 @@ import org.htmlparser.tags.Bullet;
 import org.htmlparser.tags.BulletList;
 import org.htmlparser.tags.CompositeTag;
 import org.htmlparser.tags.Div;
+import org.htmlparser.tags.HeadingTag;
 import org.htmlparser.tags.LinkTag;
+import org.htmlparser.tags.ParagraphTag;
 import org.htmlparser.util.NodeIterator;
 
 import android.util.Log;
@@ -20,15 +22,20 @@ import android.util.Log;
  * @author Orange
  */
 public class RouteParser {
+    private boolean rail = false;
     public RouteParser(){}
 
-    public List<Route> getRoute(String url, SeptaDB db, int id) throws Exception{
-        this.db = db;
+    public List<Route> getRoute(String url, SeptaDB2 septaDB2, int id) throws Exception{
+
+        if (url.contains("rail"))
+            rail = true;
+
+        this.db = septaDB2;
         serviceID = id;
     	routes = new ArrayList<Route>();
-    	Parser parser = new Parser(url);
+
+        Parser parser = new Parser(url);
         NodeIterator itr = parser.elements();
-        Log.i(db.nhuTag, "Start parsing");
         while (itr.hasMoreNodes()) {
             Node node = itr.nextNode();
             if (node instanceof CompositeTag) {
@@ -63,7 +70,6 @@ public class RouteParser {
                         break;
                     } else if (divClass.equals("half_col")){
                         processRoute(child);
-                        break;
                     }
                 }
             }
@@ -79,8 +85,79 @@ public class RouteParser {
             if (child instanceof BulletList){
                 String name = child.getText();
                 if (name.indexOf("routes_list") > -1){
-                    getIndividualRoute(child);
+                    if (rail){
+                        getIndividualTrain(child);
+                    } else {
+                        getIndividualRoute(child);
+                    }
                 }
+            }
+        }
+    }
+
+    /**
+     * Parse individual route to get the route short name, long name, and link.
+     * @param root Root node containing all the route information.
+     */
+    private void getIndividualTrain(Node root){
+        String link = "";
+        String className = "";
+        Node child = root.getFirstChild();
+        while (child != null){
+            if (child instanceof Bullet){
+                Bullet b = (Bullet)child;
+                className = b.getAttribute("class");
+                if (className != null){
+                    if (className.equals("train_route")){
+                        child = child.getFirstChild();
+                    } else if (className.equals("train_schedule")){
+                        link = getLink(child);
+                        getTrainName(root, link);
+                        break;
+                    }
+                } else {
+                    child = child.getFirstChild();
+                }
+            } else if (child instanceof BulletList){
+                child = child.getFirstChild();
+            }
+            child = child.getNextSibling();
+        }
+    }
+
+    private void getTrainName(Node root, String link){
+        Node child = root.getFirstChild();
+        String route = "", name = "";
+        while (child != null){
+            if (child instanceof BulletList){
+                child = child.getFirstChild();
+            } else if (child instanceof Bullet){
+                Bullet b = (Bullet)child;
+                String n = b.getAttribute("class");
+                if (n != null){
+                    if (n.equals("train_schedule")){
+                        child = child.getNextSibling();
+                    } else{
+                        child = child.getFirstChild();
+                    }
+                } else {
+                    child = child.getFirstChild();
+                }
+            } else if (child instanceof HeadingTag){
+                Node h4 = child.getFirstChild();
+                route = h4.getText().trim();
+                route = route.replaceAll("\'", "").replaceAll("\"", "");
+                child = child.getNextSibling();
+            } else if (child instanceof ParagraphTag){
+                child = child.getFirstChild();
+                name = child.getText().trim();
+                name = name.replaceAll("\'", "").replaceAll("\"", "");
+                int id = (int)db.insertRoute(serviceID, route, name, 0, link);
+                routes.add(new Route(serviceID, id, route, name, link));
+                Log.i(db.nhuTag + "In Route Parser:", routes.get(routes.size()-1).toString());
+                break;
+            } else {
+                child = child.getNextSibling();
             }
         }
     }
@@ -101,16 +178,17 @@ public class RouteParser {
                 if (className != null){
                     if (className.equals("route_no")){
                         value = b.getFirstChild();
-                        route = value.getText();
+                        route = value.getText().trim();
+                        route = route.replaceAll("\'", "").replaceAll("\"", "");
                     } else if (className.equals("route_destination")){
                         value = b.getFirstChild();
-                        name = value.getText();
+                        name = value.getText().trim();
+                        name = name.replaceAll("\'", "").replaceAll("\"", "");
                     } else if (className.equals("route_schedule")){
                         link = getLink(child);
-                        Log.i(db.nhuTag, "About to insert " + route + " " + name);
                         int id = (int)db.insertRoute(serviceID, route, name, 0, link);
                         routes.add(new Route(serviceID, id, route, name, link));
-                        Log.i(db.nhuTag, "Added " + route + " " + name);
+                        Log.i(db.nhuTag + "In Route Parser:", routes.get(routes.size()-1).toString());
                         break;
                     }
                 } else {
@@ -142,7 +220,7 @@ public class RouteParser {
                 if (lname.indexOf(".html") < 0){ //Is not html link
                     child = child.getParent().getNextSibling();
                 } else { //Html link
-                    link = lname;
+                    link = lname.trim();
                     break;
                 }
             } else {
@@ -153,6 +231,6 @@ public class RouteParser {
     }
 
     private ArrayList<Route> routes = null;
-    private SeptaDB db = null;
+    private SeptaDB2 db = null;
     private int serviceID;
 }

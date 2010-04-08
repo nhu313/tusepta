@@ -18,8 +18,8 @@ public class Route {
 	
 	public Route(){}
 	
-	public Route(int serviceId, int routeId, String route, String name,
-			String url, boolean isFavorite) {
+	public Route(int routeId, int serviceId, String route, String name,
+			boolean isFavorite, String url) {
 		service_id = serviceId;
 		route_id = routeId;
 		this.route = route;

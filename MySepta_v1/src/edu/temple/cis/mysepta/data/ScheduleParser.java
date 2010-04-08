@@ -1,5 +1,4 @@
 package edu.temple.cis.mysepta.data;
-
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
@@ -24,6 +23,9 @@ public class ScheduleParser {
     public ScheduleParser(){}
 
     public void parseSchedule(String url) throws Exception{
+        if (url.contains("rail")){
+            rail = true;
+        }
         Parser parser = new Parser(url);
         NodeIterator itr = parser.elements();
         while (itr.hasMoreNodes()) {
@@ -37,6 +39,7 @@ public class ScheduleParser {
         }
         HttpURLConnection connection = (HttpURLConnection) parser.getConnection();
         connection.disconnect();
+        rail = false;
     }
 
     /**
@@ -166,6 +169,9 @@ public class ScheduleParser {
                 }
             }
         }
+        if (rail){
+            s.remove(0);
+        }
         stop.add(s);
         printArrayList(s);
     }
@@ -207,6 +213,9 @@ public class ScheduleParser {
                 }
             }
             if (t.size() > 0){
+                if (rail){
+                    t.remove(0);
+                }
                 ta.add(t);
                 printArrayList(t);
             }
@@ -238,4 +247,5 @@ public class ScheduleParser {
 	private ArrayList<ArrayList> stop = new ArrayList<ArrayList>();
     @SuppressWarnings("unchecked")
 	private ArrayList<ArrayList> sched = new ArrayList<ArrayList>();
+        private boolean rail = false;
 }
