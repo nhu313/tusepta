@@ -3,6 +3,7 @@
  */
 package edu.temple.cis.tusepta.favorite;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import edu.temple.cis.tusepta.R;
 import edu.temple.cis.tusepta.service.ServiceAct;
 
@@ -25,9 +27,10 @@ public class FavoriteRoutesAct extends Activity {
 
 	private final static int MENU_FAVORITE_ADD = Menu.FIRST;
 	private final static int MENU_FAVORITE_DELETE = Menu.FIRST + 1;
-	private final static int MENU_FAVORITE_SAVE = Menu.FIRST + 2;
-	private final static int MENU_FAVORITE_CANCEL = Menu.FIRST + 3;
 	
+	RouteListAdapter routeAdapter;
+	private List<RouteListAdapter.Holder> holderList;
+
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -38,9 +41,18 @@ public class FavoriteRoutesAct extends Activity {
 		
 		RouteHelper routeHelper = new RouteHelper(this);
 		List<Route> routes = routeHelper.getFavoriteRoutesList();
-		RouteListAdapter routeAdapter = new RouteListAdapter(this, routes);
+		
+		this.holderList = new ArrayList<RouteListAdapter.Holder>();
+		for (int i = 0; i < routes.size(); i++) {
+			RouteListAdapter.Holder holder = new RouteListAdapter.Holder();
+			holder.route = (Route) routes.get(i);
+			this.holderList.add(holder);
+		}
+		
+		this.routeAdapter = new RouteListAdapter(this, this.holderList);
 		ListView favoriteList = (ListView) findViewById(R.id.FavoriteList);
 		favoriteList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		favoriteList.setItemsCanFocus(false);
 		favoriteList.setAdapter(routeAdapter);
 		
 		Button btAdd = (Button) findViewById(R.id.AddFavoriteRoute);
@@ -77,10 +89,6 @@ public class FavoriteRoutesAct extends Activity {
 				.setIcon(android.R.drawable.ic_menu_add);
 		menu.add(0, MENU_FAVORITE_DELETE, 1, R.string.MENU_DELETE)
 				.setIcon(android.R.drawable.ic_menu_delete);
-//		menu.add(0, MENU_FAVORITE_SAVE, 2, R.string.MENU_SAVE)
-//				.setIcon(android.R.drawable.ic_menu_save);
-//		menu.add(0, MENU_FAVORITE_CANCEL, 3, R.string.MENU_CANCEL)
-//				.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
 		return true;
 	}
 
@@ -101,12 +109,32 @@ public class FavoriteRoutesAct extends Activity {
 
 	private void handleAdd() {
 		Intent intent = new Intent(this, ServiceAct.class);
-		startActivity(intent);
+		startActivityForResult(intent, 1);
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1) {
+			Toast.makeText(this, String.valueOf(resultCode), 
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	private void handleDelete() {
-		ListView favoriteList = (ListView) findViewById(R.id.FavoriteList);
-		favoriteList.getSelectedItem();
-		//if (!)
+		for (int i = holderList.size() - 1; i >= 0; i--) {
+			RouteListAdapter.Holder holder = (RouteListAdapter.Holder) holderList.get(i);
+			if (holder.checkBox != null && holder.checkBox.isChecked()) {
+				Route route = holder.route;
+				//TODO: remove the route from favorite;
+				holderList.remove(i);
+				holder.checkBox.setChecked(false);
+			}
+		}
+		this.routeAdapter.notifyDataSetChanged();
 	}
 }
