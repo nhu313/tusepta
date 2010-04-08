@@ -5,6 +5,7 @@ package edu.temple.cis.tusepta.service;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -94,7 +95,7 @@ public class ServiceListAdapter extends BaseAdapter {
 					Bundle bundle = new Bundle();
 					bundle.putInt("SERVICEID", serviceID);
 					intent.putExtras(bundle);
-					view.getContext().startActivity(intent);
+					((Activity) view.getContext()).startActivityForResult(intent, 1);
 					//Utils.showMessage(view.getContext(), String.valueOf(serviceID));
 				}
 				
