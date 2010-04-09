@@ -1,29 +1,39 @@
 package edu.temple.cis.mysepta.data;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.htmlparser.tags.ImageTag;
-import org.htmlparser.tags.CompositeTag;
+import org.htmlparser.Node;
+import org.htmlparser.Parser;
+import org.htmlparser.nodes.TextNode;
 import org.htmlparser.tags.BodyTag;
-import org.htmlparser.tags.Div;
-import org.htmlparser.tags.TableTag;
-import org.htmlparser.tags.TableRow;
-import org.htmlparser.tags.TableColumn;
 import org.htmlparser.tags.Bullet;
 import org.htmlparser.tags.BulletList;
+import org.htmlparser.tags.CompositeTag;
+import org.htmlparser.tags.Div;
+import org.htmlparser.tags.ImageTag;
 import org.htmlparser.tags.ParagraphTag;
-
-import org.htmlparser.nodes.TextNode;
+import org.htmlparser.tags.TableColumn;
+import org.htmlparser.tags.TableRow;
+import org.htmlparser.tags.TableTag;
 import org.htmlparser.util.NodeIterator;
-import org.htmlparser.Parser;
-import org.htmlparser.Node;
+
+import android.util.Log;
+
+import currentlyUnused.SeptaDB;
 
 public class ScheduleParser {
-    public ScheduleParser(){}
+	private SeptaDB2 db = null;
+	private int routeID = 0;
+	private String url = null;
+    
+	public ScheduleParser(){}
 
-    public void parseSchedule(String url) throws Exception{
-        if (url.contains("rail")){
+    public void parseSchedule(String url, SeptaDB2 db, int routeID) throws Exception{
+        this.db = db;
+        this.routeID = routeID; 
+    	if (url.contains("rail")){
             rail = true;
         }
         Parser parser = new Parser(url);
@@ -40,6 +50,8 @@ public class ScheduleParser {
         HttpURLConnection connection = (HttpURLConnection) parser.getConnection();
         connection.disconnect();
         rail = false;
+        this.db = null;
+        this.routeID = 0;
     }
 
     /**
@@ -107,7 +119,11 @@ public class ScheduleParser {
         while (parent != null){
             if (parent instanceof ParagraphTag){
                 child = parent.getFirstChild();
-                direction.add(child.getText());
+                String name = child.getText().replace("|", "").trim();
+                long dayID = db.insertDayOfService(routeID, name);
+                day.add(dayID);
+                Log.i(db.nhuTag, "day id " + dayID + " route id " + routeID + " direction " + name);
+                Log.i(db.nhuTag, "direction " + name + " " + dayID);
                 while (child != null){
                     child = child.getNextSibling();
                 }
@@ -141,7 +157,8 @@ public class ScheduleParser {
                     if (align != null && align.equals("middle")){
                         parseStop(child);
                     } else {
-                        parseTime(child);
+                    	parseTime(child);
+                    	break;
                     }
                 }
             }
@@ -154,13 +171,18 @@ public class ScheduleParser {
      * @param root Root node with stop listing.
      */
     private void parseStop(Node root){
-        ArrayList<String> s = new ArrayList<String>();
+    	stop = new ArrayList<Long>();
+    	int dayID = 0;
         for (Node child = root.getFirstChild(); child != null; child = child.getNextSibling()){
             Node grand = child.getFirstChild();
             while (grand != null){
                 if (grand instanceof ImageTag){
                     ImageTag img = (ImageTag) grand;
-                    s.add(img.getAttribute("alt"));
+                    String name = img.getAttribute("alt");
+                    long stopID = db.insertStop(day.get(dayID++), name);
+                    //Log.i(db.nhuTag, "Day id " + day.get(dayID-1) + " " + name + " " + stopID);
+                    Log.i(db.nhuTag, "Stop name " + name);
+                    //stop.add(stopID);
                     break;
                 } else if (grand instanceof TableColumn || grand instanceof Div){
                     grand = grand.getFirstChild();
@@ -169,40 +191,46 @@ public class ScheduleParser {
                 }
             }
         }
-        if (rail){
-            s.remove(0);
-        }
-        stop.add(s);
-        printArrayList(s);
     }
 
+    private List<Long> stop = null;
     /**
      * Parse the schedule time.
      * @param root Root containing the time information.
      */
-    @SuppressWarnings("unchecked")
 	private void parseTime(Node root){
-        ArrayList<ArrayList> ta = new ArrayList<ArrayList>();
+		Log.i(db.nhuTag, "Parsring time");
+		Log.i(db.nhuTag, root.getText());
+    	int i = 0;
         double pm = 0.0;
         Node grand = null;
         for (Node child = root; child != null; child = child.getNextSibling()){
             grand = child.getFirstChild();
             ArrayList<Double> t = new ArrayList<Double>();
             while (grand != null){
+            	if (i >= stop.size())
+            		i = 0;
                 if (grand instanceof TableColumn || grand instanceof Div){
                     grand = grand.getFirstChild();
                 } else if (grand instanceof TextNode){
                     double x = 0.0;
                     String text = grand.getText();
                     try{
+                    	//Log.i(db.nhuTag, child.getText());
                         x = Double.parseDouble(text);
                         if (x < 12.0){ // If x is less than 12, add pm.
                             x = x + pm;
                         }
-                        t.add(roundTwoDecimals(x));
+                        long timeID = db.insertTime(stop.get(i++), (float)roundTwoDecimals(x));
+                        Log.i(db.nhuTag, "Stop id " + stop.get(i-1) + " " + x);
+                        Log.i(db.nhuTag, "Time " + x);
+                        i++;
                     } catch (NumberFormatException e){
                         if (text.equals("-")){
-                            t.add(0.0);
+                        	Log.i(db.nhuTag, child.getText());
+                        	db.insertTime(stop.get(i++), (float)0.0);
+                        	Log.i(db.nhuTag, "Time " + 0.0);
+                        	i++;
                         } else if (text.equals("PM Service")){
                             pm = 12.0;
                         }
@@ -212,15 +240,7 @@ public class ScheduleParser {
                     grand = grand.getNextSibling();
                 }
             }
-            if (t.size() > 0){
-                if (rail){
-                    t.remove(0);
-                }
-                ta.add(t);
-                printArrayList(t);
-            }
         }
-        sched.add(ta);
     }
 
     /**
@@ -229,7 +249,7 @@ public class ScheduleParser {
      * @return Double with rounded to two places.
      */
     private double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        DecimalFormat twoDForm = new DecimalFormat("00.00");
         return Double.valueOf(twoDForm.format(d));
     }
 
@@ -242,10 +262,7 @@ public class ScheduleParser {
         System.out.println();
     }
 
+    private List<Long> day = new ArrayList<Long>();
     private ArrayList<String> direction = new ArrayList<String>();
-    @SuppressWarnings("unchecked")
-	private ArrayList<ArrayList> stop = new ArrayList<ArrayList>();
-    @SuppressWarnings("unchecked")
-	private ArrayList<ArrayList> sched = new ArrayList<ArrayList>();
-        private boolean rail = false;
+    private boolean rail = false;
 }

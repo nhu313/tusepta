@@ -2,11 +2,12 @@ package edu.temple.cis.mysepta;
 
 import java.util.List;
 
-import currentlyUnused.SeptaDB;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import currentlyUnused.SeptaDB;
 import edu.temple.cis.mysepta.data.Route;
 import edu.temple.cis.mysepta.data.SeptaDB2;
 import edu.temple.cis.mysepta.data.Service;
@@ -19,21 +20,52 @@ public class MySepta extends Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+/*
+        TextView tv = (TextView)findViewById(R.id.tv);
+        tv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(MySepta.this, FavSchedule.class);
+				startActivity(i);
+				
+			}
+		});
+		*/
+		
 
         SeptaDB2 db = new SeptaDB2(this);
-        Log.i(db.nhuTag, "in My Septa opening db");
         
         try {
 			db.open();
+
+			
+			
+			
+			
+			
+			
+			//List<Service> list = db.getService();
+			
+			/*
+			Log.i(db.nhuTag, "Inserted day " + db.insertDayOfService(1, "Weekday to Center City"));
+			Log.i(db.nhuTag, "Inserted day " + db.insertDayOfService(1, "Weekday to Home"));
+			Log.i(db.nhuTag, "Inserted stop " + db.insertStop(1, "30th St"));
+			Log.i(db.nhuTag, "Inserted stop " + db.insertStop(1, "22nd St"));
+			*/
+//			ScheduleParser sp = new ScheduleParser();
+//			sp.parseSchedule("http://www.septa.org/schedules/bus/route091.html", db, 5);
 			List<Service> list = db.getService();
-	    	for (int i = 0; i < list.size(); i++){
-	    		Log.i(db.nhuTag, list.get(i).toString());
-	    	}
+			ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+			
+			ListView lv = new ListView(this);
+			lv.setAdapter(aa);
+			setContentView(lv);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         db.close();
+    
     }
  
     public void printList(List<Route> list){

@@ -22,23 +22,23 @@ public class DBAdapter2 {
 	    public static final String KEY_RouteName = "routeName";
 	    public static final String KEY_IsFavorite = "favoriteRoute";
 	    public static final String KEY_URL = "url";
+	    //For Day of Service Table ---------------------------------------------
+	    public static final String KEY_DayOfServiceID = "dayOfServiceID";
+	    public static final String KEY_DayOfService = "dayOfService";
 	    //For Stop Table -----------------------------------------------
 	    public static final String KEY_StopID = "stopID";
 	    public static final String KEY_Stop = "stop";
-	   //For Schedule Table ---------------------------------------------
-	    public static final String KEY_ScheduleID = "scheduleID";
-	    public static final String KEY_DayOfService = "dayOfService";
-	    public static final String KEY_Direction = "direction";
+	   //For Time Table ---------------------------------------------
+	    public static final String KEY_TimeID = "TimeID";
 	    public static final String KEY_Time = "time";  
 	    //----------------------------------------------------------------    
 	    private static final String TAG = "SeptaDB";
 	    private static final String DATABASE_NAME = "MySepta";    // Database Name
 	    private static final String DATABASE_Service = "Service"; // Table 
 	    private static final String DATABASE_Route = "Route";	  // Table
+	    private static final String DATABASE_DayOfService = "DayOfService";       // Table
 	    private static final String DATABASE_Stop = "Stop";       // Table
-	    private static final String DATABASE_Schedule = "Schedule"; // Table
-	    private static final String DATABASE_BackupStop = "BackupStop";  // Table
-	    private static final String DATABASE_BackupSchedule = "BackupSchedule"; // Table
+	    private static final String DATABASE_Time = "Time"; // Table
 	    private static final int DATABASE_VERSION = 1;  // Database Version
 
 	    private static final String autoInt = " integer primary key autoincrement, ";
@@ -52,24 +52,18 @@ public class DBAdapter2 {
 	    	+ KEY_ServiceID + " integer not null, " + KEY_RouteNumber + " text not null, " 
 	    	+ KEY_RouteName + " text not null, " + KEY_IsFavorite + " integer not null, "
 	    	+ KEY_URL + " text not null);";
+	    //Create Day of service statement
+	    private static final String DATABASE_CREATE_DayOfService = 
+	    	"create table " + DATABASE_DayOfService + " (" + KEY_RouteID + " integer not null, " 
+	    	+ KEY_DayOfServiceID + autoInt + KEY_DayOfService + " text not null);";	    
 	    // Create Stop Table Statement
 	    private static final String DATABASE_CREATE_Stop =
 	        "create table " + DATABASE_Stop + " (" + KEY_StopID + autoInt
-	        + KEY_RouteID + " integer not null, " + KEY_Stop + " text not null);";
-	    // Create Schedule Table Statement
-	    private static final String DATABASE_CREATE_Schedule =
-	    	"create table " + DATABASE_Schedule + " (" + KEY_ScheduleID + autoInt
-	    	+ KEY_StopID + " integer not null, " + KEY_DayOfService + " text not null, "
-	    	+ KEY_Direction + " text not null, " + KEY_Time + " REAL not null);";
-	    // Create BackupStop Table Statement
-	    private static final String DATABASE_CREATE_BackupStop =
-	        "create table " + DATABASE_BackupStop + " (" + KEY_StopID + autoInt
-	        + KEY_RouteID + " integer not null, " + KEY_Stop + " text not null);";
-	    // Create Schedule Table Statement
-	    private static final String DATABASE_CREATE_BackupSchedule =
-	    	"create table " + DATABASE_BackupSchedule + " (" + KEY_ScheduleID + autoInt
-	    	+ KEY_StopID + " integer not null, " + KEY_DayOfService + " text not null, "
-	    	+ KEY_Direction + " text not null, " + KEY_Time + " REAL not null);";
+	        + KEY_DayOfServiceID + " integer not null, " + KEY_Stop + " text not null);";
+	    // Create Time Table Statement
+	    private static final String DATABASE_CREATE_Time =
+	    	"create table " + DATABASE_Time + " (" + KEY_TimeID + autoInt
+	    	+ KEY_StopID + " integer not null, " + KEY_Time + " REAL not null);";
 	    //-----------------------------------------------------------------------   
 	    private final Context context; 
 	    
@@ -93,11 +87,9 @@ public class DBAdapter2 {
 	        {
 	            db.execSQL(DATABASE_CREATE_Service);
 	            db.execSQL(DATABASE_CREATE_Route);
+	            db.execSQL(DATABASE_CREATE_DayOfService);
 	            db.execSQL(DATABASE_CREATE_Stop);
-	            db.execSQL(DATABASE_CREATE_Schedule);
-	            db.execSQL(DATABASE_CREATE_BackupStop);
-	            db.execSQL(DATABASE_CREATE_BackupSchedule);
-	            
+	            db.execSQL(DATABASE_CREATE_Time);
 	        }
 	        
 	        // This function will be used when update version to the database
@@ -110,10 +102,9 @@ public class DBAdapter2 {
 	                    + newVersion + ", which will destroy all old data");
 	            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_Service);
 	            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_Route);
+	            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_DayOfService);
 	            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_Stop);
-	            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_Schedule);
-	            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_BackupStop);
-	            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_BackupStop);
+	            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_Time);
 	            onCreate(db);
 	        }
 	    }    
@@ -162,18 +153,6 @@ public class DBAdapter2 {
 	                null, null, null, null, null);
 	    }
 
-	    //---retrieves a particular Service---
-	    public Cursor getService(long serviceID) throws SQLException 
-	    {
-	        Cursor mCursor = db.query(DATABASE_Service, new String[] {
-	        		KEY_ServiceID, KEY_ShortName, KEY_LongName, KEY_Color},
-	        		KEY_ServiceID + "=" + serviceID, null, null, null, null);
-	        if (mCursor.moveToFirst()) {
-	            return mCursor;
-	        }
-	        return null;
-	    }
-
 	    public boolean isServiceEmpty(){
 			try{
 				Cursor c = db.query(DATABASE_Service, new String[] {
@@ -218,7 +197,7 @@ public class DBAdapter2 {
 	    	}
 	    }
 
-	    //---retrieves a particular Route---
+	    //---retrieves Route by a particular Service---
 	    public Cursor getRouteByService(long serviceID) throws SQLException {
 	        Cursor mCursor =
 	                db.query(true, DATABASE_Route, new String[] {
@@ -247,52 +226,52 @@ public class DBAdapter2 {
 	                         KEY_RouteID + "=" + routeID, null) > 0;
 	    }
 	    
-	    //-------------------------------------------------STOP---------------------------------------------//
-	  
+	    //-------------------------------------------------DAY OF SERVICE------------------------------------------//
+	    public long insertDayOfService(long routeID, String day) 
+	    {
+	    	Cursor mCursor = db.query(DATABASE_DayOfService, new String[] {
+                		KEY_RouteID, KEY_DayOfServiceID, KEY_DayOfService}, KEY_RouteID + "='" + routeID + "' AND " 
+                		+ KEY_DayOfService + " = '" + day + "'", null, null, null, null, null);
+	    	if (mCursor.moveToFirst()){
+	    		long ret = mCursor.getLong(0);
+	    		Log.i(nhuTag, "Inserting day, but route already inserted " + ret);
+	    		mCursor.close();
+	    		return ret;
+	    	} else {
+	    		mCursor.close();
+	    		Log.i(nhuTag, "Inserting day: " + day + " " + routeID);
+		        ContentValues initialValues = new ContentValues();
+		        initialValues.put(KEY_RouteID, routeID);
+		        initialValues.put(KEY_DayOfService, day);
+		        return db.insert(DATABASE_DayOfService, null, initialValues);
+	    	}
+	    }
+	    
+	    //-------------------------------------------------STOP---------------------------------------------//	    
 	    //---insert a Stop into the database---
-	    public long insertStop(long route_ID, String stop) 
+	    public long insertStop(long dayID, String stop) 
 	    { 	
 	    	Cursor mCursor = db.query(true, DATABASE_Stop, new String[] {
-        		KEY_StopID, KEY_RouteID, KEY_Stop}, 
-        		KEY_StopID + "=" + route_ID + " AND " + KEY_Stop + " = '" + stop + "'", 
+        		KEY_StopID, KEY_DayOfServiceID, KEY_Stop}, 
+        		KEY_DayOfServiceID + "=" + dayID + " AND " + KEY_Stop + " = '" + stop + "'", 
         		null, null, null, null, null);
 	    	if (mCursor.moveToFirst()){
-	    		return mCursor.getLong(0);
+	    		long ret = mCursor.getLong(0);
+	    		mCursor.close();
+	    		return ret;
 	    	} else {
 		        ContentValues initialValues = new ContentValues();
-		        initialValues.put(KEY_RouteID, route_ID);
+		        initialValues.put(KEY_DayOfServiceID, dayID);
 		        initialValues.put(KEY_Stop, stop);
 		        return db.insert(DATABASE_Stop, null, initialValues);
 	    	}
 	    }
 
-	    //---deletes a particular Stop---
-	    public boolean deleteStop(long stopID) 
-	    {
-	        return db.delete(DATABASE_Stop, KEY_StopID + 
-	        		"=" + stopID, null) > 0;
-	    }
-
-	    //---retrieves all the Stop---
-	    public Cursor getAllStop() 
-	    {
+	    //---retrieves all the Stop with a particular dayID---
+	    public Cursor getAllStop(long dayID) {
 	        return db.query(DATABASE_Stop, new String[] {
-	        		KEY_StopID, KEY_RouteID, KEY_Stop}, 
-	                null, null, null, null, null);
-	    }
-
-	    //---retrieves a particular Stop---
-	    public Cursor getStop(long stopID) throws SQLException 
-	    {
-	        Cursor mCursor =
-	                db.query(true, DATABASE_Stop, new String[] {
-	                		KEY_StopID, KEY_RouteID, KEY_Stop}, 
-	                		KEY_StopID + "=" + stopID, 
-	                		null, null, null, null, null);
-	        if (mCursor != null) {
-	            mCursor.moveToFirst();
-	        }
-	        return mCursor;
+	        		KEY_StopID, KEY_DayOfServiceID, KEY_Stop}, 
+	                KEY_DayOfServiceID + " = " + dayID, null, null, null, null);
 	    }
 
 	    //---updates a Stop---
@@ -305,182 +284,43 @@ public class DBAdapter2 {
 	                         KEY_StopID + "=" + stopID, null) > 0;
 	    }
 	    
-	    //-------------------------------------------SCHEDULE----------------------------------------------//
+	    //-------------------------------------------Time----------------------------------------------//
 
 	  //---insert a Route into the database---
-	    public long insertSchedule(long stop_ID, String dayOfService, String direction, float time) 
+	    public long insertTime(long stopID, float time) 
 	    {
-	    	Cursor mCursor = db.query(DATABASE_Schedule, new String[] {
-	        		KEY_ScheduleID, KEY_StopID, KEY_DayOfService,
-	                KEY_Direction, KEY_Time},
-	                null, null, null, null, null, null);
+	    	Cursor mCursor = db.query(DATABASE_Time, new String[] {
+	        		KEY_TimeID, KEY_StopID, KEY_Time},
+	                KEY_StopID + "=" + stopID + " AND " + KEY_Time + "=" + time,
+	                null, null, null, null, null);
 	    	if (mCursor.moveToFirst()){
-	    		return mCursor.getLong(0);
+	    		long ret = mCursor.getLong(0);
+	    		mCursor.close();
+	    		return ret;
 	    	} else {
 		        ContentValues initialValues = new ContentValues();
-		        initialValues.put(KEY_StopID, stop_ID);
-		        initialValues.put(KEY_DayOfService, dayOfService);
-		        initialValues.put(KEY_Direction, direction);
+		        initialValues.put(KEY_StopID, stopID);
 		        initialValues.put(KEY_Time, time);
-		        return db.insert(DATABASE_Schedule, null, initialValues);
+		        return db.insert(DATABASE_Time, null, initialValues);
 	    	}
 	    }
 
-	    //---deletes a particular Schedule---
-	    public boolean deleteSchedule(long scheduleID) 
+	    //---deletes a particular Time---
+	    public boolean deleteTime(long TimeID) 
 	    {
-	        return db.delete(DATABASE_Schedule, KEY_ScheduleID + 
-	        		"=" + scheduleID, null) > 0;
+	        return db.delete(DATABASE_Time, KEY_TimeID + 
+	        		"=" + TimeID, null) > 0;
 	    }
 
-	    //---retrieves all the Schedule---
-	    public Cursor getAllSchedules() 
+		/**
+		 * Retrieve a particular service based on the stopID.
+		 * @param stopID ID of the stop.
+		 * @return Cursor with the listing of all the service that matches that particular stop ID.
+		 */
+	    public Cursor getAllTimes(long stopID) 
 	    {
-	        return db.query(DATABASE_Schedule, new String[] {
-	        		KEY_ScheduleID, KEY_StopID, KEY_DayOfService,
-	                KEY_Direction, KEY_Time},
-	                null, null, null, null, null, null);
-	    }
-
-	    //---retrieves a particular Schedule---
-	    public Cursor getSchedule(long scheduleID) throws SQLException 
-	    {
-	        Cursor mCursor =
-	                db.query(true, DATABASE_Schedule, new String[] {
-	                		KEY_ScheduleID, KEY_StopID, KEY_DayOfService,
-	                		KEY_Direction, KEY_Time}, KEY_ScheduleID + "=" + scheduleID, 
-	                		null, null, null, null, null);
-	        if (mCursor != null) {
-	            mCursor.moveToFirst();
-	        }
-	        return mCursor;
-	    }
-
-	    //---updates a Schedule---
-	    public boolean updateSchedule(long scheduleID, long stop_ID, 
-	    String dayOfService, String direction, float time) 
-	    {
-	        ContentValues args = new ContentValues();
-	        args.put(KEY_StopID, stop_ID);
-	        args.put(KEY_DayOfService, dayOfService);
-	        args.put(KEY_Direction, direction);
-	        args.put(KEY_Time, time);
-	        return db.update(DATABASE_Schedule, args, 
-	                         KEY_ScheduleID + "=" + scheduleID, null) > 0;
-	    }
-	    
-	  //-------------------------------------------------BackupSTOP---------------------------------------------//
-	    
-	    //---insert a BackupStop into the database---
-	    public long insertBackupStop(long route_ID, String stop) 
-	    {
-	    	Cursor mCursor = db.query(true, DATABASE_Stop, new String[] {
-	        		KEY_StopID, KEY_RouteID, KEY_Stop}, 
-	        		KEY_StopID + "=" + route_ID + " AND " + KEY_Stop + " = '" + stop + "'", 
+	        return db.query(DATABASE_Time, new String[] {
+	        		KEY_StopID, KEY_Time}, KEY_StopID + " = " + stopID, 
 	        		null, null, null, null, null);
-	    	if (mCursor.moveToFirst()){
-	    		return mCursor.getLong(0);
-	    	} else {
-		        ContentValues initialValues = new ContentValues();
-		        initialValues.put(KEY_RouteID, route_ID);
-		        initialValues.put(KEY_Stop, stop);
-		        return db.insert(DATABASE_BackupStop, null, initialValues);
-		    	}
-	    }
-
-	    //---deletes a particular Stop---
-	    public boolean deleteBackupStop(long stopID) 
-	    {
-	        return db.delete(DATABASE_BackupStop, KEY_StopID + 
-	        		"=" + stopID, null) > 0;
-	    }
-
-	    //---retrieves all the Stop---
-	    public Cursor getAllBackupStop() 
-	    {
-	        return db.query(DATABASE_BackupStop, new String[] {
-	        		KEY_StopID, KEY_RouteID, KEY_Stop}, 
-	                null, null, null, null, null);
-	    }
-
-	    //---retrieves a particular Stop---
-	    public Cursor getBackupStop(long stopID) throws SQLException 
-	    {
-	        Cursor mCursor =
-	                db.query(true, DATABASE_BackupStop, new String[] {
-	                		KEY_StopID, KEY_RouteID, KEY_Stop}, 
-	                		KEY_StopID + "=" + stopID, 
-	                		null, null, null, null, null);
-	        if (mCursor != null) {
-	            mCursor.moveToFirst();
-	        }
-	        return mCursor;
-	    }
-
-	    //---updates a Stop---
-	    public boolean updateBackupStop(long stopID, long route_ID, String stop) 
-	    {
-	        ContentValues args = new ContentValues();
-	        args.put(KEY_RouteID, route_ID);
-	        args.put(KEY_Stop, stop);
-	        return db.update(DATABASE_BackupStop, args, 
-	                         KEY_StopID + "=" + stopID, null) > 0;
-	    }
-	    
-	    //-------------------------------------------BackupSCHEDULE----------------------------------------------//
-
-	  //---insert a Route into the database---
-	    public long insertBackupSchedule(long stop_ID, String dayOfService, String direction, float time) 
-	    {
-	        ContentValues initialValues = new ContentValues();
-	        initialValues.put(KEY_StopID, stop_ID);
-	        initialValues.put(KEY_DayOfService, dayOfService);
-	        initialValues.put(KEY_Direction, direction);
-	        initialValues.put(KEY_Time, time);
-	        return db.insert(DATABASE_BackupSchedule, null, initialValues);
-	    }
-
-	    //---deletes a particular Schedule---
-	    public boolean deleteBackupSchedule(long scheduleID) 
-	    {
-	        return db.delete(DATABASE_BackupSchedule, KEY_ScheduleID + 
-	        		"=" + scheduleID, null) > 0;
-	    }
-
-	    //---retrieves all the Schedule---
-	    public Cursor getAllBackupSchedules() 
-	    {
-	        return db.query(DATABASE_BackupSchedule, new String[] {
-	        		KEY_ScheduleID, KEY_StopID, KEY_DayOfService,
-	                KEY_Direction, KEY_Time},
-	                null, null, null, null, null, null);
-	    }
-
-	    //---retrieves a particular Schedule---
-	    public Cursor getBackupSchedule(long scheduleID) throws SQLException 
-	    {
-	        Cursor mCursor =
-	                db.query(true, DATABASE_BackupSchedule, new String[] {
-	                		KEY_ScheduleID, KEY_StopID, KEY_DayOfService, 
-	                		KEY_Direction, KEY_Time}, 
-	                		KEY_ScheduleID + "=" + scheduleID, 
-	                		null, null, null, null, null);
-	        if (mCursor != null) {
-	            mCursor.moveToFirst();
-	        }
-	        return mCursor;
-	    }
-
-	    //---updates a Schedule---
-	    public boolean updateBackupSchedule(long scheduleID, long stop_ID, 
-	    String dayOfService, String direction, float time) 
-	    {
-	        ContentValues args = new ContentValues();
-	        args.put(KEY_StopID, stop_ID);
-	        args.put(KEY_DayOfService, dayOfService);
-	        args.put(KEY_Direction, direction);
-	        args.put(KEY_Time, time);
-	        return db.update(DATABASE_BackupSchedule, args, 
-	                         KEY_ScheduleID + "=" + scheduleID, null) > 0;
 	    }
 }
