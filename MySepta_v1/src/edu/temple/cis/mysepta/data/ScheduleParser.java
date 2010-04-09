@@ -106,7 +106,8 @@ public class ScheduleParser {
         for (; parent != null; parent = parent.getNextSibling()){
             getIndividualDirection(parent);
         }
-        printArrayList(direction);
+        
+        printArrayList(day);
     }
 
     /**
@@ -119,11 +120,10 @@ public class ScheduleParser {
         while (parent != null){
             if (parent instanceof ParagraphTag){
                 child = parent.getFirstChild();
-                String name = child.getText().replace("|", "").trim();
+                String name = child.getText().trim();
                 long dayID = db.insertDayOfService(routeID, name);
                 day.add(dayID);
-                Log.i(db.nhuTag, "day id " + dayID + " route id " + routeID + " direction " + name);
-                Log.i(db.nhuTag, "direction " + name + " " + dayID);
+                Log.i(db.nhuTag, "Direction day id " + dayID + " route id " + routeID + " direction " + name);
                 while (child != null){
                     child = child.getNextSibling();
                 }
@@ -148,6 +148,7 @@ public class ScheduleParser {
             }
         }
 
+        int dayID = 0;
         //Find the row containing the stop and time, call the appropriate method.
         if (child instanceof TableRow){
             for (; child != null; child = child.getNextSibling()){
@@ -155,7 +156,9 @@ public class ScheduleParser {
                     TableRow tr = (TableRow) child;
                     String align = tr.getAttribute("align");
                     if (align != null && align.equals("middle")){
-                        parseStop(child);
+                        parseStop(child, dayID++);
+                        if (dayID == day.size())
+                        	dayID = 0;
                     } else {
                     	parseTime(child);
                     	break;
@@ -163,6 +166,8 @@ public class ScheduleParser {
                 }
             }
         }
+        Log.i(db.nhuTag, "Seeing stop id");
+        printArrayList(stop);
     }
 
     /**
@@ -170,19 +175,17 @@ public class ScheduleParser {
      * it to the stop ArrayList.
      * @param root Root node with stop listing.
      */
-    private void parseStop(Node root){
+    private void parseStop(Node root, int dayID){
     	stop = new ArrayList<Long>();
-    	int dayID = 0;
         for (Node child = root.getFirstChild(); child != null; child = child.getNextSibling()){
             Node grand = child.getFirstChild();
             while (grand != null){
                 if (grand instanceof ImageTag){
                     ImageTag img = (ImageTag) grand;
                     String name = img.getAttribute("alt");
-                    long stopID = db.insertStop(day.get(dayID++), name);
-                    //Log.i(db.nhuTag, "Day id " + day.get(dayID-1) + " " + name + " " + stopID);
-                    Log.i(db.nhuTag, "Stop name " + name);
-                    //stop.add(stopID);
+                    long stopID = db.insertStop(day.get(dayID), name);
+                    Log.i(db.nhuTag, "Stop Day id " + day.get(dayID) + " " + name + " " + stopID);
+                    stop.add(stopID);
                     break;
                 } else if (grand instanceof TableColumn || grand instanceof Div){
                     grand = grand.getFirstChild();
@@ -223,14 +226,12 @@ public class ScheduleParser {
                         }
                         long timeID = db.insertTime(stop.get(i++), (float)roundTwoDecimals(x));
                         Log.i(db.nhuTag, "Stop id " + stop.get(i-1) + " " + x);
-                        Log.i(db.nhuTag, "Time " + x);
-                        i++;
+                        //Log.i(db.nhuTag, "Time " + x);
                     } catch (NumberFormatException e){
                         if (text.equals("-")){
-                        	Log.i(db.nhuTag, child.getText());
+                        	//Log.i(db.nhuTag, child.getText());
                         	db.insertTime(stop.get(i++), (float)0.0);
                         	Log.i(db.nhuTag, "Time " + 0.0);
-                        	i++;
                         } else if (text.equals("PM Service")){
                             pm = 12.0;
                         }
@@ -254,15 +255,15 @@ public class ScheduleParser {
     }
 
     @SuppressWarnings("unchecked")
-	private void printArrayList(ArrayList list){
+	private void printArrayList(List day2){
         System.out.println("Printing List");
-        for (int i = 0; i < list.size(); i++){
-            System.out.print(list.get(i).toString() + "\t");
+        for (int i = 0; i < day2.size(); i++){
+            System.out.print(day2.get(i).toString() + "\t");
         }
         System.out.println();
     }
 
     private List<Long> day = new ArrayList<Long>();
-    private ArrayList<String> direction = new ArrayList<String>();
+    //private ArrayList<String> direction = new ArrayList<String>();
     private boolean rail = false;
 }

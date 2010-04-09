@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import currentlyUnused.SeptaDB;
 import edu.temple.cis.mysepta.data.Route;
+import edu.temple.cis.mysepta.data.ScheduleParser;
 import edu.temple.cis.mysepta.data.SeptaDB2;
 import edu.temple.cis.mysepta.data.Service;
 
@@ -37,8 +38,9 @@ public class MySepta extends Activity {
         
         try {
 			db.open();
-
-			
+			ScheduleParser sp = new ScheduleParser();
+			sp.parseSchedule("http://www.septa.org/schedules/bus/route091.html", db, 5);
+			sp.parseSchedule("http://www.septa.org/schedules/rail/gln.html", db, 1);
 			
 			
 			
@@ -55,7 +57,7 @@ public class MySepta extends Activity {
 //			ScheduleParser sp = new ScheduleParser();
 //			sp.parseSchedule("http://www.septa.org/schedules/bus/route091.html", db, 5);
 			List<Service> list = db.getService();
-			ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+			ArrayAdapter<Service> aa = new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, list);
 			
 			ListView lv = new ListView(this);
 			lv.setAdapter(aa);
