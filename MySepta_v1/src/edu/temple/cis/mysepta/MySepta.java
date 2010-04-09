@@ -21,6 +21,7 @@ public class MySepta extends Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
 /*
         TextView tv = (TextView)findViewById(R.id.tv);
         tv.setOnClickListener(new View.OnClickListener() {
@@ -30,17 +31,14 @@ public class MySepta extends Activity {
 				startActivity(i);
 				
 			}
-		});
-		*/
-		
-
-        SeptaDB2 db = new SeptaDB2(this);
+		}); */
+	SeptaDB2 db = new SeptaDB2(this);
         
         try {
 			db.open();
-			ScheduleParser sp = new ScheduleParser();
-			sp.parseSchedule("http://www.septa.org/schedules/bus/route091.html", db, 5);
-			sp.parseSchedule("http://www.septa.org/schedules/rail/gln.html", db, 1);
+			//ScheduleParser sp = new ScheduleParser();
+			//sp.parseSchedule("http://www.septa.org/schedules/bus/route091.html", db, 5);
+			//sp.parseSchedule("http://www.septa.org/schedules/rail/gln.html", db, 1);
 			
 			
 			
@@ -56,12 +54,13 @@ public class MySepta extends Activity {
 			*/
 //			ScheduleParser sp = new ScheduleParser();
 //			sp.parseSchedule("http://www.septa.org/schedules/bus/route091.html", db, 5);
-			List<Service> list = db.getService();
+	/*		Service[] list = db.getService();
 			ArrayAdapter<Service> aa = new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, list);
 			
 			ListView lv = new ListView(this);
 			lv.setAdapter(aa);
 			setContentView(lv);
+			*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
