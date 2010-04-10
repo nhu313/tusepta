@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 public class Routes extends ListActivity{
 	
+	private int[] serviceids = {1,2,3,4,5,6};
+	
 	public Service[] service = null;
 	@Override  
     public void onCreate(Bundle savedInstanceState) 
