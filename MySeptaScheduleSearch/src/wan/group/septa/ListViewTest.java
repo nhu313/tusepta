@@ -1,13 +1,8 @@
 package wan.group.septa;
 
-//import java.util.List;
-
-import java.util.List;
-
-import wan.group.septa.data.Route;
+import android.app.ListActivity;
 import wan.group.septa.data.SeptaDB2;
 import wan.group.septa.data.Service;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,18 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MyListView extends ListActivity {
-
-	//String[] services = { "Regional Rail", "Market-Frankford Line",
-	//		"Broad Street Line", "Trolley Lines", "Norristown High Speed Line",
-	//		"Bus Line"
-
-	//};
+public class ListViewTest extends ListActivity{
 	
-	public Service[] ser = null;
-	public List<Service> services2 = null;
-	public List<Route> route2 = null;
-	int one = 0;
+	public Service[] service = null;
 	@Override  
     public void onCreate(Bundle savedInstanceState) 
     {
@@ -35,11 +21,8 @@ public class MyListView extends ListActivity {
         SeptaDB2 db = new SeptaDB2(this);
         try {
 			db.open();
-	        //ListView lv = (ListView)findViewById(R.id.serviceList);
-	        //List<Service> services2 = db.getServices();
-			List<Route> route2 = db.getRoute(one);
-	        //Service[] ser = db.getService();
-	        setListAdapter(new ArrayAdapter<Route>(this, android.R.layout.simple_list_item_1, route2));
+	        Service[] service = db.getService();
+	        setListAdapter(new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, service));
 	        db.close();
 	        
 		} catch (Exception e) {
@@ -50,38 +33,41 @@ public class MyListView extends ListActivity {
      }    
 
 	public void onListItemClick(ListView parent, View v, int position, long id) {
-		
-		Toast.makeText(this, "You have selected " + "RouteRoute",//ser[position],
-				Toast.LENGTH_SHORT).show();
-		
+					
 		switch (position) {
 		case 0: {//Regional Rail
-			Intent intent = new Intent(this, wan.group.septa.RRList.class);
+			Toast.makeText(this, "You have selected " + "Regional Rail",Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(this, wan.group.septa.Routes.class);
 			startActivity(intent);
 			break;
 		}
 		case 1: {//Market-Frankford Line
+			Toast.makeText(this, "You have selected " + "Market-Frankford Line",Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(this, wan.group.septa.NorthOrSouthBound.class);
 			startActivity(intent);
 			break;
 		}
 		case 2: {//Broad Street Line
+			Toast.makeText(this, "You have selected " + "Broad Street Line",Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(this, wan.group.septa.NorthOrSouthBound.class);
 			startActivity(intent);
 			break;
 		}
 		case 3: {//Trolley Line
-			Intent intent = new Intent(this, wan.group.septa.TrolleyList.class);
+			Toast.makeText(this, "You have selected " + "Trolley Line",Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(this, wan.group.septa.Routes.class);
 			startActivity(intent);
 			break;
 		}
 		case 4: {//Norristown High Speed Line
+			Toast.makeText(this, "You have selected " + "Norristown High Speed Line",Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(this, wan.group.septa.NorthOrSouthBound.class);
 			startActivity(intent);
 			break;
 		}
 		case 5: {//Bus Line
-			Intent intent = new Intent(this, wan.group.septa.BusList.class);
+			Toast.makeText(this, "You have selected " + "Bus Line",Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(this, wan.group.septa.Routes.class);
 		    startActivity(intent);
 			break;
 		}
@@ -89,4 +75,4 @@ public class MyListView extends ListActivity {
 
 	}//End onListItemClick
 
-}//End Class
+}

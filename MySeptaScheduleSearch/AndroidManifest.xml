@@ -18,6 +18,8 @@
 <activity android:name="BusList" android:label="@string/app_name"></activity>
 <activity android:name="MyListView" android:label="@string/app_name"></activity>
 <activity android:label="@string/app_name" android:name="NorthOrSouthBound"></activity>
+<activity android:label="@string/app_name" android:name="ListViewTest"></activity>
+<activity android:label="@string/app_name" android:name="Routes"></activity>
 </application>
 
 

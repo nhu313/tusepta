@@ -21,7 +21,7 @@ public class ViewsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Intent intent = new Intent(this, wan.group.septa.MyListView.class);
+        Intent intent = new Intent(this, wan.group.septa.ListViewTest.class);
         		startActivity(intent);
 	}
 

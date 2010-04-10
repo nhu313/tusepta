@@ -16,7 +16,7 @@ public class SeptaDB2 extends DBAdapter2{
 	private List<Route> bus = null;
 	private List<Route> trolley = null;
 	private List<Route> rail = null;
-	private List<Service> service = null;
+	private Service[] service = null;
 	
 	private int rail_id, mfl_id, bsl_id, trolley_id, nhs_id, bus_id;
 	
@@ -57,13 +57,13 @@ public class SeptaDB2 extends DBAdapter2{
 	}
 	
 	//Get list of service
-	public List<Service> getService(){
+	public Service[] getService(){
 		if (service == null){
-			service = new ArrayList<Service>();
 			Cursor c = super.getAllServices();
 			if (c.moveToFirst()){
+				service = new Service[c.getCount()];
 				for (int i = 0; i < c.getCount(); i++){
-					service.add(new Service(c.getInt(0), c.getString(1), c.getString(2), c.getString(3)));
+					service[i] = new Service(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
 					c.moveToNext();
 				}
 			} else {
