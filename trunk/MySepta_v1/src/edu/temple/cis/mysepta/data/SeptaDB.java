@@ -109,7 +109,7 @@ public class SeptaDB extends DBAdapter{
 	/**
 	 * Insert Market Frankfort Line, Broad Street Line, and Norristown High Speed Line (manually). 
 	 */
-	public void insertTrain(){
+	private void insertTrain(){
 		mflRoute_id = insertRoute(mfl_id, "MFL", "Market-Frankford Line", "http://www.septa.org/schedules/transit/mfl.html");
 		bslRoute_id = insertRoute(bsl_id, "BSL", "Broad Street Line", "http://www.septa.org/schedules/transit/bsl.html");
 		nhsRoute_id = insertRoute(nhs_id, "NHS", "Norristown High Speed Line", "http://www.septa.org/schedules/transit/nhsl.html");
@@ -120,7 +120,7 @@ public class SeptaDB extends DBAdapter{
 	 * @return Array out bus routes.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-	public Route[] getBus() throws ParserException {
+	private Route[] getBus() throws ParserException {
 		if (bus == null){
 			Cursor c = super.getAllRouteByService(bus_id);
 			if (c.moveToFirst()){
@@ -140,7 +140,7 @@ public class SeptaDB extends DBAdapter{
 	 * @return Array of trolley routes.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-	public Route[] getTrolley() throws ParserException {
+	private Route[] getTrolley() throws ParserException {
 		if (trolley == null){
 			Cursor c = super.getAllRouteByService(trolley_id);
 			if (c.moveToFirst()){
@@ -159,7 +159,7 @@ public class SeptaDB extends DBAdapter{
 	 * @return Array of regional rail route.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-	public Route[] getRail() throws ParserException{
+	private Route[] getRail() throws ParserException{
 		if (rail == null){
 			Cursor c = super.getAllRouteByService(rail_id);
 			if (c.moveToFirst()){
