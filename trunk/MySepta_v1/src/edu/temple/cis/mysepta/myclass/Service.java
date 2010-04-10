@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.mysepta.data;
+package edu.temple.cis.mysepta.myclass;
 
 /**
  * @author Yu Liang

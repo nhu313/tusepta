@@ -7,11 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import currentlyUnused.SeptaDB;
-import edu.temple.cis.mysepta.data.Route;
-import edu.temple.cis.mysepta.data.ScheduleParser;
-import edu.temple.cis.mysepta.data.SeptaDB2;
-import edu.temple.cis.mysepta.data.Service;
+import edu.temple.cis.mysepta.data.SeptaDB;
+import edu.temple.cis.mysepta.myclass.DayOfService;
+import edu.temple.cis.mysepta.myclass.Route;
+import edu.temple.cis.mysepta.myclass.Service;
 
 public class MySepta extends Activity {
 	public SeptaDB db;
@@ -21,51 +20,25 @@ public class MySepta extends Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-/*
-        TextView tv = (TextView)findViewById(R.id.tv);
-        tv.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(MySepta.this, FavSchedule.class);
-				startActivity(i);
-				
-			}
-		}); */
-	SeptaDB2 db = new SeptaDB2(this);
+        SeptaDB db = new SeptaDB(this);
         
         try {
 			db.open();
-			//ScheduleParser sp = new ScheduleParser();
-			//sp.parseSchedule("http://www.septa.org/schedules/bus/route091.html", db, 5);
-			//sp.parseSchedule("http://www.septa.org/schedules/rail/gln.html", db, 1);
-			
-			
-			
-			
-			
-			//List<Service> list = db.getService();
-			
-			/*
-			Log.i(db.nhuTag, "Inserted day " + db.insertDayOfService(1, "Weekday to Center City"));
-			Log.i(db.nhuTag, "Inserted day " + db.insertDayOfService(1, "Weekday to Home"));
-			Log.i(db.nhuTag, "Inserted stop " + db.insertStop(1, "30th St"));
-			Log.i(db.nhuTag, "Inserted stop " + db.insertStop(1, "22nd St"));
-			*/
-//			ScheduleParser sp = new ScheduleParser();
-//			sp.parseSchedule("http://www.septa.org/schedules/bus/route091.html", db, 5);
-	/*		Service[] list = db.getService();
-			ArrayAdapter<Service> aa = new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, list);
-			
+			//Service[] list = db.getService();
+			//Service sv = new Service(1, null, null, null);
+			//Route[] list = db.getRoute(sv);
+			DayOfService[] list = db.getDayOfService(new Route(122, 6, "a", "a", "http://www.septa.org/schedules/bus/route001.html"));
+			ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
 			ListView lv = new ListView(this);
 			lv.setAdapter(aa);
 			setContentView(lv);
-			*/
 		} catch (Exception e) {
+			Log.i(db.nhuTag, " EEEEEEERRRROOOR " + e);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			db.close();
 		}
-        db.close();
     
     }
  

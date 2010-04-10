@@ -1,13 +1,13 @@
-package edu.temple.cis.mysepta.data;
+package edu.temple.cis.mysepta.myclass;
 
 public class DayOfService {
 	private long dayID;
-	private int routeID;
+	private long routeID;
 	private String day;
-	
-	public DayOfService(long dayID, int routeID, String day) {
+
+	public DayOfService(long dayID, long l, String day) {
 		this.dayID = dayID;
-		this.routeID = routeID;
+		this.routeID = l;
 		this.day = day;
 	}
 	public long getDayID() {
@@ -16,7 +16,7 @@ public class DayOfService {
 	public void setDayID(long dayID) {
 		this.dayID = dayID;
 	}
-	public int getRouteID() {
+	public long getRouteID() {
 		return routeID;
 	}
 	public void setRouteID(int routeID) {
@@ -28,4 +28,10 @@ public class DayOfService {
 	public void setDay(String day) {
 		this.day = day;
 	}
+	@Override
+	public String toString() {
+		return  day;
+	}
+	
+	
 }
