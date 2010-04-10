@@ -41,7 +41,7 @@ public class FavSchedule extends Activity{
         title.setTextColor(Color.RED);
         title.setTextSize(20);
         title.setMinimumWidth(LayoutParams.FILL_PARENT);
-        img_title.setImageResource(R.drawable.septaicon);
+        //img_title.setImageResource(R.drawable.septaicon);
         header.addView(title);
         //header.addView(img_title);
         

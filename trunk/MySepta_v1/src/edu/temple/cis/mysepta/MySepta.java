@@ -2,6 +2,7 @@ package edu.temple.cis.mysepta;
 
 import java.util.List;
 
+import android.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.DayOfService;
 import edu.temple.cis.mysepta.myclass.Route;
 import edu.temple.cis.mysepta.myclass.Service;
+import edu.temple.cis.mysepta.myclass.Stop;
 
 public class MySepta extends Activity {
 	public SeptaDB db;
@@ -19,15 +21,15 @@ public class MySepta extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        //setContentView(R.layout.browser_link_context_header);
         SeptaDB db = new SeptaDB(this);
         
         try {
 			db.open();
-			//Service[] list = db.getService();
-			//Service sv = new Service(1, null, null, null);
-			//Route[] list = db.getRoute(sv);
-			DayOfService[] list = db.getDayOfService(new Route(122, 6, "a", "a", "http://www.septa.org/schedules/bus/route001.html"));
+			Service[] s = db.getService();
+			Route[] rt = db.getRoute(s[0]);
+			DayOfService[] day = db.getDayOfService(rt[0]);
+			Stop[] list = db.getStop(day[0]);
 			ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
 			ListView lv = new ListView(this);
 			lv.setAdapter(aa);
