@@ -18,6 +18,9 @@ public class Routes extends ListActivity{
 	@Override  
     public void onCreate(Bundle savedInstanceState) 
     {
+		int position = 2;
+		int serviceid = serviceids[position];
+		
         super.onCreate(savedInstanceState);  
         setContentView(R.layout.listview);
         SeptaDB2 db = new SeptaDB2(this);
