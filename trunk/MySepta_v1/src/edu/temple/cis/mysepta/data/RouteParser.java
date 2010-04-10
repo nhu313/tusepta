@@ -32,7 +32,7 @@ public class RouteParser {
      * @return List of routes.
      * @throws ParserException If the creation of the underlying Lexer cannot be performed.
      */
-    public Route[] getRoute(String url, DBAdapter db, long serviceID) throws ParserException{
+    public void getRoute(String url, DBAdapter db, long serviceID) throws ParserException{
 
         if (url.contains("rail"))
             rail = true;
@@ -55,7 +55,6 @@ public class RouteParser {
         HttpURLConnection connection = (HttpURLConnection) parser.getConnection();
         connection.disconnect();
         rail = false;
-        return (Route[])routes.toArray();
     }
 
     /**
