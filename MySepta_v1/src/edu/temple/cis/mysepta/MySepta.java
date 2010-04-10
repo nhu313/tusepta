@@ -21,7 +21,7 @@ public class MySepta extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.browser_link_context_header);
+        //setContentView();
         SeptaDB db = new SeptaDB(this);
         
         try {
