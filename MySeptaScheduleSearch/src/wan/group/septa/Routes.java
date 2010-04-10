@@ -29,15 +29,16 @@ public class Routes extends ListActivity{
 			db.open();
 			if(position == 0)
 			{	
-	        Service[] service = db.getService();
+	         //Service[] service = db.getService();
+				//Route[] route = db.getRoute(serviceid);
 			}
 			if (position == 3)
 			{
-				//Route[] route = db.getRoute(5);
+				//Route[] route = db.getRoute(serviceid);
 			}
 			if (position == 5)
 			{
-				//Route[] route = db.getRoute(6);
+				//Route[] route = db.getRoute(serviceid);
 			}
 	        setListAdapter(new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, service));
 	        db.close();
