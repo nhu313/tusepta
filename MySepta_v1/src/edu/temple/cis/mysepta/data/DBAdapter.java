@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -34,7 +33,7 @@ public class DBAdapter {
 	    public static final String KEY_Schedule = "schedule";  
 	    //----------------------------------------------------------------    
 	    private static final String autoInt = " integer primary key autoincrement, "; //for create table statement 
-	    private static final String TAG = "SeptaDB";
+	    protected static final String TAG = "SeptaDB";
 	    private static final String DATABASE_NAME = "MySepta";    // Database Name
 	    private static final String DATABASE_Service = "Service"; // Table 
 	    private static final String DATABASE_Route = "Route";	  // Table
@@ -150,7 +149,7 @@ public class DBAdapter {
 	    }
 
 	    /**
-	     * Query the Service table to get all the service's information. Return the cursor to the result. 
+	     * Query the Service table to retrieve all the service's information. Return the cursor to the result. 
 	     * @return Cursor object which point to the position before the first entry.
 	     */
 	    protected Cursor getAllServices(){
@@ -233,7 +232,7 @@ public class DBAdapter {
 	    }
 	    
 	    /**
-	     * Get all the route with the given service ID. Return the cursor to the result.
+	     * Retrieve  all the route with the given service ID. Return the cursor to the result.
 	     * @param serviceID Service ID of the route to search for.
 	     * @return Cursor object which is positioned before the first entry.
 	     */
@@ -245,7 +244,7 @@ public class DBAdapter {
 	    }
 	    
 	    /**
-	     * Get service ID of the given routeID.
+	     * Retrieve service ID of the given routeID.
 	     * @param routeID Route ID of the service ID to search for.
 	     * @return The service ID of route ID.
 	     */
@@ -299,7 +298,7 @@ public class DBAdapter {
 	    }
 	    
 	    /**
-	     * Get the route with the given route ID. 
+	     * Retrieve the route with the given route ID. 
 	     * @param routeID Route ID to of the route to search for.
 	     * @return Cursor object which point to the position before the first entry.
 	     */
@@ -345,7 +344,7 @@ public class DBAdapter {
 	    }
 	    
 	    /**
-	     * Get all the day of service given the routeID.
+	     * Retrieve all the day of service given the routeID.
 	     * @param routeID ID of the route to get the day of service to search for.
 	     * @return Cursor object which is positioned before the first entry.
 	     */
@@ -386,7 +385,7 @@ public class DBAdapter {
 	    }
 
 	    /**
-	     * Get all the stop given a day ID.
+	     * Retrieve all the stop given a day ID.
 	     * @param dayID ID of the day of service.
 	     * @return Cursor object which is positioned before the first entry.
 	     */
