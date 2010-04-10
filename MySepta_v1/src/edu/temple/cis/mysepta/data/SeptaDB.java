@@ -18,7 +18,7 @@ public class SeptaDB extends DBAdapter{
 	private Route[] rail = null;
 	private Service[] service = null;
 	
-	private long rail_id, mfl_id, bsl_id, trolley_id, nhs_id, bus_id;
+	public long rail_id, mfl_id, bsl_id, trolley_id, nhs_id, bus_id;
 	
 	public SeptaDB(Context ctx) {
 		super(ctx);
@@ -37,7 +37,7 @@ public class SeptaDB extends DBAdapter{
      * @throws SQLException Database cannot be opened for writing.
      */
 	public DBAdapter open(){
-		Log.i(TAG, "Opening database");
+		Log.i(TAG, "Opening database.");
 		DBAdapter dbA = super.open();
 		insertService();
 		insertTrain();
@@ -52,6 +52,7 @@ public class SeptaDB extends DBAdapter{
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
 	public Route[] getRouteArray(long serviceID) throws MySeptaException, ParserException{
+		Log.i(nhuTag, " Getting route array for " + serviceID);
 		Route[] route = null;
 		if (serviceID == rail_id){
 			route = getRail();
@@ -123,9 +124,10 @@ public class SeptaDB extends DBAdapter{
 	private Route[] getBus() throws ParserException {
 		if (bus == null){
 			Cursor c = super.getAllRouteByService(bus_id);
-			if (c.moveToFirst()){
+			if (!c.moveToFirst()){
 				if (rp == null){rp = new RouteParser();}
-				//bus = rp.getRoute(bus_s, this, bus_id).toArray(array);
+				rp.getRoute(bus_s, this, bus_id);
+				bus = getBus();
 			} else {
 				Log.i(nhuTag, "It's not empty.");
 				bus = getRouteByCursor(c);
@@ -143,9 +145,10 @@ public class SeptaDB extends DBAdapter{
 	private Route[] getTrolley() throws ParserException {
 		if (trolley == null){
 			Cursor c = super.getAllRouteByService(trolley_id);
-			if (c.moveToFirst()){
+			if (!c.moveToFirst()){
 				if (rp == null){rp = new RouteParser();}
-				//trolley = rp.getRoute(trolley_s, this, trolley_id);
+				rp.getRoute(trolley_s, this, trolley_id);
+				trolley = getTrolley();
 			} else {
 				trolley = getRouteByCursor(c);
 			}
@@ -160,11 +163,13 @@ public class SeptaDB extends DBAdapter{
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
 	private Route[] getRail() throws ParserException{
+		Log.i(nhuTag, "Getting rail");
 		if (rail == null){
 			Cursor c = super.getAllRouteByService(rail_id);
-			if (c.moveToFirst()){
+			if (!c.moveToFirst()){
 				if (rp == null){rp = new RouteParser();}
-				//rail = rp.getRoute(rail_s, this, rail_id);
+				rp.getRoute(rail_s, this, rail_id);
+				rail = getRail();
 			} else {
 				rail = getRouteByCursor(c);
 			}
@@ -179,12 +184,12 @@ public class SeptaDB extends DBAdapter{
 	 * @return Route array cursor was pointed to.
 	 */
 	private Route[] getRouteByCursor(Cursor c){
+		Log.i(nhuTag, "Getting route by cursor");
 		Route[] list = new Route[c.getCount()];
 		for (int i = 0; i < c.getCount(); i++){
-			int f = c.getInt(4);
-			boolean fav = (f == FAV_TRUE) ? true:false;
 			list[i] = new Route(c.getInt(0), c.getInt(1), c.getString(2), 
-					c.getString(3), fav, c.getString(5));
+					c.getString(3), c.getString(4));
+			Log.i(nhuTag, list[i].toString());
 			c.moveToNext();
 		}
 		return list; 

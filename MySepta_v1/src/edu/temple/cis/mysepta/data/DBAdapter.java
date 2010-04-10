@@ -20,13 +20,13 @@ public class DBAdapter {
 	    public static final String KEY_RouteID = "routeID";
 	    public static final String KEY_RouteShortName = "routeShortName";
 	    public static final String KEY_RouteLongName = "routeLongName";
-	    public static final String KEY_IsFavorite = "favoriteRoute";
 	    public static final String KEY_URL = "url";
 	    //For Day of Service Table ---------------------------------------------
 	    public static final String KEY_DayOfServiceID = "dayOfServiceID";
 	    public static final String KEY_DayOfService = "dayOfService";
 	    //For Stop Table -----------------------------------------------
 	    public static final String KEY_StopNameID = "stopID";
+	    public static final String KEY_IsFavorite = "favoriteRoute";
 	    public static final String KEY_StopName = "stop";
 	   //For Schedule Table ---------------------------------------------
 	    public static final String KEY_ScheduleID = "scheduleID";
@@ -104,7 +104,6 @@ public class DBAdapter {
 	     * @throws SQLException Database cannot be opened for writing.
 	     */
 	    protected DBAdapter open() throws SQLException{
-	    	Log.i(nhuTag, " opening db through adapter");
 	        db = DBHelper.getWritableDatabase();
 	        return this;
 	    }
@@ -127,6 +126,7 @@ public class DBAdapter {
 	     * @return Service ID of the service.
 	     */
 	    public long insertService(String shortName, String longName, String color){
+    		Log.i(TAG, " Insert Service " + longName);
 	    	//Check if service exist in database
 	    	Cursor mCursor = db.query(DATABASE_Service, new String[] {KEY_ServiceID},
 	        		KEY_ShortName + "='" + shortName + "' AND " + KEY_LongName + "='"+longName+"'",
@@ -143,7 +143,6 @@ public class DBAdapter {
 	    		initialValues.put(KEY_ShortName, shortName);
 	    		initialValues.put(KEY_LongName, longName);
 	    		initialValues.put(KEY_Color, color);
-	    		Log.i(nhuTag, " Insert Service" + longName);
 	    		return db.insert(DATABASE_Service, null, initialValues);
 	    	}
 	    }
@@ -196,8 +195,7 @@ public class DBAdapter {
 	    private static final String DATABASE_CREATE_Route =
 	    	"create table " + DATABASE_Route + " (" + KEY_RouteID + autoInt
 	    	+ KEY_ServiceID + " integer not null, " + KEY_RouteShortName + " text not null, " 
-	    	+ KEY_RouteLongName + " text not null, " + KEY_IsFavorite + " integer not null, "
-	    	+ KEY_URL + " text not null);";
+	    	+ KEY_RouteLongName + " text not null, " + KEY_URL + " text not null);";
 	    
 	    /**
 	     * Insert a route into the database. If the route already exist, return route ID.
@@ -208,6 +206,7 @@ public class DBAdapter {
 	     * @return Route ID of the route.
 	     */
 	    public long insertRoute(long serviceID, String routeNumber, String routeName, String url){
+	    	Log.i(TAG, "Inserting Route [" + serviceID + "] " + routeNumber + " - " + routeName);
 	    	//Check if the route is in the database 
 	    	Cursor mCursor = db.query(DATABASE_Route, new String[] {KEY_RouteID}, 
 	    			KEY_RouteShortName + "='" + routeNumber + "' AND " 
@@ -225,7 +224,6 @@ public class DBAdapter {
 		        initialValues.put(KEY_ServiceID, serviceID);
 		        initialValues.put(KEY_RouteShortName, routeNumber);
 		        initialValues.put(KEY_RouteLongName, routeName);
-		        initialValues.put(KEY_IsFavorite, FAV_FALSE);
 		        initialValues.put(KEY_URL, url);
 		        return db.insert(DATABASE_Route, null, initialValues);
 	    	}
@@ -239,7 +237,7 @@ public class DBAdapter {
 	    public Cursor getAllRouteByService(long serviceID){
 	    	return db.query(true, DATABASE_Route, new String[] {
 	                		KEY_RouteID, KEY_ServiceID, KEY_RouteShortName, KEY_RouteLongName,
-	                		KEY_IsFavorite, KEY_URL }, KEY_ServiceID + "=" + serviceID, 
+	                		KEY_URL }, KEY_ServiceID + "=" + serviceID, 
 	                		null, null, null, null, null);
 	    }
 	    
@@ -265,7 +263,6 @@ public class DBAdapter {
 	     * @param routeID Service ID of the route to update. 
 	     * @param routeShortName Short name of the route. 
 	     * @param routeLongName Long name of the route.
-	     * @param favoriteRoute Indicate whether the route is a favorite or not.
 	     * @param url URL of the route's schedule.
 	     * @return True if the update was successful. False otherwise.
 	     */
@@ -275,26 +272,9 @@ public class DBAdapter {
 	        args.put(KEY_ServiceID, serviceID);
 	        args.put(KEY_RouteShortName, routeShortName);
 	        args.put(KEY_RouteLongName, routeLongName);
-	        args.put(KEY_IsFavorite, favoriteRoute);
 	        args.put(KEY_URL, url);
 	        return db.update(DATABASE_Route, args, 
 	                         KEY_RouteID + "=" + routeID, null) > 0;
-	    }
-	    
-	    /**
-	     * Update route favorite properties.
-	     * @param routeID Route ID of the route to update.
-	     * @param favorite Number to indicate favorite. (Use DBAdapter.FAV_TRUE or DBAdapter.FAV_False). 
-	     * @return True if update was successful. False, otherwise.
-	     * @throws MySeptaException when the favorite integer is not 0 or 1.
-	     */
-	    public boolean updateFavoriteRoute(long routeID, int favorite) throws MySeptaException{
-	    	if (favorite != FAV_TRUE && favorite != FAV_FALSE){
-	    		throw new MySeptaException("Incorrect favorite number. Enter 0 for false or 1 for true.");
-	    	}
-	    	ContentValues args = new ContentValues();
-	    	args.put(KEY_IsFavorite, favorite);
-	    	return db.update(DATABASE_Route, args, KEY_RouteID + "=" + routeID, null) > 0;
 	    }
 	    
 	    /**
@@ -305,7 +285,7 @@ public class DBAdapter {
 	    public Cursor getRouteByRouteId(long routeID){
 	    	return db.query(true, DATABASE_Route, new String[] {
             		KEY_RouteID, KEY_ServiceID, KEY_RouteShortName, KEY_RouteLongName,
-            		KEY_IsFavorite, KEY_URL}, KEY_RouteID + "=" + routeID, 
+            		KEY_URL}, KEY_RouteID + "=" + routeID, 
             		null, null, null, null, null);
 	    }
 	    
@@ -323,6 +303,7 @@ public class DBAdapter {
 	     * @return Day of service ID.
 	     */
 	    public long insertDayOfService(long routeID, String day){
+	    	Log.i(TAG, "Inserting day of service [" + routeID + "] " + day);
 	    	//Check if the day of service is in the database
 	    	Cursor mCursor = db.query(DATABASE_DayOfService, new String[] {KEY_DayOfServiceID}, 
 	    			KEY_RouteID + "='" + routeID + "' AND " 
@@ -357,7 +338,8 @@ public class DBAdapter {
 	    //Statement to create Stop table
 	    private static final String DATABASE_CREATE_Stop =
 	        "create table " + DATABASE_Stop + " (" + KEY_StopNameID + autoInt
-	        + KEY_DayOfServiceID + " integer not null, " + KEY_StopName + " text not null);";
+	        + KEY_DayOfServiceID + " integer not null, " + KEY_StopName + " text not null, " 
+	        + KEY_IsFavorite + " integer not null);";
 	    
 	    /**
 	     * Insert a stop and return its stop ID. If the entry exists in the database, get the stop ID.
@@ -366,6 +348,7 @@ public class DBAdapter {
 	     * @return Stop ID.
 	     */
 	    protected long insertStop(long dayID, String name){ 	
+	    	Log.i(TAG, "Inserting stop [" + dayID + "] " + name);
 	    	//Check if the stop ID is in the database
 	    	Cursor mCursor = db.query(true, DATABASE_Stop, new String[] {KEY_StopNameID}, 
         		KEY_DayOfServiceID + "=" + dayID + " AND " + KEY_StopName + " = '" + name + "'", 
@@ -380,6 +363,7 @@ public class DBAdapter {
 		        ContentValues initialValues = new ContentValues();
 		        initialValues.put(KEY_DayOfServiceID, dayID);
 		        initialValues.put(KEY_StopName, name);
+		        initialValues.put(KEY_IsFavorite, FAV_FALSE);
 		        return db.insert(DATABASE_Stop, null, initialValues);
 	    	}
 	    }
@@ -391,10 +375,26 @@ public class DBAdapter {
 	     */
 	    protected Cursor getAllStopByDayId(long dayID) {
 	        return db.query(DATABASE_Stop, new String[] {
-	        		KEY_StopNameID, KEY_DayOfServiceID, KEY_StopName}, 
+	        		KEY_StopNameID, KEY_DayOfServiceID, KEY_StopName, KEY_IsFavorite}, 
 	                KEY_DayOfServiceID + " = " + dayID, null, null, null, null);
 	    }
 
+	    /**
+	     * Update stop favorite properties.
+	     * @param stopID ID of the stop to update.
+	     * @param favorite Number to indicate favorite. (Use DBAdapter.FAV_TRUE or DBAdapter.FAV_False). 
+	     * @return True if update was successful. False, otherwise.
+	     * @throws MySeptaException when the favorite integer is not 0 or 1.
+	     */
+	    public boolean updateFavoriteRoute(long stopID, int favorite) throws MySeptaException{
+	    	if (favorite != FAV_TRUE && favorite != FAV_FALSE){
+	    		throw new MySeptaException("Incorrect favorite number. Enter 0 for false or 1 for true.");
+	    	}
+	    	ContentValues args = new ContentValues();
+	    	args.put(KEY_IsFavorite, favorite);
+	    	return db.update(DATABASE_Stop, args, KEY_StopNameID + "=" + stopID, null) > 0;
+	    }
+	    
 	    //-------------------------------------------Schedule----------------------------------------------//
 	    //Statement to create Schedule Table
 	    private static final String DATABASE_CREATE_Schedule =
@@ -408,6 +408,7 @@ public class DBAdapter {
 	     * @return Schedule ID
 	     */
 	    public long insertSchedule(long stopID, float sched) {
+	    	Log.i(TAG, "Inserting schedule [" + stopID + "] - " + sched);
 	    	//Check if schedule time with the stop ID is in the database.
 	    	Cursor mCursor = db.query(DATABASE_Schedule, new String[] {KEY_ScheduleID},
 	                KEY_StopNameID + "=" + stopID + " AND " + KEY_Schedule + "=" + sched,

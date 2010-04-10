@@ -5,7 +5,6 @@ public class Route {
 	private String route;
 	private String name;
 	private String url;
-	private boolean isFavorite;
 		
 	public Route(long serviceID, long routeId, String route, String name,
 			String url) {
@@ -18,14 +17,12 @@ public class Route {
 	
 	public Route(){}
 	
-	public Route(int routeId, int serviceId, String route, String name,
-			boolean isFavorite, String url) {
+	public Route(int routeId, int serviceId, String route, String name, String url) {
 		service_id = serviceId;
 		route_id = routeId;
 		this.route = route;
 		this.name = name;
 		this.url = url;
-		this.isFavorite = isFavorite;
 	}
 
 	public long getService_id() {
@@ -58,13 +55,7 @@ public class Route {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public boolean isFavorite() {
-		return isFavorite;
-	}
-	public void setFavorite(boolean isFavorite) {
-		this.isFavorite = isFavorite;
-	}
-
+	
 	public String toString(){
 		return route + " " + name;
 	}
