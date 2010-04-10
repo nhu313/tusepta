@@ -24,9 +24,21 @@ public class Routes extends ListActivity{
         super.onCreate(savedInstanceState);  
         setContentView(R.layout.listview);
         SeptaDB2 db = new SeptaDB2(this);
+                
         try {
 			db.open();
+			if(position == 0)
+			{	
 	        Service[] service = db.getService();
+			}
+			if (position == 3)
+			{
+				//Route[] route = db.getRoute(5);
+			}
+			if (position == 5)
+			{
+				//Route[] route = db.getRoute(6);
+			}
 	        setListAdapter(new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, service));
 	        db.close();
 	        
