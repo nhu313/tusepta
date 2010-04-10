@@ -9,12 +9,12 @@ package edu.temple.cis.mysepta.data;
  */
 public class Service {
 
-	private int id;
+	private long id;
 	private String shortName;
 	private String longName;
 	private String color;
 	
-	public Service(int id, String shortName, String longName, String color) {
+	public Service(long id, String shortName, String longName, String color) {
 		this.id = id;
 		this.shortName = shortName;
 		this.longName = longName;
@@ -24,7 +24,7 @@ public class Service {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	/**
@@ -70,11 +70,9 @@ public class Service {
 	public void setColor(String color) {
 		this.color = color;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
 	@Override
 	public String toString() {
-		return shortName  + " | " + longName;
+		return longName;
 	}
 }

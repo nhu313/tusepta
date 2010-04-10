@@ -18,24 +18,29 @@ import org.htmlparser.tags.TableColumn;
 import org.htmlparser.tags.TableRow;
 import org.htmlparser.tags.TableTag;
 import org.htmlparser.util.NodeIterator;
+import org.htmlparser.util.ParserException;
 
 import android.util.Log;
 
-import currentlyUnused.SeptaDB;
 
 public class ScheduleParser {
-	private SeptaDB2 db = null;
-	private int routeID = 0;
-	private String url = null;
+	private DBAdapter db = null;
+	private long routeID = 0;
     
 	public ScheduleParser(){}
 
-    public void parseSchedule(String url, SeptaDB2 db, int routeID) throws Exception{
+	/**
+	 * Retrieve all the schedule information of the route from the given URL.
+     * @param url URL of the route to parse.
+     * @param db Database to add schedule data.
+     * @param routeID ID of the route to be parse.
+     * @throws ParserException If the creation of the underlying Lexer cannot be performed.
+	 */
+    public void parseSchedule(String url, DBAdapter db, int routeID) throws ParserException{
+    	
+    	Log.i(db.TAG, "Parsing schedule of " + routeID + "(" + url + ")");
         this.db = db;
         this.routeID = routeID; 
-    	if (url.contains("rail")){
-            rail = true;
-        }
         Parser parser = new Parser(url);
         NodeIterator itr = parser.elements();
         while (itr.hasMoreNodes()) {
@@ -49,15 +54,13 @@ public class ScheduleParser {
         }
         HttpURLConnection connection = (HttpURLConnection) parser.getConnection();
         connection.disconnect();
-        rail = false;
         this.db = null;
         this.routeID = 0;
     }
 
     /**
-     * Process HTML body. If root is a body tag or andy of the div wrapper,
-     * call itself to process the child.
-     * @param root Subroot of the tree.
+     * Process HTML body. If root is a body tag or any of the div wrapper, call itself to process the child.
+     * @param root Subroot of the tree to containing the HTML body.
      */
     private void processCompositeTag(Node root){
         for (Node child = root.getFirstChild(); child != null; child = child.getNextSibling()){
@@ -76,6 +79,7 @@ public class ScheduleParser {
                          getDirection(child);
                          processCompositeTag(child);
                      } else if (divId.indexOf("tabs-") >= 0){
+                    	 //Get Schedule
                          getSchedule(child);
                      }
                 } else if (divClass != null && (divClass.equals("full_col") || divClass.equals("col_content"))){
@@ -87,9 +91,8 @@ public class ScheduleParser {
     }
 
     /**
-     * Find the root containing the individual direction and call
-     * getIndividualDirection to get the direction.
-     * @param root Root node with direction listing.
+     * Find the root containing the individual direction and call getIndividualDirection to get the direction.
+     * @param root Root node with the direction listing.
      */
     private void getDirection(Node root){
         Node parent = root.getFirstChild();
@@ -105,13 +108,11 @@ public class ScheduleParser {
         //Get individual direction
         for (; parent != null; parent = parent.getNextSibling()){
             getIndividualDirection(parent);
-        }
-        
-        printArrayList(day);
+        }        
     }
 
     /**
-     * Parse HTML to get direction.
+     * Parse HTML to get direction information.
      * @param root Root node with direction information.
      */
     private void getIndividualDirection(Node root){
@@ -119,11 +120,12 @@ public class ScheduleParser {
         Node child;
         while (parent != null){
             if (parent instanceof ParagraphTag){
+            	//Get direction information.
                 child = parent.getFirstChild();
                 String name = child.getText().trim();
                 long dayID = db.insertDayOfService(routeID, name);
                 day.add(dayID);
-                Log.i(db.nhuTag, "Direction day id " + dayID + " route id " + routeID + " direction " + name);
+                Log.i(db.TAG, routeID + " Direction: [" + dayID + "]" + name);
                 while (child != null){
                     child = child.getNextSibling();
                 }
@@ -133,8 +135,7 @@ public class ScheduleParser {
     }
 
     /**
-     * Find the root that holds the stop and time information and call the
-     * appropriate function to parse each.
+     * Find the root that holds the stop and time information and call the appropriate function to parse each.
      * @param root Root node of the schedule listing.
      */
     private void getSchedule(Node root){
@@ -149,6 +150,7 @@ public class ScheduleParser {
         }
 
         int dayID = 0;
+        int daySize = day.size();
         //Find the row containing the stop and time, call the appropriate method.
         if (child instanceof TableRow){
             for (; child != null; child = child.getNextSibling()){
@@ -156,18 +158,18 @@ public class ScheduleParser {
                     TableRow tr = (TableRow) child;
                     String align = tr.getAttribute("align");
                     if (align != null && align.equals("middle")){
-                        parseStop(child, dayID++);
-                        if (dayID == day.size())
+                        //Parse stop
+                    	parseStop(child, dayID++);
+                        if (dayID == daySize)
                         	dayID = 0;
                     } else {
+                    	//Parse time
                     	parseTime(child);
                     	break;
                     }
                 }
             }
         }
-        Log.i(db.nhuTag, "Seeing stop id");
-        printArrayList(stop);
     }
 
     /**
@@ -176,16 +178,20 @@ public class ScheduleParser {
      * @param root Root node with stop listing.
      */
     private void parseStop(Node root, int dayID){
+    	Log.i(db.TAG, "Parsing route " + routeID + " stops.");
     	stop = new ArrayList<Long>();
         for (Node child = root.getFirstChild(); child != null; child = child.getNextSibling()){
             Node grand = child.getFirstChild();
             while (grand != null){
                 if (grand instanceof ImageTag){
+                	//Get the stop name, which is in the alt attribute of the image.
                     ImageTag img = (ImageTag) grand;
                     String name = img.getAttribute("alt");
-                    long stopID = db.insertStop(day.get(dayID), name);
-                    Log.i(db.nhuTag, "Stop Day id " + day.get(dayID) + " " + name + " " + stopID);
-                    stop.add(stopID);
+                    if (!name.equals("Train Numbers")){
+	                    long stopID = db.insertStop(day.get(dayID), name);
+	                    stop.add(stopID);
+	                    Log.i(db.TAG, "Route " + routeID + " | Day " + day.get(dayID) + " | Stop " + stopID + " | Name " + name);
+                    }
                     break;
                 } else if (grand instanceof TableColumn || grand instanceof Div){
                     grand = grand.getFirstChild();
@@ -196,20 +202,18 @@ public class ScheduleParser {
         }
     }
 
-    private List<Long> stop = null;
     /**
      * Parse the schedule time.
      * @param root Root containing the time information.
      */
 	private void parseTime(Node root){
-		Log.i(db.nhuTag, "Parsring time");
-		Log.i(db.nhuTag, root.getText());
+		Log.i(db.TAG, "Parsring route " + routeID + " time.");
+
     	int i = 0;
         double pm = 0.0;
         Node grand = null;
         for (Node child = root; child != null; child = child.getNextSibling()){
             grand = child.getFirstChild();
-            ArrayList<Double> t = new ArrayList<Double>();
             while (grand != null){
             	if (i >= stop.size())
             		i = 0;
@@ -219,19 +223,17 @@ public class ScheduleParser {
                     double x = 0.0;
                     String text = grand.getText();
                     try{
-                    	//Log.i(db.nhuTag, child.getText());
+                    	//Get schedule
                         x = Double.parseDouble(text);
-                        if (x < 12.0){ // If x is less than 12, add pm.
-                            x = x + pm;
+                        if (x < 24){
+	                        if (x < 12.0){ // If x is less than 12, add pm.
+	                            x = x + pm;
+	                        }
+	                        db.insertSchedule(stop.get(i++), (float)roundTwoDecimals(x));
                         }
-                        long timeID = db.insertTime(stop.get(i++), (float)roundTwoDecimals(x));
-                        Log.i(db.nhuTag, "Stop id " + stop.get(i-1) + " " + x);
-                        //Log.i(db.nhuTag, "Time " + x);
                     } catch (NumberFormatException e){
                         if (text.equals("-")){
-                        	//Log.i(db.nhuTag, child.getText());
-                        	db.insertTime(stop.get(i++), (float)0.0);
-                        	Log.i(db.nhuTag, "Time " + 0.0);
+                        	db.insertSchedule(stop.get(i++), (float)0.0);
                         } else if (text.equals("PM Service")){
                             pm = 12.0;
                         }
@@ -254,16 +256,6 @@ public class ScheduleParser {
         return Double.valueOf(twoDForm.format(d));
     }
 
-    @SuppressWarnings("unchecked")
-	private void printArrayList(List day2){
-        System.out.println("Printing List");
-        for (int i = 0; i < day2.size(); i++){
-            System.out.print(day2.get(i).toString() + "\t");
-        }
-        System.out.println();
-    }
-
     private List<Long> day = new ArrayList<Long>();
-    //private ArrayList<String> direction = new ArrayList<String>();
-    private boolean rail = false;
+    private List<Long> stop = null;
 }

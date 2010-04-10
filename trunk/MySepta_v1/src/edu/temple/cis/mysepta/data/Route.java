@@ -1,15 +1,15 @@
 package edu.temple.cis.mysepta.data;
 public class Route {
-	private int service_id;
-	private int route_id;
+	private long service_id;
+	private long route_id;
 	private String route;
 	private String name;
 	private String url;
 	private boolean isFavorite;
 		
-	public Route(int serviceId, int routeId, String route, String name,
+	public Route(long serviceID, long routeId, String route, String name,
 			String url) {
-		service_id = serviceId;
+		service_id = serviceID;
 		route_id = routeId;
 		this.route = route;
 		this.name = name;
@@ -28,13 +28,13 @@ public class Route {
 		this.isFavorite = isFavorite;
 	}
 
-	public int getService_id() {
+	public long getService_id() {
 		return service_id;
 	}
 	public void setService_id(int serviceId) {
 		service_id = serviceId;
 	}
-	public int getRoute_id() {
+	public long getRoute_id() {
 		return route_id;
 	}
 	public void setRoute_id(int routeId) {
