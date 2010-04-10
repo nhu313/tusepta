@@ -9,6 +9,7 @@ import android.util.Log;
 import edu.temple.cis.mysepta.myclass.DayOfService;
 import edu.temple.cis.mysepta.myclass.Route;
 import edu.temple.cis.mysepta.myclass.Service;
+import edu.temple.cis.mysepta.myclass.Stop;
 
 public class SeptaDB extends DBAdapter{
 	private static final String bus_s = "http://www.septa.org/schedules/bus/index.html";
@@ -48,6 +49,13 @@ public class SeptaDB extends DBAdapter{
 		return dbA;
 	}
 	
+	/**
+	 * Retrieve list of day of service from the database. If it doesn't 
+	 * exist in the database, retrieve it from the website.
+	 * @param r Route to retreive day of service information.
+	 * @return Array of day of service.
+	 * @throws ParserException If the creation of the underlying Lexer cannot be performed. 
+	 */
 	public DayOfService[] getDayOfService(Route r) throws ParserException{
 		DayOfService[] day = null;
 		Cursor c = super.getAllDayByRoute(r.getRoute_id());
@@ -65,13 +73,29 @@ public class SeptaDB extends DBAdapter{
 			day = getDayOfService(r);
 		}
 		c.close();
-		if (day == null){
-			Log.i(nhuTag, "Why are you null?");
-		}
 		return day;
 	}
 	
-	
+	/**
+	 * Retrieve stops given the day of service (with route ID).
+	 * @param day Day of service to search for.
+	 * @return Array of stops with the given day of service.
+	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
+	 */
+	public Stop[] getStop(DayOfService day) throws ParserException{
+		Stop[] stop = null;
+		Cursor c = super.getAllStopByDayId(day.getDayID());
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			stop = new Stop[size];
+			for (int i = 0; i < size; i++){
+				stop[i] = new Stop(c.getLong(0), c.getLong(1), c.getString(2), c.getInt(3));
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return stop;
+	}
 	
 	/**
 	 * Retrieve an array of the routes with the given service ID.

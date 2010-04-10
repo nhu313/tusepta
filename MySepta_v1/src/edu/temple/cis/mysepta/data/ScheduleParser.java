@@ -122,7 +122,7 @@ public class ScheduleParser {
             if (parent instanceof ParagraphTag){
             	//Get direction information.
                 child = parent.getFirstChild();
-                String name = child.getText().trim();
+                String name = child.getText().replace("&amp;", "&").trim();
                 long dayID = db.insertDayOfService(routeID, name);
                 day.add(dayID);
                 Log.i(db.TAG, routeID + " Direction: [" + dayID + "]" + name);
@@ -187,7 +187,7 @@ public class ScheduleParser {
                 if (grand instanceof ImageTag){
                 	//Get the stop name, which is in the alt attribute of the image.
                     ImageTag img = (ImageTag) grand;
-                    String name = img.getAttribute("alt");
+                    String name = img.getAttribute("alt").replace("&amp;", "&").trim();
                     if (!name.equalsIgnoreCase("Train Numbers")){
 	                    long stopID = db.insertStop(day.get(dayID), name);
 	                    stop.add(stopID);
