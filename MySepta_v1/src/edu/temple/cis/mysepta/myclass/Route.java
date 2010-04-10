@@ -1,4 +1,4 @@
-package edu.temple.cis.mysepta.data;
+package edu.temple.cis.mysepta.myclass;
 public class Route {
 	private long service_id;
 	private long route_id;

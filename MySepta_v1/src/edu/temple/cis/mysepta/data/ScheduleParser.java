@@ -33,14 +33,14 @@ public class ScheduleParser {
 	 * Retrieve all the schedule information of the route from the given URL.
      * @param url URL of the route to parse.
      * @param db Database to add schedule data.
-     * @param routeID ID of the route to be parse.
+     * @param id ID of the route to be parse.
      * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-    public void parseSchedule(String url, DBAdapter db, int routeID) throws ParserException{
+    public void parseSchedule(String url, DBAdapter db, long id) throws ParserException{
     	
-    	Log.i(db.TAG, "Parsing schedule of " + routeID + "(" + url + ")");
+    	Log.i(db.TAG, "Parsing schedule of " + id + "(" + url + ")");
         this.db = db;
-        this.routeID = routeID; 
+        this.routeID = id; 
         Parser parser = new Parser(url);
         NodeIterator itr = parser.elements();
         while (itr.hasMoreNodes()) {
@@ -72,17 +72,17 @@ public class ScheduleParser {
                 String divId = div.getAttribute("id");
                 String divClass = div.getAttribute("class");
                 if (divId != null){
-                     if (divId.equals("wrapper") || divId.equals("septa_main_content") || divId.equals("tab2")){
+                     if (divId.equalsIgnoreCase("wrapper") || divId.equalsIgnoreCase("septa_main_content") || divId.equalsIgnoreCase("tab2")){
                         processCompositeTag(child);
                         break;
-                     } else if (divId.equals("tabs")){
+                     } else if (divId.equalsIgnoreCase("tabs")){
                          getDirection(child);
                          processCompositeTag(child);
                      } else if (divId.indexOf("tabs-") >= 0){
                     	 //Get Schedule
                          getSchedule(child);
                      }
-                } else if (divClass != null && (divClass.equals("full_col") || divClass.equals("col_content"))){
+                } else if (divClass != null && (divClass.equalsIgnoreCase("full_col") || divClass.equalsIgnoreCase("col_content"))){
                     processCompositeTag(child);
                     break;
                 }
@@ -157,9 +157,10 @@ public class ScheduleParser {
                 if (child instanceof TableRow){
                     TableRow tr = (TableRow) child;
                     String align = tr.getAttribute("align");
-                    if (align != null && align.equals("middle")){
+                    if (align != null && (align.equalsIgnoreCase("middle") || align.equalsIgnoreCase("center"))){
                         //Parse stop
                     	parseStop(child, dayID++);
+                    	
                         if (dayID == daySize)
                         	dayID = 0;
                     } else {
@@ -187,7 +188,7 @@ public class ScheduleParser {
                 	//Get the stop name, which is in the alt attribute of the image.
                     ImageTag img = (ImageTag) grand;
                     String name = img.getAttribute("alt");
-                    if (!name.equals("Train Numbers")){
+                    if (!name.equalsIgnoreCase("Train Numbers")){
 	                    long stopID = db.insertStop(day.get(dayID), name);
 	                    stop.add(stopID);
 	                    Log.i(db.TAG, "Route " + routeID + " | Day " + day.get(dayID) + " | Stop " + stopID + " | Name " + name);
@@ -199,7 +200,7 @@ public class ScheduleParser {
                     grand = grand.getNextSibling();
                 }
             }
-        }
+        }   
     }
 
     /**
@@ -232,9 +233,9 @@ public class ScheduleParser {
 	                        db.insertSchedule(stop.get(i++), (float)roundTwoDecimals(x));
                         }
                     } catch (NumberFormatException e){
-                        if (text.equals("-")){
+                        if (text.equalsIgnoreCase("-")){
                         	db.insertSchedule(stop.get(i++), (float)0.0);
-                        } else if (text.equals("PM Service")){
+                        } else if (text.equalsIgnoreCase("PM Service")){
                             pm = 12.0;
                         }
                     }
@@ -244,6 +245,7 @@ public class ScheduleParser {
                 }
             }
         }
+		Log.i(db.TAG, "Finish parsring route " + routeID + " time.");	
     }
 
     /**

@@ -234,7 +234,7 @@ public class DBAdapter {
 	     * @param serviceID Service ID of the route to search for.
 	     * @return Cursor object which is positioned before the first entry.
 	     */
-	    public Cursor getAllRouteByService(long serviceID){
+	    protected Cursor getAllRouteByService(long serviceID){
 	    	return db.query(true, DATABASE_Route, new String[] {
 	                		KEY_RouteID, KEY_ServiceID, KEY_RouteShortName, KEY_RouteLongName,
 	                		KEY_URL }, KEY_ServiceID + "=" + serviceID, 
@@ -246,7 +246,7 @@ public class DBAdapter {
 	     * @param routeID Route ID of the service ID to search for.
 	     * @return The service ID of route ID.
 	     */
-	    public long getServiceIdWithRouteId(long routeID){
+	    protected long getServiceIdWithRouteId(long routeID){
 	    	long ret = 0;
 	    	Cursor c = db.query(true, DATABASE_Route, new String[] {KEY_ServiceID}, 
 	    			KEY_RouteID + "=" + routeID, null, null, null, null, null);
@@ -282,7 +282,7 @@ public class DBAdapter {
 	     * @param routeID Route ID to of the route to search for.
 	     * @return Cursor object which point to the position before the first entry.
 	     */
-	    public Cursor getRouteByRouteId(long routeID){
+	    protected Cursor getRouteByRouteId(long routeID){
 	    	return db.query(true, DATABASE_Route, new String[] {
             		KEY_RouteID, KEY_ServiceID, KEY_RouteShortName, KEY_RouteLongName,
             		KEY_URL}, KEY_RouteID + "=" + routeID, 
@@ -329,7 +329,7 @@ public class DBAdapter {
 	     * @param routeID ID of the route to get the day of service to search for.
 	     * @return Cursor object which is positioned before the first entry.
 	     */
-	    public Cursor getAllDayByRoute(long routeID){
+	    protected Cursor getAllDayByRoute(long routeID){
 	    	return db.query(DATABASE_DayOfService, new String[] {
 	    			KEY_DayOfServiceID, KEY_RouteID, KEY_DayOfService}, null, null, null, null, null, null);
 	    }
@@ -433,7 +433,7 @@ public class DBAdapter {
 		 * @param stopID ID of the stop.
 		 * @return Cursor pointing to the listing of all the service time that matches that particular stop ID. Cursor is placed before the first entry.
 		 */
-	    public Cursor getAllSchedules(long stopID) {
+	    protected Cursor getAllSchedules(long stopID) {
 	        return db.query(DATABASE_Schedule, new String[] {
 	        		KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID, 
 	        		null, null, null, null, null);

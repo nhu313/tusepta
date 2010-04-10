@@ -6,6 +6,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.util.Log;
+import edu.temple.cis.mysepta.myclass.DayOfService;
+import edu.temple.cis.mysepta.myclass.Route;
+import edu.temple.cis.mysepta.myclass.Service;
 
 public class SeptaDB extends DBAdapter{
 	private static final String bus_s = "http://www.septa.org/schedules/bus/index.html";
@@ -13,6 +16,7 @@ public class SeptaDB extends DBAdapter{
 	private static final String rail_s = "http://www.septa.org/schedules/rail/index.html";
 
 	private RouteParser rp = null;
+	private ScheduleParser sp = null;
 	private Route[] bus = null;
 	private Route[] trolley = null;
 	private Route[] rail = null;
@@ -44,6 +48,31 @@ public class SeptaDB extends DBAdapter{
 		return dbA;
 	}
 	
+	public DayOfService[] getDayOfService(Route r) throws ParserException{
+		DayOfService[] day = null;
+		Cursor c = super.getAllDayByRoute(r.getRoute_id());
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			day = new DayOfService[size];
+			for (int i = 0; i < size; i++){
+				day[i] = new DayOfService
+				(c.getLong(0), c.getLong(1), c.getString(2));
+				c.moveToNext();
+			}
+		} else {
+			if (sp == null){ sp = new ScheduleParser();}
+			sp.parseSchedule(r.getUrl(), this, r.getRoute_id());
+			day = getDayOfService(r);
+		}
+		c.close();
+		if (day == null){
+			Log.i(nhuTag, "Why are you null?");
+		}
+		return day;
+	}
+	
+	
+	
 	/**
 	 * Retrieve an array of the routes with the given service ID.
 	 * @param serviceID ID of the service to retrieve.
@@ -51,7 +80,8 @@ public class SeptaDB extends DBAdapter{
 	 * @throws MySeptaException If the database does not contain the given service ID.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-	public Route[] getRouteArray(long serviceID) throws MySeptaException, ParserException{
+	public Route[] getRoute(Service service) throws MySeptaException, ParserException{
+		long serviceID = service.getId();
 		Log.i(nhuTag, " Getting route array for " + serviceID);
 		Route[] route = null;
 		if (serviceID == rail_id){

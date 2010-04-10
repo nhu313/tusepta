@@ -1,17 +1,14 @@
 package edu.temple.cis.mysepta;
 //import java.util.List;
 
-import java.util.List;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-import edu.temple.cis.mysepta.data.SeptaDB2;
-import edu.temple.cis.mysepta.data.Service;
+import edu.temple.cis.mysepta.data.SeptaDB;
+import edu.temple.cis.mysepta.myclass.Service;
 
 public class MyListView extends ListActivity {
 
@@ -28,7 +25,7 @@ public class MyListView extends ListActivity {
       super.onCreate(savedInstanceState);
       ListView lv = new ListView(this);
       setContentView(lv);
-      SeptaDB2 db = new SeptaDB2(this);
+      SeptaDB db = new SeptaDB(this);
       try {
 			db.open();
 	        //ListView lv = (ListView)findViewById(R.id.serviceList);

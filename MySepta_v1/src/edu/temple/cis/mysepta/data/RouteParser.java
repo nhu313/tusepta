@@ -15,6 +15,8 @@ import org.htmlparser.tags.ParagraphTag;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.ParserException;
 
+import edu.temple.cis.mysepta.myclass.Route;
+
 import android.util.Log;
 
 public class RouteParser {
