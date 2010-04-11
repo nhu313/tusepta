@@ -1,9 +1,13 @@
 package edu.temple.cis.tusepta;
 
-import edu.temple.cis.tusepta.test.TestAct;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import edu.temple.cis.tusepta.favorite.FavoriteRoutesAct;
+import edu.temple.cis.tusepta.news.NewsAct;
 
 /**
  * 
@@ -18,7 +22,27 @@ public class TUSepta extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        Intent itTest = new Intent(this, TestAct.class);
-        startActivity(itTest);
+        Button btnNews = (Button) findViewById(R.id.SeptaNewsButton);
+        btnNews.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(v.getContext(), NewsAct.class);
+		        startActivity(intent);
+			}
+        	
+        });
+        
+        Button btnFavorite = (Button) findViewById(R.id.FavoriteRouteSettingButton);
+        btnFavorite.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(v.getContext(), FavoriteRoutesAct.class);
+		        startActivity(intent);
+			}
+        	
+        });
+        
     }
 }

@@ -24,6 +24,9 @@ import edu.temple.cis.tusepta.Utils;
 public class NewsAct extends ListActivity {
 
 	private static final String SEPTA = "SEPTA";
+	private static final String CAP_FAVORITE = "Favorite News";
+	private static final String CAP_ALL = "All News";
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -32,8 +35,9 @@ public class NewsAct extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news);
 		
-		Button ibFavorite = (Button) findViewById(R.id.FavoriteNews);
-		ibFavorite.setOnClickListener(new FavortieNewsButtonOnClick());
+		Button btnFavoriteAll = (Button) findViewById(R.id.FavoriteNews);
+		btnFavoriteAll.setText(CAP_ALL);
+		btnFavoriteAll.setOnClickListener(new FavortieNewsButtonOnClick());
 		
 		Button ibAll = (Button) findViewById(R.id.AllNews);
 		ibAll.setOnClickListener(new AllNewsButtonOnClick());
@@ -62,8 +66,13 @@ public class NewsAct extends ListActivity {
 	class FavortieNewsButtonOnClick implements View.OnClickListener {
 
 		@Override
-		public void onClick(View arg0) {
-			
+		public void onClick(View view) {
+			Button button = (Button)view;
+			if (button.getText().equals(CAP_ALL)) {
+				button.setText(CAP_FAVORITE);
+			} else {
+				button.setText(CAP_ALL);
+			}
 		}
 		
 	}
