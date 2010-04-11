@@ -26,7 +26,7 @@
 		android:layout_width="fill_parent" android:id="@+id/LayoutForBody">
 		<ListView xmlns:android="http://schemas.android.com/apk/res/android"
 			android:id="@id/android:list" android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
+			android:layout_height="fill_parent" android:background="@android:drawable/alert_dark_frame">
 		</ListView>
 	</LinearLayout>
 </LinearLayout>
