@@ -18,7 +18,7 @@ public class Routes extends ListActivity{
 	@Override  
     public void onCreate(Bundle savedInstanceState) 
     {
-		int position = 2;
+		int position = 0;
 		int serviceid = serviceids[position];
 		
         super.onCreate(savedInstanceState);  
@@ -29,25 +29,40 @@ public class Routes extends ListActivity{
 			db.open();
 			if(position == 0)
 			{	
-	         //Service[] service = db.getService();
+	           Service[] service = db.getService();
 				//Route[] route = db.getRoute(serviceid);
+	         setListAdapter(new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, service));
+	         
 			}
 			if (position == 3)
 			{
+				Service[] service = db.getService();
 				//Route[] route = db.getRoute(serviceid);
+				setListAdapter(new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, service));
 			}
 			if (position == 5)
 			{
+				Service[] service = db.getService();
 				//Route[] route = db.getRoute(serviceid);
+				setListAdapter(new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, service));
 			}
-	        setListAdapter(new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, service));
+	        
+			
 	        db.close();
 	        
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+		public void onListItemClick(ListView parent, View v, int position, long id) {
+			
+				Toast.makeText(this, "You have selected " + "service[position]",Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(this, wan.group.septa.NorthOrSouthBound.class);
+				startActivity(intent);
+				
+		}
       
-     }    
+        
 
 }

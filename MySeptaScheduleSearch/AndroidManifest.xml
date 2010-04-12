@@ -20,6 +20,7 @@
 <activity android:label="@string/app_name" android:name="NorthOrSouthBound"></activity>
 <activity android:label="@string/app_name" android:name="ListViewTest"></activity>
 <activity android:label="@string/app_name" android:name="Routes"></activity>
+<activity android:label="@string/app_name" android:name="SearchSchedule"></activity>
 </application>
 
 

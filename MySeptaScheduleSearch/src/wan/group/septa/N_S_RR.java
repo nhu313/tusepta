@@ -1,14 +1,14 @@
 package wan.group.septa;
 
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.app.ListActivity; 
-import android.content.Intent;
 
-public class NorthOrSouthBound extends ListActivity{
+public class N_S_RR extends ListActivity{
 	
 	String[] NorthSouth = {
 			"North Bound",
@@ -30,7 +30,7 @@ public class NorthOrSouthBound extends ListActivity{
         
         switch (position) {
 		case 0: {
-			Intent intent = new Intent(this, wan.group.septa.SearchSchedule.class);
+			Intent intent = new Intent(this, wan.group.septa.RRList.class);
 			startActivity(intent);
 			break;
 		}
@@ -41,4 +41,5 @@ public class NorthOrSouthBound extends ListActivity{
 		}
     }
   }
+
 }
