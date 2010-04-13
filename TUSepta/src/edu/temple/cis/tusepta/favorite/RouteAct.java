@@ -6,12 +6,12 @@ package edu.temple.cis.tusepta.favorite;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import edu.temple.cis.tusepta.R;
 
 /**
@@ -55,14 +55,24 @@ public class RouteAct extends ListActivity {
 
 		@Override
 		public void onClick(View v) {
+			boolean isAdded = false;
 			for (int i = holderList.size() - 1; i >= 0; i--) {
 				RouteListAdapter.Holder holder = (RouteListAdapter.Holder) holderList.get(i);
 				if (holder.checkBox != null && holder.checkBox.isChecked()) {
 					Route route = holder.route;
 					//TODO: add the route to favorite;
+					isAdded = true;
 				}
 			}
-			finish();
+			if (isAdded) {
+				Toast.makeText(v.getContext(), "Routes have been added to your favorite", 
+						Toast.LENGTH_LONG).show();
+				setResult(RESULT_OK);
+				finish();
+			} else {
+				Toast.makeText(v.getContext(), "Please select routes", 
+						Toast.LENGTH_LONG).show();
+			}
 		}
 		
 	}
@@ -71,6 +81,7 @@ public class RouteAct extends ListActivity {
 
 		@Override
 		public void onClick(View v) {
+			setResult(RESULT_CANCELED);
 			finish();
 		}
 		

@@ -39,6 +39,15 @@ public class FavoriteRoutesAct extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favoriteroutes);
 		
+		refreshData();
+		
+		Button btAdd = (Button) findViewById(R.id.AddFavoriteRoute);
+		btAdd.setOnClickListener(new AddButtonOnClick());
+		Button btDel = (Button) findViewById(R.id.DeleteFavoriteRoute);
+		btDel.setOnClickListener(new DelButtonOnClick());
+	}
+	
+	private void refreshData() {
 		RouteHelper routeHelper = new RouteHelper(this);
 		List<Route> routes = routeHelper.getFavoriteRoutesList();
 		
@@ -51,14 +60,9 @@ public class FavoriteRoutesAct extends Activity {
 		
 		this.routeAdapter = new RouteListAdapter(this, this.holderList);
 		ListView favoriteList = (ListView) findViewById(R.id.FavoriteList);
-		favoriteList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		favoriteList.setItemsCanFocus(false);
+		//favoriteList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		//favoriteList.setItemsCanFocus(false);
 		favoriteList.setAdapter(routeAdapter);
-		
-		Button btAdd = (Button) findViewById(R.id.AddFavoriteRoute);
-		btAdd.setOnClickListener(new AddButtonOnClick());
-		Button btDel = (Button) findViewById(R.id.DeleteFavoriteRoute);
-		btDel.setOnClickListener(new DelButtonOnClick());
 	}
 	
 	class AddButtonOnClick implements OnClickListener {
@@ -119,9 +123,9 @@ public class FavoriteRoutesAct extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 1) {
-			Toast.makeText(this, String.valueOf(resultCode), 
-					Toast.LENGTH_SHORT).show();
+		if (resultCode == RESULT_OK) {
+			refreshData();
+			this.routeAdapter.notifyDataSetChanged();
 		}
 	}
 
