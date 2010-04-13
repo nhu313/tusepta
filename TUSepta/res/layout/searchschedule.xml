@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/widget0"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android" android:background="#5E5A80">
+<TextView
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:text="Septa Schedule Search"
+/>
+<TextView
+android:id="@+id/widget1"
+android:layout_width="wrap_content"
+android:layout_height="17px"
+android:text="Specific Time"
+android:layout_x="20px"
+android:layout_y="149px"
+>
+</TextView>
+<EditText
+android:id="@+id/txttime"
+android:layout_width="wrap_content"
+android:layout_height="39px"
+android:text="00:00:00"
+android:textSize="18sp"
+android:layout_x="135px"
+android:layout_y="138px"
+>
+</EditText>
+<TextView
+android:id="@+id/widget2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Searched Result"
+android:layout_x="20px"
+android:layout_y="230px"
+>
+</TextView>
+<EditText
+android:id="@+id/txtresult"
+android:layout_width="290px"
+android:layout_height="90px"
+android:text="resulted time"
+android:textSize="18sp"
+android:layout_x="20px"
+android:layout_y="250px"
+>
+</EditText>
+<TextView
+android:id="@+id/widget3"
+android:layout_width="99px"
+android:layout_height="17px"
+android:text="Please select"
+android:layout_x="20px"
+android:layout_y="22px"
+>
+</TextView>
+<TextView
+android:id="@+id/widget4"
+android:layout_width="99px"
+android:layout_height="17px"
+android:text="Day of Service"
+android:layout_x="20px"
+android:layout_y="42px"
+>
+</TextView>
+<Button
+android:id="@+id/btnsearch2"
+android:layout_width="80px"
+android:layout_height="wrap_content"
+android:text="Search2"
+android:layout_x="230px"
+android:layout_y="132px"
+>
+</Button>
+<Button
+android:id="@+id/btnreset"
+android:layout_width="80px"
+android:layout_height="wrap_content"
+android:text="Reset"
+android:layout_x="135px"
+android:layout_y="180px"
+>
+</Button>
+<Button
+android:id="@+id/btnsearch1"
+android:layout_width="80px"
+android:layout_height="wrap_content"
+android:text="Search1"
+android:layout_x="135px"
+android:layout_y="82px"
+>
+</Button>
+<TextView
+android:id="@+id/widget28"
+android:layout_width="wrap_content"
+android:layout_height="17px"
+android:text="Current Time"
+android:layout_x="20px"
+android:layout_y="92px"
+>
+</TextView>
+<Spinner android:id="@+id/Spinner01"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Weekday"
+android:textSize="18sp"
+android:layout_x="135px"
+android:layout_y="22px"
+ />
+</AbsoluteLayout>
