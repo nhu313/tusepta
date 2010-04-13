@@ -7,7 +7,7 @@ import java.sql.Time;
 import java.util.Date;
 
 /**
- * @author Yu Liang
+ * @author Yu Liang 
  *
  */
 public class News {
