@@ -6,14 +6,11 @@ package edu.temple.cis.tusepta.service;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import edu.temple.cis.tusepta.R;
 import edu.temple.cis.tusepta.Utils;
 
@@ -60,9 +57,9 @@ public class ServiceAct extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		Toast.makeText(this, String.valueOf(resultCode), 
-				Toast.LENGTH_SHORT).show();
-		finish();
+		if (resultCode == RESULT_OK) {
+			finish();
+		}
 	}
 	
 }

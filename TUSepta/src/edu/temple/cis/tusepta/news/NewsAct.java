@@ -35,12 +35,12 @@ public class NewsAct extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news);
 		
-		Button btnFavoriteAll = (Button) findViewById(R.id.FavoriteNews);
+		Button btnFavoriteAll = (Button) findViewById(R.id.NewsFavoriteButton);
 		btnFavoriteAll.setText(CAP_ALL);
-		btnFavoriteAll.setOnClickListener(new FavortieNewsButtonOnClick());
+		btnFavoriteAll.setOnClickListener(new NewsFavortieButtonOnClick());
 		
-		Button ibAll = (Button) findViewById(R.id.AllNews);
-		ibAll.setOnClickListener(new AllNewsButtonOnClick());
+		Button btnReturn = (Button) findViewById(R.id.NewsReturnButton);
+		btnReturn.setOnClickListener(new NewsReturnButtonOnClick());
 		
 		try {
 			Twitter twitter = new TwitterFactory().getInstance("tusepta", "tusepta2010");
@@ -63,7 +63,7 @@ public class NewsAct extends ListActivity {
 		}
 	}
 
-	class FavortieNewsButtonOnClick implements View.OnClickListener {
+	class NewsFavortieButtonOnClick implements View.OnClickListener {
 
 		@Override
 		public void onClick(View view) {
@@ -77,11 +77,11 @@ public class NewsAct extends ListActivity {
 		
 	}
 	
-	class AllNewsButtonOnClick implements View.OnClickListener {
+	class NewsReturnButtonOnClick implements View.OnClickListener {
 
 		@Override
 		public void onClick(View arg0) {
-			
+			finish();
 		}
 		
 	}
