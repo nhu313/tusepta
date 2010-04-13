@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.favorite;
+package edu.temple.cis.mysepta.favorite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-import edu.temple.cis.tusepta.R;
+import edu.temple.cis.mysepta.R;
 
 /**
  * @author Yu Liang

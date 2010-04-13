@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.favorite;
+package edu.temple.cis.mysepta.favorite;
 
 /**
  * @author Yu Liang

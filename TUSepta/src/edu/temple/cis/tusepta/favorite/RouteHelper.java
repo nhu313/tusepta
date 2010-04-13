@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.favorite;
+package edu.temple.cis.mysepta.favorite;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import android.content.Context;
-import edu.temple.cis.tusepta.R;
+import edu.temple.cis.mysepta.R;
 
 /**
  * @author Yu Liang
