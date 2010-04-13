@@ -11,7 +11,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * @author Yu Liang 
+ * @author Yu Liang
  *
  */
 public class FavoriteRouteHelper {
