@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.news;
+package edu.temple.cis.mysepta.news;
 
 import java.sql.Time;
 import java.util.Date;

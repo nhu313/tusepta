@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.news;
+package edu.temple.cis.mysepta.news;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import edu.temple.cis.tusepta.R;
-import edu.temple.cis.tusepta.Utils;
+import edu.temple.cis.mysepta.R;
+import edu.temple.cis.mysepta.Utils;
 
 /**
  * @author Yu Liang
