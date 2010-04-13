@@ -4,7 +4,7 @@
 package edu.temple.cis.mysepta.service;
 
 /**
- * @author Yu Liang
+ * @author Yu Liang 
  *
  */
 public class Service {
