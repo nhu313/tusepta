@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.service;
+package edu.temple.cis.mysepta.service;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import edu.temple.cis.tusepta.favorite.RouteAct;
+import edu.temple.cis.mysepta.favorite.RouteAct;
 
 /**
  * @author Yu Liang

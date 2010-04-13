@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.service;
+package edu.temple.cis.mysepta.service;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import edu.temple.cis.tusepta.R;
-import edu.temple.cis.tusepta.Utils;
+import edu.temple.cis.mysepta.R;
+import edu.temple.cis.mysepta.Utils;
 
 /**
  * @author Yu Liang

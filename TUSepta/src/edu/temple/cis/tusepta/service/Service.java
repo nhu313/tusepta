@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.service;
+package edu.temple.cis.mysepta.service;
 
 /**
  * @author Yu Liang
