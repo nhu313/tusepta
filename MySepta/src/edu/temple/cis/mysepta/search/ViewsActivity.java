@@ -9,7 +9,7 @@ public class ViewsActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.searchmain);
         Intent intent = new Intent(this, edu.temple.cis.mysepta.search.ListView.class);
         		startActivity(intent);
 	}
