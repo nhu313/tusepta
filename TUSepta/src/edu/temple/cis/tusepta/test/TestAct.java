@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.temple.cis.tusepta.test;
+package edu.temple.cis.mysepta.test;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import edu.temple.cis.tusepta.R;
-import edu.temple.cis.tusepta.favorite.FavoriteRoutesAct;
-import edu.temple.cis.tusepta.news.NewsAct;
+import edu.temple.cis.mysepta.R;
+import edu.temple.cis.mysepta.favorite.FavoriteRoutesAct;
+import edu.temple.cis.mysepta.news.NewsAct;
 
 /**
- * @author Yu Liang
+ * @author Yu Liang 
  *
  */
 public class TestAct extends Activity {
