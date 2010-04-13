@@ -1,7 +1,0 @@
-1,RR,Regional Rail,#477997
-2,MFL,Market-Frankford Line,#107DC1
-3,BSL,Broad Street Line,#F58220
-4,Trolley,Trolley Lines,#539442
-5,NHS,Norristown High Speed Line,#9E3E97
-6,Buses,Buses,#41525C
-7,CCT,CCT Connect,#0055A5
