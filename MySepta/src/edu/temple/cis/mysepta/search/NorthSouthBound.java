@@ -1,12 +1,13 @@
 package edu.temple.cis.mysepta.search;
 
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.app.ListActivity; 
-import android.content.Intent;
+import edu.temple.cis.mysepta.R;
 
 public class NorthSouthBound extends ListActivity{
 	
@@ -30,12 +31,12 @@ public class NorthSouthBound extends ListActivity{
         
         switch (position) {
 		case 0: {
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.Stops.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.Stops.class);
 			startActivity(intent);
 			break;
 		}
 		case 1: {
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.Stops.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.Stops.class);
 			startActivity(intent);
 			break;
 		}

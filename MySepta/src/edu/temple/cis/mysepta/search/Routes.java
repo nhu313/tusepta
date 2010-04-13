@@ -1,16 +1,16 @@
 package edu.temple.cis.mysepta.search;
 
 import android.app.ListActivity;
-import edu.temple.cis.mysepta.data.DBAdapter;
-import edu.temple.cis.mysepta.data.SeptaDB;
-import edu.temple.cis.mysepta.service.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
+import edu.temple.cis.mysepta.R;
+import edu.temple.cis.mysepta.data.SeptaDB;
+import edu.temple.cis.mysepta.myclass.Route;
+import edu.temple.cis.mysepta.myclass.Service;
 
 public class Routes extends ListActivity{
 	

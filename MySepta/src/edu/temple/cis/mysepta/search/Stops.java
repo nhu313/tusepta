@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import edu.temple.cis.mysepta.R;
 
 public class Stops extends ListActivity{
 	
@@ -55,72 +56,72 @@ public class Stops extends ListActivity{
         
         switch (position) {
 		case 0: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 1: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 2: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 3: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 4: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 5: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 		    startActivity(intent);
 			break;
 		}
 		case 6: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 7: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 8: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 9: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 		    startActivity(intent);
 			break;
 		}
 		case 10: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 11: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 12: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 			startActivity(intent);
 			break;
 		}
 		case 13: {//
-			Intent intent = new Intent(this, edu.temple.cis.tusepta.search.SearchSchedule.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.SearchSchedule.class);
 		    startActivity(intent);
 			break;
 		}
