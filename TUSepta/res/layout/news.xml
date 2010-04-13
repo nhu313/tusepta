@@ -14,12 +14,12 @@
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:orientation="horizontal" android:layout_gravity="center"
 		android:gravity="center">
-		<Button android:id="@+id/FavoriteNews" android:layout_height="wrap_content"
+		<Button android:id="@+id/NewsFavoriteButton" android:layout_height="wrap_content"
 			android:width="150px" android:text="Favorite News"
 			android:layout_width="wrap_content" android:layout_marginTop="0px"
 			android:drawableLeft="@drawable/donate"></Button>
-		<Button android:id="@+id/AllNews" android:layout_height="wrap_content"
-			android:width="150px" android:text="All News" android:layout_width="wrap_content"
+		<Button android:id="@+id/NewsReturnButton" android:layout_height="wrap_content"
+			android:width="150px" android:text="Return" android:layout_width="wrap_content"
 			android:layout_marginTop="0px" android:drawableLeft="@drawable/homepage"></Button>
 	</LinearLayout>
 	<LinearLayout android:layout_height="fill_parent"
