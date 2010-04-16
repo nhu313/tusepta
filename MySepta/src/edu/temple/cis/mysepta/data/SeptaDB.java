@@ -1,6 +1,7 @@
 package edu.temple.cis.mysepta.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.htmlparser.util.ParserException;
@@ -60,8 +61,7 @@ public class SeptaDB extends DBAdapter{
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed. 
 	 */
 	public List<DayOfService> getDayOfServiceList(Route r) throws ParserException{
-		List<DayOfService> result = new ArrayList();
-		return result;
+		return Arrays.asList(getDayOfService(r));
 	}
 	
 	/**
@@ -120,8 +120,7 @@ public class SeptaDB extends DBAdapter{
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
 	public List<Route> getRouteList(Service service) throws MySeptaException, ParserException{
-		List<Route> result = new ArrayList<Route>();
-		return result;
+		return Arrays.asList(getRoute(service));
 	}
 	
 	/**
