@@ -1,6 +1,10 @@
 package edu.temple.cis.mysepta.myclass;
 
-public class DayOfService {
+import java.io.Serializable;
+
+public class DayOfService implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private long dayID;
 	private long routeID;
 	private String day;

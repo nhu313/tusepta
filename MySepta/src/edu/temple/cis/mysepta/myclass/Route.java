@@ -1,5 +1,10 @@
 package edu.temple.cis.mysepta.myclass;
-public class Route {
+
+import java.io.Serializable;
+
+public class Route implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private long service_id;
 	private long route_id;
 	private String route;
@@ -57,6 +62,6 @@ public class Route {
 	}
 	
 	public String toString(){
-		return route + " " + name;
+		return name;
 	}
 }
