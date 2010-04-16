@@ -1,5 +1,8 @@
 package edu.temple.cis.mysepta.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.htmlparser.util.ParserException;
 
 import android.content.Context;
@@ -53,6 +56,18 @@ public class SeptaDB extends DBAdapter{
 	 * Retrieve list of day of service from the database. If it doesn't 
 	 * exist in the database, retrieve it from the website.
 	 * @param r Route to retreive day of service information.
+	 * @return List of day of service.
+	 * @throws ParserException If the creation of the underlying Lexer cannot be performed. 
+	 */
+	public List<DayOfService> getDayOfServiceList(Route r) throws ParserException{
+		List<DayOfService> result = new ArrayList();
+		return result;
+	}
+	
+	/**
+	 * Retrieve list of day of service from the database. If it doesn't 
+	 * exist in the database, retrieve it from the website.
+	 * @param r Route to retreive day of service information.
 	 * @return Array of day of service.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed. 
 	 */
@@ -95,6 +110,18 @@ public class SeptaDB extends DBAdapter{
 		}
 		c.close();
 		return stop;
+	}
+	
+	/**
+	 * Retrieve a list of the routes with the given service ID.
+	 * @param serviceID ID of the service to retrieve.
+	 * @return List of route with the given service ID.
+	 * @throws MySeptaException If the database does not contain the given service ID.
+	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
+	 */
+	public List<Route> getRouteList(Service service) throws MySeptaException, ParserException{
+		List<Route> result = new ArrayList<Route>();
+		return result;
 	}
 	
 	/**
