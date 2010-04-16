@@ -108,6 +108,10 @@ public class DBAdapter {
 	        return this;
 	    }
     
+	    public void upgrade(){
+	    	DBHelper.onUpgrade(db, 1, 2);
+	    }
+	    
 	    public void close(){
 	        DBHelper.close();
 	    }
@@ -330,8 +334,10 @@ public class DBAdapter {
 	     * @return Cursor object which is positioned before the first entry.
 	     */
 	    protected Cursor getAllDayByRoute(long routeID){
+	    	
 	    	return db.query(DATABASE_DayOfService, new String[] {
-	    			KEY_DayOfServiceID, KEY_RouteID, KEY_DayOfService}, null, null, null, null, null, null);
+	    			KEY_DayOfServiceID, KEY_RouteID, KEY_DayOfService}, 
+	    			KEY_RouteID + " = " +routeID, null, null, null, null, null);
 	    }
 	    
 	    //-------------------------------------------------STOP---------------------------------------------//	    
@@ -378,7 +384,7 @@ public class DBAdapter {
 	        		KEY_StopNameID, KEY_DayOfServiceID, KEY_StopName, KEY_IsFavorite}, 
 	                KEY_DayOfServiceID + " = " + dayID, null, null, null, null);
 	    }
-
+	    
 	    /**
 	     * Update stop favorite properties.
 	     * @param stopID ID of the stop to update.
@@ -435,8 +441,15 @@ public class DBAdapter {
 		 */
 	    protected Cursor getAllSchedules(long stopID) {
 	        return db.query(DATABASE_Schedule, new String[] {
-	        		KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID, 
+	        		KEY_ScheduleID, KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID, 
 	        		null, null, null, null, null);
+	    }
+
+	    protected Cursor getScheduleWithTime(long stopID, double t){
+	        return db.query(DATABASE_Schedule, new String[] {
+	        		KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID 
+	        		+ " AND " + KEY_Schedule + " >= " + t, 
+	        		null, null, null, null, null); 
 	    }
 	    
 	    public static final int FAV_TRUE = 1;
