@@ -9,18 +9,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
+import edu.temple.cis.mysepta.myclass.DayOfService;
 import edu.temple.cis.mysepta.myclass.Route;
 import edu.temple.cis.mysepta.myclass.Service;
 
-
-public class Routes extends ListActivity{
+public class DayOfServiceList extends ListActivity{
 	
 private int[] serviceids = {1,2,3,4,5,6};
-
+private int[] routeids = {1,2,3,4,5,6};
 	
 	public Service[] service = null;
 	public Route[] route = null;
-	
+	public DayOfService[] dayofservice = null;
 	@Override  
     public void onCreate(Bundle savedInstanceState) 
     {
@@ -35,8 +35,8 @@ private int[] serviceids = {1,2,3,4,5,6};
 			db.open();
 			if(position == 0)
 			{	
-	         Route[] route = db.getRoute(service[serviceid]);
-	         setListAdapter(new ArrayAdapter<Route>(this, android.R.layout.simple_list_item_1, route));
+	           Route[] route = db.getRoute(service[serviceid]);
+	           setListAdapter(new ArrayAdapter<Route>(this, android.R.layout.simple_list_item_1, route));
 	         
 			}
 			if (position == 3)
@@ -46,7 +46,6 @@ private int[] serviceids = {1,2,3,4,5,6};
 			}
 			if (position == 5)
 			{
-				//Service[] service = db.getService();
 				Route[] route = db.getRoute(service[serviceid]);
 				setListAdapter(new ArrayAdapter<Route>(this, android.R.layout.simple_list_item_1, route));
 			}
@@ -62,7 +61,7 @@ private int[] serviceids = {1,2,3,4,5,6};
 		public void onListItemClick(ListView parent, View v, int position, long id) {
 			
 				Toast.makeText(this, "You have selected " + "route",Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(this, edu.temple.cis.mysepta.search.DayOfServiceList.class);
+				Intent intent = new Intent(this, edu.temple.cis.mysepta.search.NorthSouthBound.class);
 				startActivity(intent);
 				
 		}
