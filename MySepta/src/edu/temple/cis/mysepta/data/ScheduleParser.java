@@ -79,6 +79,7 @@ public class ScheduleParser {
                          getDirection(child);
                          processCompositeTag(child);
                      } else if (divId.indexOf("tabs-") >= 0){
+                    	 
                     	 //Get Schedule
                          getSchedule(child);
                      }
@@ -134,6 +135,7 @@ public class ScheduleParser {
         }
     }
 
+    private static int s_dayID = 0;
     /**
      * Find the root that holds the stop and time information and call the appropriate function to parse each.
      * @param root Root node of the schedule listing.
@@ -149,8 +151,7 @@ public class ScheduleParser {
             }
         }
 
-        int dayID = 0;
-        int daySize = day.size();
+        Log.i(db.nhuTag, "Number of days " + day.size());
         //Find the row containing the stop and time, call the appropriate method.
         if (child instanceof TableRow){
             for (; child != null; child = child.getNextSibling()){
@@ -158,11 +159,12 @@ public class ScheduleParser {
                     TableRow tr = (TableRow) child;
                     String align = tr.getAttribute("align");
                     if (align != null && (align.equalsIgnoreCase("middle") || align.equalsIgnoreCase("center"))){
-                        //Parse stop
-                    	parseStop(child, dayID++);
-                    	
-                        if (dayID == daySize)
-                        	dayID = 0;
+                        Log.i(db.nhuTag, "Getting stop for day " + s_dayID + " " + day.get(s_dayID));
+                    	//Parse stop
+                    	parseStop(child);
+                    	s_dayID++;
+                        if (s_dayID == day.size())
+                        	s_dayID = 0;
                     } else {
                     	//Parse time
                     	parseTime(child);
@@ -178,7 +180,7 @@ public class ScheduleParser {
      * it to the stop ArrayList.
      * @param root Root node with stop listing.
      */
-    private void parseStop(Node root, int dayID){
+    private void parseStop(Node root){
     	Log.i(db.TAG, "Parsing route " + routeID + " stops.");
     	stop = new ArrayList<Long>();
         for (Node child = root.getFirstChild(); child != null; child = child.getNextSibling()){
@@ -189,9 +191,9 @@ public class ScheduleParser {
                     ImageTag img = (ImageTag) grand;
                     String name = img.getAttribute("alt").replace("&amp;", "&").trim();
                     if (!name.equalsIgnoreCase("Train Numbers")){
-	                    long stopID = db.insertStop(day.get(dayID), name);
+	                    long stopID = db.insertStop(day.get(s_dayID), name);
 	                    stop.add(stopID);
-	                    Log.i(db.TAG, "Route " + routeID + " | Day " + day.get(dayID) + " | Stop " + stopID + " | Name " + name);
+	                    Log.i(db.TAG, "Route " + routeID + " | Day " + day.get(s_dayID) + " | Stop " + stopID + " | Name " + name);
                     }
                     break;
                 } else if (grand instanceof TableColumn || grand instanceof Div){
@@ -230,7 +232,7 @@ public class ScheduleParser {
 	                        if (x < 12.0){ // If x is less than 12, add pm.
 	                            x = x + pm;
 	                        }
-	                        db.insertSchedule(stop.get(i++), (float)roundTwoDecimals(x));
+	                        db.insertSchedule(stop.get(i++), (float)x);
                         }
                     } catch (NumberFormatException e){
                         if (text.equalsIgnoreCase("-")){
@@ -246,16 +248,6 @@ public class ScheduleParser {
             }
         }
 		Log.i(db.TAG, "Finish parsring route " + routeID + " time.");	
-    }
-
-    /**
-     * Round the double to display two significant number after the decimal.
-     * @param d Double to round off.
-     * @return Double with rounded to two places.
-     */
-    private double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("00.00");
-        return Double.valueOf(twoDForm.format(d));
     }
 
     private List<Long> day = new ArrayList<Long>();
