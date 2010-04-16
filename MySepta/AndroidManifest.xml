@@ -19,6 +19,7 @@
 			android:screenOrientation="portrait"></activity>
 		<activity android:name="FavSchedule"></activity>
 		<activity android:screenOrientation="portrait" android:name=".test.TestAct"></activity>
+		<activity android:name=".favorite.DateOfServiceAct"></activity>
 	</application>
 	<uses-sdk android:minSdkVersion="7" />
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
