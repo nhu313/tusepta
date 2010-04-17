@@ -1,5 +1,8 @@
 package edu.temple.cis.mysepta.search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +19,10 @@ import edu.temple.cis.mysepta.myclass.Service;
 public class DayOfServiceList extends ListActivity{
 	
 private int[] serviceids = {1,2,3,4,5,6};
+List<String> myList = new ArrayList<String>();
 private int[] routeids = {1,2,3,4,5,6};
-	
+
+	//public int i = 0;
 	public Service[] service = null;
 	public Route[] route = null;
 	public DayOfService[] dayofservice = null;
@@ -31,6 +36,13 @@ private int[] routeids = {1,2,3,4,5,6};
         setContentView(R.layout.listview);
         SeptaDB db = new SeptaDB(this);
                 
+       // while (true) {
+        	
+      //  }
+        
+    //   String value = (String) myList.get(i);
+        
+        
         try {
 			db.open();
 			if(position == 0)
@@ -61,7 +73,7 @@ private int[] routeids = {1,2,3,4,5,6};
 		public void onListItemClick(ListView parent, View v, int position, long id) {
 			
 				Toast.makeText(this, "You have selected " + "route",Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(this, edu.temple.cis.mysepta.search.NorthSouthBound.class);
+				Intent intent = new Intent(this, edu.temple.cis.mysepta.search.ListViewService.class);
 				startActivity(intent);
 				
 		}
