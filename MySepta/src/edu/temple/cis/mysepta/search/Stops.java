@@ -8,40 +8,40 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import edu.temple.cis.mysepta.R;
+import edu.temple.cis.mysepta.data.SeptaDB;
+//import edu.temple.cis.mysepta.myclass.DayOfService;
+import edu.temple.cis.mysepta.myclass.Stop;
 
 public class Stops extends ListActivity{
 	
-	String[] MFLStops = {
-			"Frankford Transportation Center", 
-			"Margaret-Orthodox (4700 North)", 
-			"Church (4300 North)", 
-			"Erie-Torresdale (3900 North)", 
-			"Tioga (3500 North)", 
-			"Allegheny (3200 North)", 
-			"Somerset (2700 North)", 
-			"Huntingdon (2600 North)", 
-			"York-Dauphin (2300 North)", 
-			"Berks (1900 North)", 
-			"Girard (1200 North)", 
-			"Spring Garden (1500 North)", 
-			"2nd and Market Sts", 
-			"5th and Market Sts", 
-			"8th and Market Sts", 
-			"11th and Market Sts", 
-			"13th and Market Sts", 
-			"15th and Market Sts", 
-			"30th and Market Sts", 
-			"34th and Market Sts", 
-			"40th and Market Sts", 
-			"46th and Market Sts", 
-			"52nd and Market Sts", 
-			"56th and Market Sts", 
-			"60th and Market Sts Closed for Construction", 
-			"63rd and Market Sts", 
-			"Millborune 69th Street", 
-			"69th Street Terminal" 
+public Stop[] stop = null;
+	
+	@Override  
+    public void onCreate(Bundle savedInstanceState) 
+    {
+        super.onCreate(savedInstanceState);  
+        setContentView(R.layout.mylistview);
+        SeptaDB db = new SeptaDB(this);
+               
+        try {
+			db.open();
+			   Stop[] stop = db.getStopT10();
+	           setListAdapter(new ArrayAdapter<Stop>(this, android.R.layout.simple_list_item_1, stop));
+	        db.close();
+	        
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+		public void onListItemClick(ListView parent, View v, int position, long id) {
 			
-    };
+				Toast.makeText(this, "You have selected " + "dayofservice",Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(this, edu.temple.cis.mysepta.search.Schedules.class);
+				startActivity(intent);
+				
+		}
+
 	
 
 }

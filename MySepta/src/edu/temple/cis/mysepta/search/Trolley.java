@@ -24,8 +24,7 @@ public class Trolley extends ListActivity{
 	        SeptaDB db = new SeptaDB(this);
 	        try {
 				db.open();
-				
-					
+						
 		         Route[] route = db.getTrolley();
 		         setListAdapter(new ArrayAdapter<Route>(this, android.R.layout.simple_list_item_1, route));
 		         
@@ -40,7 +39,7 @@ public class Trolley extends ListActivity{
 		public void onListItemClick(ListView parent, View v, int position, long id) {
 			
 			Toast.makeText(this, "You have selected " + "route",Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.ListViewService.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.DayOfServiceList.class);
 			startActivity(intent);
 			
 	   }

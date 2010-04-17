@@ -25,11 +25,8 @@ public class Bus extends ListActivity{
 	        SeptaDB db = new SeptaDB(this);
 	        try {
 				db.open();
-				
-					
-		         Route[] route = db.getBus();
+				 Route[] route = db.getBus();
 		         setListAdapter(new ArrayAdapter<Route>(this, android.R.layout.simple_list_item_1, route));
-		         
 		         db.close();
 			        
 			} catch (Exception e) {

@@ -9,13 +9,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
-import edu.temple.cis.mysepta.myclass.DayOfService;
-//import edu.temple.cis.mysepta.myclass.Route;
-//import edu.temple.cis.mysepta.myclass.Service;
+//import edu.temple.cis.mysepta.myclass.DayOfService;
+import edu.temple.cis.mysepta.myclass.Schedule;
+//import edu.temple.cis.mysepta.myclass.Stop;
 
-public class DayOfServiceList extends ListActivity{
-		
-	public DayOfService[] dayofservice = null;
+public class Schedules extends ListActivity{
+	
+public Schedule[] schedule = null;
 	
 	@Override  
     public void onCreate(Bundle savedInstanceState) 
@@ -26,8 +26,8 @@ public class DayOfServiceList extends ListActivity{
                
         try {
 			db.open();
-			   DayOfService[] dayofservice = db.getDayOfServiceT10();
-	           setListAdapter(new ArrayAdapter<DayOfService>(this, android.R.layout.simple_list_item_1, dayofservice));
+			   Schedule[] schedule = db.getScheduleT10();
+	           setListAdapter(new ArrayAdapter<Schedule>(this, android.R.layout.simple_list_item_1, schedule));
 	        db.close();
 	        
 		} catch (Exception e) {
@@ -38,9 +38,10 @@ public class DayOfServiceList extends ListActivity{
 		public void onListItemClick(ListView parent, View v, int position, long id) {
 			
 				Toast.makeText(this, "You have selected " + "dayofservice",Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(this, edu.temple.cis.mysepta.search.Stops.class);
+				Intent intent = new Intent(this, edu.temple.cis.mysepta.search.ListViewService.class);
 				startActivity(intent);
 				
 		}
+
 
 }
