@@ -445,12 +445,29 @@ public class DBAdapter {
 	        		null, null, null, null, null);
 	    }
 
+	    protected Cursor getSchedulesT10(long stopID){
+	    	float t1 = 10;
+	    	float t2 = 11;
+	    	return db.query(DATABASE_Schedule, new String[] {
+	        		KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID + "AND" 
+	        		+ KEY_Schedule + ">" + t1 + "AND" + KEY_Schedule + "<" + t2, 
+	        		null, null, null, null, null);
+	    }
+	    
+	    protected Cursor getTimeSchedules(long stopID, float time1, float time2) {
+	    	String q = "SELECT schedule FROM Schedule WHERE schedule >" + time1 
+	    	+ "and schedule <" + time2 + "and stopID=" + stopID + ";"; 
+	        return db.rawQuery(q, null);
+	    }
+
+
 	    protected Cursor getScheduleWithTime(long stopID, double t){
 	        return db.query(DATABASE_Schedule, new String[] {
 	        		KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID 
 	        		+ " AND " + KEY_Schedule + " >= " + t, 
 	        		null, null, null, null, null); 
 	    }
+
 	    
 	    public static final int FAV_TRUE = 1;
 	    public static final int FAV_FALSE = 0;
