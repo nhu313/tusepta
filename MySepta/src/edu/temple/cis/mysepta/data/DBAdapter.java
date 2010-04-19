@@ -384,7 +384,18 @@ public class DBAdapter {
 	        		KEY_StopNameID, KEY_DayOfServiceID, KEY_StopName, KEY_IsFavorite}, 
 	                KEY_DayOfServiceID + " = " + dayID, null, null, null, null);
 	    }
-	    
+
+	    /**
+	     * Retrieve all favorite stop.
+	     * @param dayID ID of the day of service.
+	     * @return Cursor object which is positioned before the first entry.
+	     */
+	    protected Cursor getFavoriteStop() {
+	        return db.query(DATABASE_Stop, new String[] {
+	        		KEY_StopNameID, KEY_DayOfServiceID, KEY_StopName, KEY_IsFavorite}, 
+	        		KEY_IsFavorite + " = " + FAV_TRUE, null, null, null, null);
+	    }
+
 	    /**
 	     * Update stop favorite properties.
 	     * @param stopID ID of the stop to update.
