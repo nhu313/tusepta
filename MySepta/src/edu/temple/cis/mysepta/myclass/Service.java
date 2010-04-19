@@ -3,17 +3,24 @@
  */
 package edu.temple.cis.mysepta.myclass;
 
+import java.io.Serializable;
+
 /**
  * @author Yu Liang
  *
  */
-public class Service {
+public class Service implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String shortName;
 	private String longName;
 	private String color;
 	
+	public Service() {
+		
+	}
+			
 	public Service(long id, String shortName, String longName, String color) {
 		this.id = id;
 		this.shortName = shortName;

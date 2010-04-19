@@ -3,17 +3,24 @@
  */
 package edu.temple.cis.mysepta.favorite;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
+import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.Route;
+import edu.temple.cis.mysepta.myclass.Service;
 
 /**
  * @author Yu Liang
@@ -21,7 +28,7 @@ import edu.temple.cis.mysepta.myclass.Route;
  */
 public class RouteAct extends ListActivity {
 
-	List<RouteListAdapter.Holder> holderList;
+	List<Route> routeList;
 
 	/*
 	 * (non-Javadoc)
@@ -34,18 +41,17 @@ public class RouteAct extends ListActivity {
 		setContentView(R.layout.routes);
 
 		Bundle bundle = getIntent().getExtras();
-		int serviceID = bundle.getInt("SERVICEID");
-		RouteHelper routeHelper = new RouteHelper(this);
-		List<Route> routes = routeHelper.getRoutesList();
-
-		this.holderList = new ArrayList<RouteListAdapter.Holder>();
-		for (int i = 0; i < routes.size(); i++) {
-			RouteListAdapter.Holder holder = new RouteListAdapter.Holder();
-			holder.route = (Route) routes.get(i);
-			holderList.add(holder);
+		Service service = (Service) bundle.getSerializable("SERVICE");
+		SeptaDB septaDB = new SeptaDB(this);
+		try {
+			septaDB.open();
+			routeList = septaDB.getRouteList(service);
+			septaDB.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 
-		RouteListAdapter routeAdapter = new RouteListAdapter(this, holderList);
+		RouteListAdapter routeAdapter = new RouteListAdapter();
 		setListAdapter(routeAdapter);
 
 		Button btAdd = (Button) findViewById(R.id.AddRoutes);
@@ -53,31 +59,75 @@ public class RouteAct extends ListActivity {
 		Button btDel = (Button) findViewById(R.id.ReturnToServiceList);
 		btDel.setOnClickListener(new ReturnButtonOnClick());
 	}
+	public class RouteListAdapter extends BaseAdapter {
+
+		/* (non-Javadoc)
+		 * @see android.widget.Adapter#getCount()
+		 */
+		@Override
+		public int getCount() {
+			return routeList.size();
+		}
+
+		/* (non-Javadoc)
+		 * @see android.widget.Adapter#getItem(int)
+		 */
+		@Override
+		public Object getItem(int position) {
+			return routeList.get(position);
+		}
+
+		/* (non-Javadoc)
+		 * @see android.widget.Adapter#getItemId(int)
+		 */
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		/* (non-Javadoc)
+		 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
+		 */
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			Route route = routeList.get(position);
+			
+			LinearLayout layout = new LinearLayout(parent.getContext());
+			layout.setOrientation(LinearLayout.VERTICAL);
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+					ViewGroup.LayoutParams.WRAP_CONTENT, 
+					ViewGroup.LayoutParams.WRAP_CONTENT);
+			params.setMargins(5, 3, 5, 0);
+
+			TextView text = new TextView(parent.getContext());
+			text.setTextSize(16f);
+			text.setTextColor(Color.WHITE);
+			text.setClickable(false);
+			text.setText(route.toString());
+			
+			layout.setTag(route);
+			layout.addView(text, params);
+			convertView = layout;
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Route route = (Route) routeList.get(position);
+					Intent intent = new Intent(view.getContext(), DateOfServiceAct.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("ROUTE", route);
+					intent.putExtras(bundle);
+					((Activity)view.getContext()).startActivityForResult(intent, 2);
+				}
+			});
+			return convertView;
+		}
+	}
 
 	class AddButtonOnClick implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
-			boolean isAdded = false;
-			for (int i = holderList.size() - 1; i >= 0; i--) {
-				RouteListAdapter.Holder holder = (RouteListAdapter.Holder) holderList
-						.get(i);
-				if (holder.checkBox != null && holder.checkBox.isChecked()) {
-					Route route = holder.route;
-					// TODO: add the route to favorite;
-					isAdded = true;
-				}
-			}
-			if (isAdded) {
-				Toast.makeText(v.getContext(),
-						"Routes have been added to your favorite",
-						Toast.LENGTH_LONG).show();
-				setResult(RESULT_OK);
-				finish();
-			} else {
-				Toast.makeText(v.getContext(), "Please select routes",
-						Toast.LENGTH_LONG).show();
-			}
+			
 		}
 
 	}

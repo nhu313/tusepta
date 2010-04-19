@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.Stop;
-import edu.temple.cis.mysepta.service.ServiceAct;
 
 /**
  * @author Yu Liang
@@ -32,7 +31,7 @@ public class FavoriteStopAct extends Activity {
 		Stop stop;
 	}
 	
-	FavoriteRouteListAdapter routeAdapter;
+	FavoriteStopListAdapter stopAdapter;
 	private List<Holder> holderList;
 
 	/* (non-Javadoc)
@@ -45,9 +44,9 @@ public class FavoriteStopAct extends Activity {
 		
 		refreshData();
 		
-		Button btAdd = (Button) findViewById(R.id.AddFavoriteRoute);
+		Button btAdd = (Button) findViewById(R.id.AddFavorite);
 		btAdd.setOnClickListener(new AddButtonOnClick());
-		Button btDel = (Button) findViewById(R.id.DeleteFavoriteRoute);
+		Button btDel = (Button) findViewById(R.id.DeleteFavorite);
 		btDel.setOnClickListener(new DelButtonOnClick());
 	}
 	
@@ -61,7 +60,7 @@ public class FavoriteStopAct extends Activity {
 				holder.stop = (Stop) stopList.get(i);
 				this.holderList.add(holder);
 			}
-			
+			septaDB.close();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -114,7 +113,7 @@ public class FavoriteStopAct extends Activity {
 			
 			layout.setTag(holder);
 			layout.addView(check, params);
-			
+			convertView = layout;
 			return convertView;
 		}
 	}
@@ -151,7 +150,7 @@ public class FavoriteStopAct extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			refreshData();
-			this.routeAdapter.notifyDataSetChanged();
+			this.stopAdapter.notifyDataSetChanged();
 		}
 	}
 
@@ -165,6 +164,6 @@ public class FavoriteStopAct extends Activity {
 				holder.checkBox.setChecked(false);
 			}
 		}
-		this.routeAdapter.notifyDataSetChanged();
+		this.stopAdapter.notifyDataSetChanged();
 	}
 }
