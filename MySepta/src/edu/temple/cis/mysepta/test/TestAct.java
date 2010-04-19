@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import edu.temple.cis.mysepta.R;
-import edu.temple.cis.mysepta.favorite.FavoriteRoutesAct;
+import edu.temple.cis.mysepta.favorite.FavoriteStopAct;
 import edu.temple.cis.mysepta.news.NewsAct;
 
 /**
@@ -59,7 +59,7 @@ public class TestAct extends Activity {
 		}
 		@Override
 		public void onClick(View arg0) {
-			Intent itFavorite = new Intent(this.ctx, FavoriteRoutesAct.class);
+			Intent itFavorite = new Intent(this.ctx, FavoriteStopAct.class);
 			startActivity(itFavorite);
 		}
 		
