@@ -113,6 +113,27 @@ public class SeptaDB extends DBAdapter{
 	}
 	
 	/**
+	 * Retrieve favorite stops.
+	 * @return Array of favorite stops.
+	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
+	 */
+	public List<Stop> getFavoriteStopList() throws ParserException{
+		List<Stop> stopList = new ArrayList<Stop>();
+		Cursor c = super.getFavoriteStop();
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			Stop stop;
+			for (int i = 0; i < size; i++){
+				stop = new Stop(c.getLong(0), c.getLong(1), c.getString(2), c.getInt(3));
+				stopList.add(stop);
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return stopList;
+	}
+	
+	/**
 	 * Retrieve a list of the routes with the given service ID.
 	 * @param serviceID ID of the service to retrieve.
 	 * @return List of route with the given service ID.
