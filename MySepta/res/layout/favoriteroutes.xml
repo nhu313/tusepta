@@ -4,8 +4,8 @@
 	android:layout_height="fill_parent">
 	<LinearLayout android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:id="@+id/LayoutForHeadline">
-		<TextView android:id="@+id/FavoriteRoutesTitle"
-			android:layout_height="wrap_content" android:text="Favorite Routes"
+		<TextView android:id="@+id/MyFavoriteTitle"
+			android:layout_height="wrap_content" android:text="My Favorite"
 			android:textColor="#FFFFFF" android:gravity="center"
 			android:layout_gravity="center" android:layout_width="fill_parent"
 			android:background="@android:drawable/alert_dark_frame">
@@ -15,13 +15,13 @@
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:orientation="horizontal" android:layout_gravity="center"
 		android:gravity="center">
-		<Button android:id="@+id/AddFavoriteRoute"
+		<Button android:id="@+id/AddFavorite"
 			android:layout_height="wrap_content" android:width="150px"
-			android:text="Add Route" android:layout_width="wrap_content"
+			android:text="Add Stop" android:layout_width="wrap_content"
 			android:layout_marginTop="0px" android:drawableLeft="@drawable/edit"></Button>
-		<Button android:id="@+id/DeleteFavoriteRoute"
+		<Button android:id="@+id/DeleteFavorite"
 			android:layout_height="wrap_content" android:width="150px"
-			android:text="Delete Route" android:layout_width="wrap_content"
+			android:text="Delete Stop" android:layout_width="wrap_content"
 			android:layout_marginTop="0px" android:drawableLeft="@drawable/delete"></Button>
 	</LinearLayout>
 	<LinearLayout android:layout_height="fill_parent"

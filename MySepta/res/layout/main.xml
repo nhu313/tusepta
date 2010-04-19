@@ -16,7 +16,7 @@
 		android:background="@android:drawable/alert_dark_frame" android:orientation="vertical">
 		<Button android:text="Septa News" android:id="@+id/SeptaNewsButton"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-		<Button android:text="Favorite Routes Setting" android:id="@+id/FavoriteRouteSettingButton"
+		<Button android:text="My Favorite Setting" android:id="@+id/MyFavoriteSettingButton"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 		<Button android:text="Search Schedule" android:id="@+id/SearchScheduleButton"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
