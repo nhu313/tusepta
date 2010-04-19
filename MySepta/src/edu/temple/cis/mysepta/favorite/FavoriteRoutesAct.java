@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import edu.temple.cis.mysepta.R;
+import edu.temple.cis.mysepta.myclass.Route;
 import edu.temple.cis.mysepta.service.ServiceAct;
 
 /**
@@ -27,8 +28,8 @@ public class FavoriteRoutesAct extends Activity {
 	private final static int MENU_FAVORITE_ADD = Menu.FIRST;
 	private final static int MENU_FAVORITE_DELETE = Menu.FIRST + 1;
 	
-	RouteListAdapter routeAdapter;
-	private List<RouteListAdapter.Holder> holderList;
+	FavoriteRouteListAdapter routeAdapter;
+	private List<FavoriteRouteListAdapter.Holder> holderList;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -50,14 +51,14 @@ public class FavoriteRoutesAct extends Activity {
 		RouteHelper routeHelper = new RouteHelper(this);
 		List<Route> routes = routeHelper.getFavoriteRoutesList();
 		
-		this.holderList = new ArrayList<RouteListAdapter.Holder>();
+		this.holderList = new ArrayList<FavoriteRouteListAdapter.Holder>();
 		for (int i = 0; i < routes.size(); i++) {
-			RouteListAdapter.Holder holder = new RouteListAdapter.Holder();
+			FavoriteRouteListAdapter.Holder holder = new FavoriteRouteListAdapter.Holder();
 			holder.route = (Route) routes.get(i);
 			this.holderList.add(holder);
 		}
 		
-		this.routeAdapter = new RouteListAdapter(this, this.holderList);
+		this.routeAdapter = new FavoriteRouteListAdapter(this, this.holderList);
 		ListView favoriteList = (ListView) findViewById(R.id.FavoriteList);
 		//favoriteList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		//favoriteList.setItemsCanFocus(false);
@@ -130,7 +131,7 @@ public class FavoriteRoutesAct extends Activity {
 
 	private void handleDelete() {
 		for (int i = holderList.size() - 1; i >= 0; i--) {
-			RouteListAdapter.Holder holder = (RouteListAdapter.Holder) holderList.get(i);
+			FavoriteRouteListAdapter.Holder holder = (FavoriteRouteListAdapter.Holder) holderList.get(i);
 			if (holder.checkBox != null && holder.checkBox.isChecked()) {
 				Route route = holder.route;
 				//TODO: remove the route from favorite;

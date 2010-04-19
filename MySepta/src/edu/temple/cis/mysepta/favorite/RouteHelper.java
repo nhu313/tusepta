@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import android.content.Context;
 import edu.temple.cis.mysepta.R;
+import edu.temple.cis.mysepta.myclass.Route;
 
 /**
  * @author Yu Liang
@@ -53,10 +54,10 @@ public class RouteHelper {
 						//route.setRoute_short_name(sa[1]);
 						route.setName(sa[2]);
 						if (i++%10 == 1) {
-							favoriteRouteMap.put(route.getRoute_id(), route);
+							favoriteRouteMap.put((int)route.getRoute_id(), route);
 							favoriteRouteList.add(route);
 						} else {
-							routeMap.put(route.getRoute_id(), route);
+							routeMap.put((int)route.getRoute_id(), route);
 							routeList.add(route);
 						}
 					}

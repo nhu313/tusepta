@@ -5,10 +5,10 @@ package edu.temple.cis.mysepta.favorite;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import edu.temple.cis.mysepta.myclass.Route;
 
 /**
  * @author Yu Liang
