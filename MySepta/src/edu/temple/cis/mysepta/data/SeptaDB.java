@@ -61,7 +61,12 @@ public class SeptaDB extends DBAdapter{
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed. 
 	 */
 	public List<DayOfService> getDayOfServiceList(Route r) throws ParserException{
-		return Arrays.asList(getDayOfService(r));
+		DayOfService[] dos = getDayOfService(r);
+		if (dos == null) {
+			return new ArrayList<DayOfService>();
+		} else {
+			return Arrays.asList(dos);
+		}
 	}
 	
 	/**
@@ -141,7 +146,12 @@ public class SeptaDB extends DBAdapter{
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
 	public List<Route> getRouteList(Service service) throws MySeptaException, ParserException{
-		return Arrays.asList(getRoute(service));
+		Route[] route = getRoute(service);
+		if (route == null) {
+			return new ArrayList<Route>();
+		} else {
+			return Arrays.asList(route);
+		}
 	}
 	
 	/**
@@ -183,6 +193,14 @@ public class SeptaDB extends DBAdapter{
 		trolley_id = (int)super.insertService("Trolley", "Trolley Lines", "#539442");
 		nhs_id = (int)super.insertService("NHS", "Norristown High Speed Line", "#9E3E97");
 		bus_id = (int)super.insertService("Buses", "Buses", "#41525C");
+	}
+	
+	/**
+	 * Retrieve the list of the services.
+	 * @return Array of services.
+	 */
+	public List<Service> getServiceList(){
+		return Arrays.asList(getService());
 	}
 	
 	/**
