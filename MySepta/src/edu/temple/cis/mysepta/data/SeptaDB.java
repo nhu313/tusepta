@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.htmlparser.util.ParserException;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -221,6 +222,21 @@ public class SeptaDB extends DBAdapter{
 		}
 		c.close();
 		return day;
+	}
+	
+	/**
+	 * Retrieve stops given the day of service (with route ID).
+	 * @param day Day of service to search for.
+	 * @return Array of stops with the given day of service.
+	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
+	 */
+	public List<Stop> getStopList(DayOfService day) throws ParserException{
+		Stop[] stop = getStop(day);
+		if (stop == null) {
+			return new ArrayList<Stop>();
+		} else {
+			return Arrays.asList(stop);
+		}
 	}
 	
 	/**
@@ -489,4 +505,16 @@ public class SeptaDB extends DBAdapter{
 		}
 		return list; 
 	}
+
+    /**
+     * Update stop favorite properties.
+     * @param stopID ID of the stop to update.
+     * @param favorite Number to indicate favorite. (Use DBAdapter.FAV_TRUE or DBAdapter.FAV_False). 
+     * @return True if update was successful. False, otherwise.
+     * @throws MySeptaException when the favorite integer is not 0 or 1.
+     */
+    public boolean updateFavoriteRoute(long stopID, int favorite) throws MySeptaException{
+    	return super.updateFavoriteRoute(stopID, favorite);
+    }
+    
 }
