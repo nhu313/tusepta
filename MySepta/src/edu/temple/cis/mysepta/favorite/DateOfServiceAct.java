@@ -69,7 +69,7 @@ public class DateOfServiceAct extends Activity {
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			DayOfService dos = (DayOfService) getItem(position);
-			
+
 			LinearLayout layout = new LinearLayout(parent.getContext());
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 					ViewGroup.LayoutParams.WRAP_CONTENT, 
@@ -90,14 +90,27 @@ public class DateOfServiceAct extends Activity {
 				public void onClick(View view) {
 					DayOfService dos = (DayOfService) dosList.get(position);
 					//Toast.makeText(view.getContext(), route.getName(), Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(view.getContext(), DateOfServiceAct.class);
+					Intent intent = new Intent(view.getContext(), StopAct.class);
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("DOS", dos);
 					intent.putExtras(bundle);
-					((Activity)view.getContext()).startActivityForResult(intent, 2);
+					((Activity)view.getContext()).startActivityForResult(intent, 4);
 				}
 			});
 			return convertView;
 		}	
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			setResult(RESULT_OK);
+			finish();
+		}
 	}
 }

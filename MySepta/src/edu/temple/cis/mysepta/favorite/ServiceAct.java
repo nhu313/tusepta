@@ -56,6 +56,7 @@ public class ServiceAct extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
+			setResult(RESULT_OK);
 			finish();
 		}
 	}
@@ -113,7 +114,7 @@ public class ServiceAct extends Activity {
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("SERVICE", service);
 					intent.putExtras(bundle);
-					((Activity) view.getContext()).startActivityForResult(intent, 1);
+					((Activity) view.getContext()).startActivityForResult(intent, 2);
 					//Utils.showMessage(view.getContext(), String.valueOf(serviceID));
 				}
 				

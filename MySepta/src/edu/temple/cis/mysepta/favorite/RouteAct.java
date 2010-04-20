@@ -116,7 +116,7 @@ public class RouteAct extends ListActivity {
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("ROUTE", route);
 					intent.putExtras(bundle);
-					((Activity)view.getContext()).startActivityForResult(intent, 2);
+					((Activity)view.getContext()).startActivityForResult(intent, 3);
 				}
 			});
 			return convertView;
@@ -140,5 +140,19 @@ public class RouteAct extends ListActivity {
 			finish();
 		}
 
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			setResult(RESULT_OK);
+			finish();
+		}
 	}
 }
