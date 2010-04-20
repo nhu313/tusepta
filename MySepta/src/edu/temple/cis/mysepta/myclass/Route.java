@@ -62,6 +62,6 @@ public class Route implements Serializable {
 	}
 	
 	public String toString(){
-		return name;
+		return route + " " + name;
 	}
 }

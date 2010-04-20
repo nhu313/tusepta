@@ -14,6 +14,7 @@ import edu.temple.cis.mysepta.myclass.DayOfService;
 import edu.temple.cis.mysepta.myclass.Route;
 import edu.temple.cis.mysepta.myclass.Service;
 import edu.temple.cis.mysepta.myclass.Stop;
+import edu.temple.cis.mysepta.myclass.Schedule;
 
 public class SeptaDB extends DBAdapter{
 	private static final String bus_s = "http://www.septa.org/schedules/bus/index.html";
@@ -95,6 +96,132 @@ public class SeptaDB extends DBAdapter{
 		c.close();
 		return day;
 	}
+	public long t10id = 126;
+	public String t10url = "http://www.septa.org/schedules/trolley/route010.html";
+	public DayOfService[] getDayOfServiceT10() throws ParserException{
+		DayOfService[] day = null;
+		Cursor c = super.getAllDayByRoute(t10id);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			day = new DayOfService[size];
+			for (int i = 0; i < size; i++){
+				day[i] = new DayOfService
+				(c.getLong(0), c.getLong(1), c.getString(2));
+				c.moveToNext();
+			}
+		} else {
+			if (sp == null){ sp = new ScheduleParser();}
+			sp.parseSchedule(t10url, this, t10id);
+			day = getDayOfServiceT10();
+		}
+		c.close();
+		return day;
+	}
+	public long t11id = 128;
+	public String t11url = "http://www.septa.org/schedules/trolley/route013.html";
+	public DayOfService[] getDayOfServiceT11() throws ParserException{
+		DayOfService[] day = null;
+		Cursor c = super.getAllDayByRoute(t11id);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			day = new DayOfService[size];
+			for (int i = 0; i < size; i++){
+				day[i] = new DayOfService
+				(c.getLong(0), c.getLong(1), c.getString(2));
+				c.moveToNext();
+			}
+		} else {
+			if (sp == null){ sp = new ScheduleParser();}
+			sp.parseSchedule(t11url, this, t11id);
+			day = getDayOfServiceT10();
+		}
+		c.close();
+		return day;
+	}
+	public long mflid = 1;
+	public String mflurl = "http://www.septa.org/schedules/transit/mfl.html";
+	public DayOfService[] getDayOfServiceMFL() throws ParserException{
+		DayOfService[] day = null;
+		Cursor c = super.getAllDayByRoute(mflid);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			day = new DayOfService[size];
+			for (int i = 0; i < size; i++){
+				day[i] = new DayOfService
+				(c.getLong(0), c.getLong(1), c.getString(2));
+				c.moveToNext();
+			}
+		} else {
+			if (sp == null){ sp = new ScheduleParser();}
+			sp.parseSchedule(mflurl, this, mflid);
+			day = getDayOfServiceT10();
+		}
+		c.close();
+		return day;
+	}
+	public long bslid = 2;
+	public String bslurl = "http://www.septa.org/schedules/transit/bsl.html";
+	public DayOfService[] getDayOfServiceBSL() throws ParserException{
+		DayOfService[] day = null;
+		Cursor c = super.getAllDayByRoute(bslid);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			day = new DayOfService[size];
+			for (int i = 0; i < size; i++){
+				day[i] = new DayOfService
+				(c.getLong(0), c.getLong(1), c.getString(2));
+				c.moveToNext();
+			}
+		} else {
+			if (sp == null){ sp = new ScheduleParser();}
+			sp.parseSchedule(bslurl, this, bslid);
+			day = getDayOfServiceT10();
+		}
+		c.close();
+		return day;
+	}
+	public long nhslid = 3;
+	public String nhslurl = "http://www.septa.org/schedules/transit/nhsl.html";
+	public DayOfService[] getDayOfServiceNHSL() throws ParserException{
+		DayOfService[] day = null;
+		Cursor c = super.getAllDayByRoute(nhslid);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			day = new DayOfService[size];
+			for (int i = 0; i < size; i++){
+				day[i] = new DayOfService
+				(c.getLong(0), c.getLong(1), c.getString(2));
+				c.moveToNext();
+			}
+		} else {
+			if (sp == null){ sp = new ScheduleParser();}
+			sp.parseSchedule(nhslurl, this, nhslid);
+			day = getDayOfServiceT10();
+		}
+		c.close();
+		return day;
+	}
+	public long r1id = 134;
+	public String r1url = "http://www.septa.org/schedules/rail/air.html";
+	public DayOfService[] getDayOfServiceR1() throws ParserException{
+		DayOfService[] day = null;
+		Cursor c = super.getAllDayByRoute(r1id);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			day = new DayOfService[size];
+			for (int i = 0; i < size; i++){
+				day[i] = new DayOfService
+				(c.getLong(0), c.getLong(1), c.getString(2));
+				c.moveToNext();
+			}
+		} else {
+			if (sp == null){ sp = new ScheduleParser();}
+			sp.parseSchedule(r1url, this, r1id);
+			day = getDayOfServiceT10();
+		}
+		c.close();
+		return day;
+	}
 	
 	/**
 	 * Retrieve stops given the day of service (with route ID).
@@ -115,6 +242,55 @@ public class SeptaDB extends DBAdapter{
 		}
 		c.close();
 		return stop;
+	}
+	//TestStop
+	public long t10dayid = 1;
+	public Stop[] getStopT10() throws ParserException{
+		Stop[] stop = null;
+		Cursor c = super.getAllStopByDayId(t10dayid);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			stop = new Stop[size];
+			for (int i = 0; i < size; i++){
+				stop[i] = new Stop(c.getLong(0), c.getLong(1), c.getString(2), c.getInt(3));
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return stop;
+	}
+	//Retrieve All Schedule
+	public Schedule[] getSchedule(Stop stop) throws ParserException{
+		Schedule[] schedule = null;
+		Cursor c = super.getAllSchedules(stop.getStopID());
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			schedule = new Schedule[size];
+			for (int i = 0; i < size; i++){
+				schedule[i] = new Schedule(c.getLong(0), c.getLong(1), c.getFloat(2));
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return schedule;
+	}
+	//Test Schedule
+	public long t10stopid = 1;
+	public float t1 = 10;
+	public float t2 = 11;
+	public Schedule[] getScheduleT10() throws ParserException{
+		Schedule[] schedule = null;
+		Cursor c = super.getTimeSchedules(t10stopid,t1,t2);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			schedule = new Schedule[size];
+			for (int i = 0; i < size; i++){
+				schedule[i] = new Schedule(c.getLong(0), c.getLong(1), c.getFloat(2));
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return schedule;
 	}
 	
 	/**
@@ -240,7 +416,7 @@ public class SeptaDB extends DBAdapter{
 	 * @return Array out bus routes.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-	private Route[] getBus() throws ParserException {
+	public Route[] getBus() throws ParserException {
 		if (bus == null){
 			Cursor c = super.getAllRouteByService(bus_id);
 			if (!c.moveToFirst()){
@@ -261,7 +437,7 @@ public class SeptaDB extends DBAdapter{
 	 * @return Array of trolley routes.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-	private Route[] getTrolley() throws ParserException {
+	public Route[] getTrolley() throws ParserException {
 		if (trolley == null){
 			Cursor c = super.getAllRouteByService(trolley_id);
 			if (!c.moveToFirst()){
@@ -281,7 +457,7 @@ public class SeptaDB extends DBAdapter{
 	 * @return Array of regional rail route.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-	private Route[] getRail() throws ParserException{
+	public Route[] getRail() throws ParserException{
 		Log.i(nhuTag, "Getting rail");
 		if (rail == null){
 			Cursor c = super.getAllRouteByService(rail_id);

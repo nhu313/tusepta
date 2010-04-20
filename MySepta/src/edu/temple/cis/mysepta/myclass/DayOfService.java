@@ -34,7 +34,7 @@ public class DayOfService implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return  day;
+		return day;
 	}
 	
 	

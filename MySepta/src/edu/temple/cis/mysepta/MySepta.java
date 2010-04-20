@@ -8,6 +8,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import edu.temple.cis.mysepta.favorite.FavoriteStopAct;
 import edu.temple.cis.mysepta.news.NewsAct;
+import edu.temple.cis.mysepta.search.ListViewService;
+
 
 /**
  * 
@@ -39,6 +41,16 @@ public class MySepta extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(v.getContext(), FavoriteStopAct.class);
+		        startActivity(intent);
+			}
+        	
+        });
+        Button btnSearch = (Button) findViewById(R.id.SearchScheduleButton);
+        btnSearch.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(v.getContext(), ListViewService.class);
 		        startActivity(intent);
 			}
         	
