@@ -6,16 +6,15 @@ import java.util.List;
 
 import org.htmlparser.util.ParserException;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.util.Log;
 import edu.temple.cis.mysepta.myclass.DayOfService;
 import edu.temple.cis.mysepta.myclass.Route;
+import edu.temple.cis.mysepta.myclass.Schedule;
 import edu.temple.cis.mysepta.myclass.Service;
 import edu.temple.cis.mysepta.myclass.Stop;
-import edu.temple.cis.mysepta.myclass.Schedule;
 
 public class SeptaDB extends DBAdapter{
 	private static final String bus_s = "http://www.septa.org/schedules/bus/index.html";
