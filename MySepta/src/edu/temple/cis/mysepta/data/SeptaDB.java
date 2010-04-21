@@ -117,8 +117,8 @@ public class SeptaDB extends DBAdapter{
 		c.close();
 		return day;
 	}
-	public long t11id = 128;
-	public String t11url = "http://www.septa.org/schedules/trolley/route013.html";
+	public long t11id = 127;
+	public String t11url = "http://www.septa.org/schedules/trolley/route011.html";
 	public DayOfService[] getDayOfServiceT11() throws ParserException{
 		DayOfService[] day = null;
 		Cursor c = super.getAllDayByRoute(t11id);
@@ -133,6 +133,27 @@ public class SeptaDB extends DBAdapter{
 		} else {
 			if (sp == null){ sp = new ScheduleParser();}
 			sp.parseSchedule(t11url, this, t11id);
+			day = getDayOfServiceT10();
+		}
+		c.close();
+		return day;
+	}
+	public long busid = 22;
+	public String busurl = "http://www.septa.org/schedules/bus/route025.html";
+	public DayOfService[] getDayOfServiceBus22() throws ParserException{
+		DayOfService[] day = null;
+		Cursor c = super.getAllDayByRoute(busid);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			day = new DayOfService[size];
+			for (int i = 0; i < size; i++){
+				day[i] = new DayOfService
+				(c.getLong(0), c.getLong(1), c.getString(2));
+				c.moveToNext();
+			}
+		} else {
+			if (sp == null){ sp = new ScheduleParser();}
+			sp.parseSchedule(busurl, this, busid);
 			day = getDayOfServiceT10();
 		}
 		c.close();
@@ -274,6 +295,38 @@ public class SeptaDB extends DBAdapter{
 		c.close();
 		return stop;
 	}
+	//TestStop
+	public long r1dayid = 7;
+	public Stop[] getStopR1() throws ParserException{
+		Stop[] stop = null;
+		Cursor c = super.getAllStopByDayId(r1dayid);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			stop = new Stop[size];
+			for (int i = 0; i < size; i++){
+				stop[i] = new Stop(c.getLong(0), c.getLong(1), c.getString(2), c.getInt(3));
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return stop;
+	}
+	//TestStop
+	public long busdayid = 37;
+	public Stop[] getStopBus21() throws ParserException{
+		Stop[] stop = null;
+		Cursor c = super.getAllStopByDayId(busdayid);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			stop = new Stop[size];
+			for (int i = 0; i < size; i++){
+				stop[i] = new Stop(c.getLong(0), c.getLong(1), c.getString(2), c.getInt(3));
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return stop;
+	}
 	//Retrieve All Schedule
 	public Schedule[] getSchedule(Stop stop) throws ParserException{
 		Schedule[] schedule = null;
@@ -289,13 +342,31 @@ public class SeptaDB extends DBAdapter{
 		c.close();
 		return schedule;
 	}
+	//Retrieve All Schedule
+	public long bus21stopid = 189;
+	public double t = 10.00;
+	public Schedule[] getScheduleBus21() throws ParserException{
+		Schedule[] schedule = null;
+		Cursor c = super.getSchedulesTime(bus21stopid,t);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			schedule = new Schedule[size];
+			for (int i = 0; i < size; i++){
+				schedule[i] = new Schedule(c.getLong(0), c.getLong(1), c.getFloat(2));
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return schedule;
+	}
+	
+	
 	//Test Schedule
 	public long t10stopid = 1;
-	public float t1 = 10;
-	public float t2 = 11;
+	public double t1 = 10.00;
 	public Schedule[] getScheduleT10() throws ParserException{
 		Schedule[] schedule = null;
-		Cursor c = super.getTimeSchedules(t10stopid,t1,t2);
+		Cursor c = super.getSchedulesTime(t10stopid,t1);
 		if (c.moveToFirst()){
 			int size = c.getCount();
 			schedule = new Schedule[size];
