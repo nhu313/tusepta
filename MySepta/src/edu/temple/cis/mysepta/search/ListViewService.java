@@ -50,7 +50,7 @@ public class ListViewService extends ListActivity{
 		}
 		case 2: {//Broad Street Line
 			Toast.makeText(this, "You have selected " + "Broad Street Line",Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.DayOfServiceList.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.DayOfServiceAct.class);
 			startActivity(intent);
 			break;
 		}

@@ -25,7 +25,7 @@ public DayOfService[] dayofservice2 = null;
                
         try {
 			db.open();
-			   DayOfService[] dayofservice2 = db.getDayOfServiceR1();
+			   DayOfService[] dayofservice2 = db.getDayOfServiceBus22();
 	           setListAdapter(new ArrayAdapter<DayOfService>(this, android.R.layout.simple_list_item_1, dayofservice2));
 	        db.close();
 	        

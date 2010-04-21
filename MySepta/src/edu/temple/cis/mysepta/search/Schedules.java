@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+//import android.widget.Spinner;
 import android.widget.Toast;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
-//import edu.temple.cis.mysepta.myclass.DayOfService;
+//import edu.temple.cis.mysepta.data.DBAdapter;
 import edu.temple.cis.mysepta.myclass.Schedule;
-//import edu.temple.cis.mysepta.myclass.Stop;
 
 public class Schedules extends ListActivity{
 	
@@ -26,8 +26,12 @@ public Schedule[] schedule = null;
                
         try {
 			db.open();
-			   Schedule[] schedule = db.getScheduleT10();
+			   Schedule[] schedule = db.getScheduleBus21();
 	           setListAdapter(new ArrayAdapter<Schedule>(this, android.R.layout.simple_list_item_1, schedule));
+	           //Spinner localSpinner = (Spinner)findViewById(R.id.color_spinner);
+	           //ArrayAdapter<Schedule> adapter = ArrayAdapter(this,schedule,R.layout.my_normal_spinner_item_style);
+	       	   //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	       	   //localSpinner.setAdapter(adapter);        
 	        db.close();
 	        
 		} catch (Exception e) {

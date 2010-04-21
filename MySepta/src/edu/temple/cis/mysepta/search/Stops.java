@@ -25,7 +25,7 @@ public Stop[] stop = null;
                
         try {
 			db.open();
-			   Stop[] stop = db.getStopT10();
+			   Stop[] stop = db.getStopBus21();
 	           setListAdapter(new ArrayAdapter<Stop>(this, android.R.layout.simple_list_item_1, stop));
 	        db.close();
 	        

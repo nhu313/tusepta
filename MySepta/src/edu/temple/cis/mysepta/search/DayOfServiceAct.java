@@ -34,12 +34,10 @@ List<DayOfService> dosList;
 		try {
 			septaDB.open();
 			dosList = septaDB.getDayOfServiceList(route);
+			septaDB.close();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		} finally {
-			septaDB.close();
-		}
-		
+		}		
 	}
 
 	public class ListAdapter extends BaseAdapter {
