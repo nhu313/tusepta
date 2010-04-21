@@ -30,7 +30,7 @@ public class Schedule {
 	}
 	@Override
 	public String toString() {
-		return time + "";
+		return String.format("%.2f", time) + "";
 	}
 
 }
