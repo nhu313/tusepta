@@ -3,11 +3,10 @@
  */
 package edu.temple.cis.mysepta.favorite;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -17,12 +16,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
-import edu.temple.cis.mysepta.favorite.FavoriteStopAct.Holder;
 import edu.temple.cis.mysepta.myclass.DayOfService;
-import edu.temple.cis.mysepta.myclass.Route;
 import edu.temple.cis.mysepta.myclass.Stop;
 
 /**
@@ -54,6 +50,7 @@ public class StopAct extends ListActivity {
 		SeptaDB septaDB = new SeptaDB(this);
 		try {
 			septaDB.open();
+			this.holderList = new ArrayList<Holder>();
 			List<Stop> stopList = septaDB.getStopList(dos);
 			for (int i = 0; i < stopList.size(); i++) {
 				Holder holder = new Holder();
@@ -68,9 +65,9 @@ public class StopAct extends ListActivity {
 		this.stopAdapter = new StopListAdapter();
 		setListAdapter(stopAdapter);
 
-		Button btAdd = (Button) findViewById(R.id.AddRoutes);
+		Button btAdd = (Button) findViewById(R.id.AddStops);
 		btAdd.setOnClickListener(new AddButtonOnClick());
-		Button btDel = (Button) findViewById(R.id.ReturnToServiceList);
+		Button btDel = (Button) findViewById(R.id.ReturnToDosList);
 		btDel.setOnClickListener(new ReturnButtonOnClick());
 	}
 	

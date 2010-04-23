@@ -3,6 +3,7 @@
  */
 package edu.temple.cis.mysepta.favorite;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -16,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.Stop;
@@ -44,6 +46,10 @@ public class FavoriteStopAct extends Activity {
 		
 		refreshData();
 		
+		ListView listView = (ListView) findViewById(R.id.FavoriteList);
+		this.stopAdapter = new FavoriteStopListAdapter();
+		listView.setAdapter(this.stopAdapter);
+		
 		Button btAdd = (Button) findViewById(R.id.AddFavorite);
 		btAdd.setOnClickListener(new AddButtonOnClick());
 		Button btDel = (Button) findViewById(R.id.DeleteFavorite);
@@ -52,6 +58,7 @@ public class FavoriteStopAct extends Activity {
 	
 	private void refreshData() {
 		try {
+			holderList = new ArrayList<Holder>();
 			SeptaDB septaDB = new SeptaDB(this);
 			septaDB.open();
 			List<Stop> stopList = septaDB.getFavoriteStopList();

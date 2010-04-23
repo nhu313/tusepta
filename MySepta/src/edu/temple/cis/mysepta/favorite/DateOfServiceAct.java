@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
@@ -45,10 +46,14 @@ public class DateOfServiceAct extends Activity {
 			septaDB.close();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}		
+		}
+		
+		ListView listView = (ListView) findViewById(R.id.DateOfServiceList);
+		DosListAdapter adapter = new DosListAdapter();
+		listView.setAdapter(adapter);
 	}
 
-	public class ListAdapter extends BaseAdapter {
+	public class DosListAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
@@ -97,6 +102,7 @@ public class DateOfServiceAct extends Activity {
 					((Activity)view.getContext()).startActivityForResult(intent, 4);
 				}
 			});
+			convertView = layout;
 			return convertView;
 		}	
 	}
