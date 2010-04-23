@@ -19,7 +19,7 @@
 			android:layout_height="wrap_content" android:width="150px"
 			android:text="Add Stops" android:layout_width="wrap_content"
 			android:layout_marginTop="0px" android:drawableLeft="@drawable/edit"></Button>
-		<Button android:id="@+id/ReturnToRouteList"
+		<Button android:id="@+id/ReturnToDosList"
 			android:layout_height="wrap_content" android:width="150px"
 			android:text="Return" android:layout_width="wrap_content"
 			android:layout_marginTop="0px" android:drawableLeft="@drawable/revert"></Button>
