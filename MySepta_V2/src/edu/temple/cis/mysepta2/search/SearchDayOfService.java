@@ -22,8 +22,8 @@ public class SearchDayOfService extends MySeptaScreen {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.search);
+		showDialog(PROGRESS_DIALOG);
 		initialize();
 
 		TextView tv = (TextView)findViewById(R.id.search_row_title);
@@ -38,9 +38,10 @@ public class SearchDayOfService extends MySeptaScreen {
 			db.open();
 			list = db.getDayOfService(id, link);
 		
-			ArrayAdapter<DayOfService> aa = new ArrayAdapter<DayOfService>(this, R.layout.list_row_large, list);
+			ArrayAdapter<DayOfService> aa = new ArrayAdapter<DayOfService>(this, R.layout.list_row_med, list);
 			final ListView lv = (ListView)findViewById(R.id.search_list);
 			lv.setAdapter(aa);
+			dismissDialog(PROGRESS_DIALOG);
 			lv.setOnItemClickListener(new OnItemClickListener(){
 	
 				@Override
@@ -54,7 +55,6 @@ public class SearchDayOfService extends MySeptaScreen {
 				}
 				
 			});
-
 		} catch (ParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

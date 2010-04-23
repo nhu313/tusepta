@@ -151,7 +151,6 @@ public class ScheduleParser {
             }
         }
 
-        Log.i(db.nhuTag, "Number of days " + day.size());
         //Find the row containing the stop and time, call the appropriate method.
         if (child instanceof TableRow){
             for (; child != null; child = child.getNextSibling()){

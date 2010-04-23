@@ -25,7 +25,7 @@ public class SeptaDB extends DBAdapter{
 	private Route[] rail = null;
 	private Service[] service = null;
 	
-	public long rail_id, mfl_id, bsl_id, trolley_id, nhs_id, bus_id;
+	public long rail_id, mfl_id, bsl_id, trolley_id, nhs_id, bus_id = 0;
 	
 	public SeptaDB(Context ctx) {
 		super(ctx);
@@ -46,11 +46,33 @@ public class SeptaDB extends DBAdapter{
 	public DBAdapter open(){
 		Log.i(TAG, "Opening database.");
 		DBAdapter dbA = super.open();
-		insertService();
-		insertTrain();
+		if (bus_id == 0){
+			insertService();
+			insertTrain();	
+		}
 		return dbA;
 	}
 
+    /**
+     * Create and/or open a database that will be used for reading and writing. 
+     * Once opened successfully, the database is cached, so you can call this 
+     * method every time you need to write to the database. Make sure to call 
+     * close()  when you no longer need it.
+     * 
+     * Errors such as bad permissions or a full disk may cause this operation to fail, 
+     * but future attempts may succeed if the problem is fixed.
+     * 
+     * @return A read/writable database until close is called.
+     * @throws SQLException Database cannot be opened for writing.
+     */
+	public DBAdapter firstOpen(){
+		Log.i(TAG, "Opening database.");
+		DBAdapter dbA = super.open();
+		insertService();
+		insertTrain();
+		return dbA;
+	}	
+	
 	/**
 	 * Retrieve list of day of service from the database. If it doesn't 
 	 * exist in the database, retrieve it from the website.

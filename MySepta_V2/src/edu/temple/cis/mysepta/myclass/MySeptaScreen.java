@@ -1,6 +1,8 @@
 package edu.temple.cis.mysepta.myclass;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,14 +18,27 @@ public class MySeptaScreen extends Activity {
 	private TextView m_news;
 	private TextView m_search;
 	private TextView m_options;
+	protected SeptaDB db = null;
 	
+	
+	
+	@Override
+	protected void onDestroy() {
+		if (db != null){
+			db.close();
+		}
+		super.onDestroy();
+	}
+
 	protected void initialize(){
 		m_mysched = (TextView) findViewById(R.id.header_t_mysched);
 		m_mysched.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(v.getContext(), MySepta.class);
+				showDialog(PROGRESS_DIALOG);
 				startActivity(intent);
+				dismissDialog(PROGRESS_DIALOG);
 				finish();
 			}			
 		});
@@ -34,7 +49,9 @@ public class MySeptaScreen extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(v.getContext(), NewsAct.class);
+				showDialog(PROGRESS_DIALOG);
 				startActivity(intent);
+				dismissDialog(PROGRESS_DIALOG);
 				finish();
 			}
 			
@@ -46,7 +63,9 @@ public class MySeptaScreen extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(v.getContext(), SearchService.class);
+				showDialog(PROGRESS_DIALOG);
 				startActivity(intent);
+				dismissDialog(PROGRESS_DIALOG);
 				finish();
 			}
 			
@@ -57,12 +76,41 @@ public class MySeptaScreen extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				showDialog(PROGRESS_DIALOG);
+/*
 				Intent intent = new Intent(v.getContext(), MySepta.class);
 				startActivity(intent);
 				finish();
+				*/
 			}
 			
-		});
-		
+		});	   
 	}	
+	
+	protected static final int PROGRESS_DIALOG = 0;
+    ProgressDialog progressDialog;
+    
+    protected Dialog onCreateDialog(int id) {
+        switch(id) {
+        case PROGRESS_DIALOG:
+            progressDialog = new ProgressDialog(MySeptaScreen.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMessage("Loading data. Please wait...");
+            return progressDialog;
+        default:
+            return null;
+        }
+    }
+/*
+ // Define the Handler that receives messages from the thread and update the progress
+    final Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            int total = msg.getData().getInt("total");
+            progressDialog.setProgress(total);
+            if (total >= 100){
+                dismissDialog(PROGRESS_DIALOG);
+            }
+        }
+    };
+    */
 }

@@ -19,7 +19,7 @@ import android.util.Log;
 import edu.temple.cis.mysepta.myclass.Route;
 
 public class RouteParser {
-    private ArrayList<Route> routes = null;
+//    private ArrayList<Route> routes = null;
     private DBAdapter db = null;
     private long serviceID;
 	private boolean rail = false;
@@ -34,13 +34,13 @@ public class RouteParser {
      * @throws ParserException If the creation of the underlying Lexer cannot be performed.
      */
     public void getRoute(String url, DBAdapter db, long serviceID) throws ParserException{
-
+    	Log.i(DBAdapter.TAG, "Parsing routes of : " + url);
         if (url.contains("rail"))
             rail = true;
 
         this.db = db;
         this.serviceID = serviceID;
-    	routes = new ArrayList<Route>();
+    	//routes = new ArrayList<Route>();
 
         Parser parser = new Parser(url);
         NodeIterator itr = parser.elements();
@@ -56,6 +56,7 @@ public class RouteParser {
         HttpURLConnection connection = (HttpURLConnection) parser.getConnection();
         connection.disconnect();
         rail = false;
+        Log.i(DBAdapter.TAG, "Finish parsing routes of : " + url);
     }
 
     /**
@@ -132,8 +133,7 @@ public class RouteParser {
                     } else if (className.equals("route_schedule")){
                         link = getLink(child);
                         int id = (int)db.insertRoute(serviceID, route, name, link);
-                        routes.add(new Route(serviceID, id, route, name, link));
-                        Log.i(db.nhuTag + "In Route Parser:", routes.get(routes.size()-1).toString());
+                        //routes.add(new Route(serviceID, id, route, name, link));
                         break;
                     }
                 } else {
@@ -239,8 +239,7 @@ public class RouteParser {
                 name = child.getText().trim();
                 name = name.replaceAll("\'", "").replaceAll("\"", "");
                 int id = (int)db.insertRoute(serviceID, route, name, url);
-                routes.add(new Route(serviceID, id, route, name, url));
-                Log.i(db.nhuTag + "In Route Parser:", routes.get(routes.size()-1).toString());
+                //routes.add(new Route(serviceID, id, route, name, url));
                 break;
             } else {
                 child = child.getNextSibling();

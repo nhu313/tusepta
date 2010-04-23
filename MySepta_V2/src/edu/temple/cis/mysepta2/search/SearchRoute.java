@@ -23,6 +23,7 @@ public class SearchRoute extends MySeptaScreen {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		showDialog(PROGRESS_DIALOG);
 		setContentView(R.layout.search);
 		initialize();
 		
@@ -39,6 +40,7 @@ public class SearchRoute extends MySeptaScreen {
 			ArrayAdapter<Route> aa = new ArrayAdapter<Route>(this, R.layout.list_row_med, list);
 			final ListView lv = (ListView)findViewById(R.id.search_list);
 			lv.setAdapter(aa);
+			dismissDialog(PROGRESS_DIALOG);
 			lv.setOnItemClickListener(new OnItemClickListener(){
 	
 				@Override
@@ -53,7 +55,6 @@ public class SearchRoute extends MySeptaScreen {
 				}
 				
 			});
-
 		} catch (ParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
