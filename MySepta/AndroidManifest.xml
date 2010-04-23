@@ -37,6 +37,7 @@
 		<activity android:name=".search.ListViewService"
 			android:label="@string/app_name"></activity>
 		<activity android:name=".favorite.DateOfServiceAct"></activity>
+		<activity android:name=".favorite.StopAct"></activity>
 		<activity android:name=".search.Bus" android:label="@string/app_name"></activity>
 		<activity android:name=".search.Trolley" android:label="@string/app_name"></activity>
 		<activity android:name=".search.RegionalRail" android:label="@string/app_name"></activity>
