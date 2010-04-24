@@ -53,7 +53,28 @@ public class SeptaDB extends DBAdapter{
 		insertTrain();
 		return dbA;
 	}
-	
+	/**
+	 * Retrieve the list of the services.
+	 * @return Array of services.
+	 */
+	public List<Service> getServiceList(){
+		return Arrays.asList(getService());
+	}
+	/**
+	 * Retrieve a list of the routes with the given service ID.
+	 * @param serviceID ID of the service to retrieve.
+	 * @return List of route with the given service ID.
+	 * @throws MySeptaException If the database does not contain the given service ID.
+	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
+	 */
+	public List<Route> getRouteList(Service service) throws MySeptaException, ParserException{
+		Route[] route = getRoute(service);
+		if (route == null) {
+			return new ArrayList<Route>();
+		} else {
+			return Arrays.asList(route);
+		}
+	}
 	/**
 	 * Retrieve list of day of service from the database. If it doesn't 
 	 * exist in the database, retrieve it from the website.
@@ -69,7 +90,22 @@ public class SeptaDB extends DBAdapter{
 			return Arrays.asList(dos);
 		}
 	}
-	
+	public List<Stop> getStopList(DayOfService day) throws ParserException{
+		Stop[] stop = getStop(day);
+		if (stop == null) {
+			return new ArrayList<Stop>();
+		} else {
+			return Arrays.asList(stop);
+		}
+	}
+	public List<Schedule> getScheduleList(Stop t) throws ParserException{
+		Schedule[] st  = getSchedule(t);
+		if (st == null) {
+			return new ArrayList<Schedule>();
+		} else {
+			return Arrays.asList(st);
+		}
+	}
 	/**
 	 * Retrieve list of day of service from the database. If it doesn't 
 	 * exist in the database, retrieve it from the website.
@@ -222,11 +258,11 @@ public class SeptaDB extends DBAdapter{
 		c.close();
 		return day;
 	}
-	public long r1id = 134;
-	public String r1url = "http://www.septa.org/schedules/rail/air.html";
-	public DayOfService[] getDayOfServiceR1() throws ParserException{
+	public long bus21id = 18; //not working
+	public String r1url = "http://www.septa.org/schedules/bus/route021.html";
+	public DayOfService[] getDayOfServiceBus21() throws ParserException{
 		DayOfService[] day = null;
-		Cursor c = super.getAllDayByRoute(r1id);
+		Cursor c = super.getAllDayByRoute(bus21id);
 		if (c.moveToFirst()){
 			int size = c.getCount();
 			day = new DayOfService[size];
@@ -237,7 +273,7 @@ public class SeptaDB extends DBAdapter{
 			}
 		} else {
 			if (sp == null){ sp = new ScheduleParser();}
-			sp.parseSchedule(r1url, this, r1id);
+			sp.parseSchedule(r1url, this, bus21id);
 			day = getDayOfServiceT10();
 		}
 		c.close();
@@ -250,14 +286,7 @@ public class SeptaDB extends DBAdapter{
 	 * @return Array of stops with the given day of service.
 	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
 	 */
-	public List<Stop> getStopList(DayOfService day) throws ParserException{
-		Stop[] stop = getStop(day);
-		if (stop == null) {
-			return new ArrayList<Stop>();
-		} else {
-			return Arrays.asList(stop);
-		}
-	}
+	
 	
 	/**
 	 * Retrieve stops given the day of service (with route ID).
@@ -359,6 +388,23 @@ public class SeptaDB extends DBAdapter{
 		c.close();
 		return schedule;
 	}
+	//Retrieve All Schedule
+	public long bus21stopidT = 189;
+	//public double t = 10.00;
+	public Schedule[] getScheduleCurrentTime() throws ParserException{
+		Schedule[] schedule = null;
+		Cursor c = super.getNowSchedules(bus21stopidT);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			schedule = new Schedule[size];
+			for (int i = 0; i < size; i++){
+				schedule[i] = new Schedule(c.getLong(0), c.getLong(1), c.getFloat(2));
+				c.moveToNext();
+			}
+		}
+		c.close();
+		return schedule;
+	}
 	
 	
 	//Test Schedule
@@ -377,6 +423,39 @@ public class SeptaDB extends DBAdapter{
 		}
 		c.close();
 		return schedule;
+	}
+	/**
+	 * Retrieve list of day of service from the database. If it doesn't 
+	 * exist in the database, retrieve it from the website.
+	 * @param r Route to retreive day of service information.
+	 * @return Array of day of service.
+	 * @throws ParserException If the creation of the underlying Lexer cannot be performed. 
+	 */
+	public Schedule[] getScheduleSpecificTime(long stopID, double t){
+		Schedule[] list = null;
+		Cursor c = super.getSchedulesTime(stopID,t);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			list = new Schedule[size];
+			for (int i = 0; i < size; i++){
+				list[i] = new Schedule(c.getLong(0), c.getLong(1), c.getFloat(2));
+				c.moveToNext();
+			}
+		}
+		return list;
+	}
+	public Schedule[] getScheduleCurrentTime(long stopID){
+		Schedule[] list = null;
+		Cursor c = super.getNowSchedules(stopID);
+		if (c.moveToFirst()){
+			int size = c.getCount();
+			list = new Schedule[size];
+			for (int i = 0; i < size; i++){
+				list[i] = new Schedule(c.getLong(0), c.getLong(1), c.getFloat(2));
+				c.moveToNext();
+			}
+		}
+		return list;
 	}
 	
 	/**
@@ -400,21 +479,7 @@ public class SeptaDB extends DBAdapter{
 		return stopList;
 	}
 	
-	/**
-	 * Retrieve a list of the routes with the given service ID.
-	 * @param serviceID ID of the service to retrieve.
-	 * @return List of route with the given service ID.
-	 * @throws MySeptaException If the database does not contain the given service ID.
-	 * @throws ParserException If the creation of the underlying Lexer cannot be performed.
-	 */
-	public List<Route> getRouteList(Service service) throws MySeptaException, ParserException{
-		Route[] route = getRoute(service);
-		if (route == null) {
-			return new ArrayList<Route>();
-		} else {
-			return Arrays.asList(route);
-		}
-	}
+	
 	
 	/**
 	 * Retrieve an array of the routes with the given service ID.
@@ -457,13 +522,6 @@ public class SeptaDB extends DBAdapter{
 		bus_id = (int)super.insertService("Buses", "Buses", "#41525C");
 	}
 	
-	/**
-	 * Retrieve the list of the services.
-	 * @return Array of services.
-	 */
-	public List<Service> getServiceList(){
-		return Arrays.asList(getService());
-	}
 	
 	/**
 	 * Retrieve the list of the services in a form of array.
