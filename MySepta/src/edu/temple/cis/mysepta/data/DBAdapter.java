@@ -1,5 +1,7 @@
 package edu.temple.cis.mysepta.data;
 
+import java.util.GregorianCalendar;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -451,8 +453,32 @@ public class DBAdapter {
 		 * @return Cursor pointing to the listing of all the service time that matches that particular stop ID. Cursor is placed before the first entry.
 		 */
 	    protected Cursor getAllSchedules(long stopID) { //This method works
+	    	GregorianCalendar t = new GregorianCalendar();
+	    	int hour = t.get(GregorianCalendar.HOUR);
+	    	if (t.get(GregorianCalendar.AM_PM) == GregorianCalendar.PM)
+	    		hour = hour + 12;
+	    	int minute = t.get(GregorianCalendar.MINUTE);
 	        return db.query(DATABASE_Schedule, new String[] {
 	        		KEY_ScheduleID, KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID, 
+	        		null, null, null, null, null);
+	    }
+	    
+	    /**
+		 * Retrieve a particular service time given a stopID.
+		 * @param stopID ID of the stop.
+		 * @return Cursor pointing to the listing of all the service time that matches that particular stop ID. Cursor is placed before the first entry.
+		 */
+	    protected Cursor getNowSchedules(long stopID) { //This method works
+	    	GregorianCalendar t = new GregorianCalendar();
+	    	int hour = t.get(GregorianCalendar.HOUR);
+	    	if (t.get(GregorianCalendar.AM_PM) == GregorianCalendar.PM)
+	    		hour = hour + 12;
+	    	int minute = t.get(GregorianCalendar.MINUTE);
+	    	minute = minute/100;
+	    	hour = hour + minute;
+	        return db.query(DATABASE_Schedule, new String[] {
+	        		KEY_ScheduleID, KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID 
+	        		+ " AND " + KEY_Schedule + " >= " + hour, 
 	        		null, null, null, null, null);
 	    }
 	    
@@ -460,6 +486,16 @@ public class DBAdapter {
 	    	return db.query(DATABASE_Schedule, new String[] {
 	        		KEY_ScheduleID, KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID 
 	        		+ " AND " + KEY_Schedule + " >= " + t, 
+	        		null, null, null, null, null);
+	    }
+	    /**
+		 * Retrieve a particular service time given a stopID.
+		 * @param stopID ID of the stop.
+		 * @return Cursor pointing to the listing of all the service time that matches that particular stop ID. Cursor is placed before the first entry.
+		 */
+	    protected Cursor getAllScheduleByStopID(long stopID) {
+	        return db.query(DATABASE_Schedule, new String[] {
+	        		 KEY_ScheduleID, KEY_StopNameID, KEY_Schedule}, KEY_StopNameID + " = " + stopID, 
 	        		null, null, null, null, null);
 	    }
 	    
