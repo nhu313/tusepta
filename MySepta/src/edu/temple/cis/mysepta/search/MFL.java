@@ -1,45 +1,63 @@
 package edu.temple.cis.mysepta.search;
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.EditText;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
-import edu.temple.cis.mysepta.myclass.DayOfService;
-//import edu.temple.cis.mysepta.myclass.Route;
-//import edu.temple.cis.mysepta.myclass.Service;
+import edu.temple.cis.mysepta.myclass.Schedule;
 
 public class MFL extends ListActivity{
 	
-public DayOfService[] dayofservice2 = null;
+public Schedule[] s = null;
+public long stopid=189;
+private double time;
 	
 	@Override  
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);  
-        setContentView(R.layout.mylistview);
+        setContentView(R.layout.searchtime);
         SeptaDB db = new SeptaDB(this);
-               
+                       
         try {
 			db.open();
-			   DayOfService[] dayofservice2 = db.getDayOfServiceBus22();
-	           setListAdapter(new ArrayAdapter<DayOfService>(this, android.R.layout.simple_list_item_1, dayofservice2));
+			   Schedule[] schedule1 = db.getScheduleCurrentTime(stopid);
+	           setListAdapter(new ArrayAdapter<Schedule>(this, android.R.layout.simple_list_item_1, schedule1));
 	        db.close();
 	        
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-		public void onListItemClick(ListView parent, View v, int position, long id) {
+			Button bntSearch = (Button) findViewById(R.id.bntsearchtime);
+			bntSearch.setOnClickListener(new SearchButtonOnClick());
+    	}
+		class SearchButtonOnClick implements OnClickListener {
 			
-				Toast.makeText(this, "You have selected " + "dayofservice",Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(this, edu.temple.cis.mysepta.search.Stops.class);
-				startActivity(intent);
-				
+			@Override
+			public void onClick(View v) {
+				EditText txttimesearch=(EditText)findViewById(R.id.txttime);
+				time = Double.parseDouble(txttimesearch.getText().toString());
+				handleSearch();
+			}
+		}
+		private void handleSearch() {
+						
+			try {
+				SeptaDB db = new SeptaDB(this);
+				db.open();
+				Schedule[] schedule1 = db.getScheduleSpecificTime(stopid,time);
+		        setListAdapter(new ArrayAdapter<Schedule>(this, android.R.layout.simple_list_item_1, schedule1));
+		        db.close();
+		        
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 }

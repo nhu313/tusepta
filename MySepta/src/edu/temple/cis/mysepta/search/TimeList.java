@@ -1,8 +1,5 @@
 package edu.temple.cis.mysepta.search;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -12,26 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
+//import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
-import edu.temple.cis.mysepta.data.DBAdapter;
 import edu.temple.cis.mysepta.data.SeptaDB;
-//import edu.temple.cis.mysepta.favorite.StopAct.AddButtonOnClick;
-import edu.temple.cis.mysepta.favorite.StopAct.Holder;
-//import edu.temple.cis.mysepta.favorite.StopAct.ReturnButtonOnClick;
-import edu.temple.cis.mysepta.favorite.StopAct.StopListAdapter;
-import edu.temple.cis.mysepta.myclass.DayOfService;
-import edu.temple.cis.mysepta.myclass.Route;
-import edu.temple.cis.mysepta.myclass.Service;
+//import edu.temple.cis.mysepta.favorite.DateOfServiceAct;
+//import edu.temple.cis.mysepta.favorite.RouteAct.RouteListAdapter;
+//import edu.temple.cis.mysepta.myclass.Route;
+//import edu.temple.cis.mysepta.myclass.Service;
+import edu.temple.cis.mysepta.myclass.Schedule;
 import edu.temple.cis.mysepta.myclass.Stop;
-import edu.temple.cis.mysepta.search.MyRouteAct.RouteListAdapter;
+//import edu.temple.cis.mysepta.search.MyRouteAct.RouteListAdapter;
 
-public class Stops extends ListActivity{
+public class TimeList extends ListActivity{
 	
-	List<Stop> stopList;
+	List<Schedule> timeList;
 
 	/*
 	 * (non-Javadoc)
@@ -44,19 +37,18 @@ public class Stops extends ListActivity{
 		setContentView(R.layout.myroute);
 
 		Bundle bundle = getIntent().getExtras();
-		DayOfService dayofservice = (DayOfService) bundle.getSerializable("DayOfService");
+		Stop time = (Stop) bundle.getSerializable("STOP");
 		SeptaDB septaDB = new SeptaDB(this);
-		//long id = getIntent().getExtras().getLong(DBAdapter.KEY_DayOfServiceID);
 		try {
 			septaDB.open();
-			stopList = septaDB.getStopList(dayofservice);
+			timeList = septaDB.getScheduleList(time);
 			septaDB.close();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
-		RouteListAdapter stopAdapter = new RouteListAdapter();
-		setListAdapter(stopAdapter);
+		RouteListAdapter routeAdapter = new RouteListAdapter();
+		setListAdapter(routeAdapter);
 
 		//Button btAdd = (Button) findViewById(R.id.AddRoutes);
 		//btAdd.setOnClickListener(new AddButtonOnClick());
@@ -70,7 +62,7 @@ public class Stops extends ListActivity{
 		 */
 		@Override
 		public int getCount() {
-			return stopList.size();
+			return timeList.size();
 		}
 
 		/* (non-Javadoc)
@@ -78,7 +70,7 @@ public class Stops extends ListActivity{
 		 */
 		@Override
 		public Object getItem(int position) {
-			return stopList.get(position);
+			return timeList.get(position);
 		}
 
 		/* (non-Javadoc)
@@ -94,7 +86,7 @@ public class Stops extends ListActivity{
 		 */
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
-			Stop stop = stopList.get(position);
+			Schedule t = timeList.get(position);
 			
 			LinearLayout layout = new LinearLayout(parent.getContext());
 			layout.setOrientation(LinearLayout.VERTICAL);
@@ -107,18 +99,18 @@ public class Stops extends ListActivity{
 			text.setTextSize(16f);
 			text.setTextColor(Color.WHITE);
 			text.setClickable(false);
-			text.setText(stop.toString());
+			text.setText(t.toString());
 			
-			layout.setTag(stop);
+			layout.setTag(t);
 			layout.addView(text, params);
 			convertView = layout;
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Stop stop = (Stop) stopList.get(position);
-					Intent intent = new Intent(view.getContext(), MFL.class);
+					Schedule t = (Schedule) timeList.get(position);
+					Intent intent = new Intent(view.getContext(), Trolley.class);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable("STOP", stop);
+					bundle.putSerializable("SCHEDULE", t);
 					intent.putExtras(bundle);
 					((Activity)view.getContext()).startActivityForResult(intent, 3);
 				}

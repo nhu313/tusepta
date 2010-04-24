@@ -10,11 +10,15 @@ import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.Route;
 import edu.temple.cis.mysepta.myclass.Service;
+import edu.temple.cis.mysepta.myclass.DayOfService;
+import edu.temple.cis.mysepta.myclass.Stop;
 
 public class Trolley extends ListActivity{
 	
 	public Route[] route = null;
 	public Service[] service = null;
+	public DayOfService[] dayofservice = null;
+	public Stop[] stop = null;
 	
 	    @Override  
 	    public void onCreate(Bundle savedInstanceState) 
@@ -25,8 +29,8 @@ public class Trolley extends ListActivity{
 	        try {
 				db.open();
 						
-		         Route[] route = db.getTrolley();
-		         setListAdapter(new ArrayAdapter<Route>(this, android.R.layout.simple_list_item_1, route));
+		         Stop[] stop = db.getStopBus21();
+		         setListAdapter(new ArrayAdapter<Stop>(this, android.R.layout.simple_list_item_1, stop));
 		         
 		         db.close();
 			        
@@ -39,7 +43,7 @@ public class Trolley extends ListActivity{
 		public void onListItemClick(ListView parent, View v, int position, long id) {
 			
 			Toast.makeText(this, "You have selected " + "route",Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.DayOfServiceList.class);
+			Intent intent = new Intent(this, edu.temple.cis.mysepta.search.MFL.class);
 			startActivity(intent);
 			
 	   }
