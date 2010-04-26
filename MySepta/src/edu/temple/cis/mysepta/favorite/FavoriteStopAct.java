@@ -32,8 +32,6 @@ import edu.temple.cis.mysepta.myclass.Stop;
 public class FavoriteStopAct extends Activity {
 
 	public static class Holder {
-		TextView text;
-		ImageView icon;
 		CheckBox checkBox;
 		Stop stop;
 	}
@@ -114,16 +112,22 @@ public class FavoriteStopAct extends Activity {
 			Holder holder = holderList.get(position);
 			Context context = parent.getContext();
 			inflater = LayoutInflater.from(context);
-			convertView = inflater.inflate(R.layout.listitem01, null);
+			convertView = inflater.inflate(R.layout.listitem03, null);
 			
-			holder.text = (TextView) convertView.findViewById(R.id.ListItem01Text);
-			holder.icon = (ImageView) convertView.findViewById(R.id.ListItem01Icon);
-			holder.checkBox = (CheckBox) convertView.findViewById(R.id.ListItem01Check);
+			TextView upText = (TextView) convertView.findViewById(R.id.ListItem03UpText);
+			TextView downText = (TextView) convertView.findViewById(R.id.ListItem03DownText);
+			ImageView icon = (ImageView) convertView.findViewById(R.id.ListItem03Icon);
+			holder.checkBox = (CheckBox) convertView.findViewById(R.id.ListItem03Check);
 
-			holder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.stop48));
-			holder.text.setText(holder.stop.toString());
-			holder.text.setTextSize(16f);
-			holder.text.setTextColor(Color.WHITE);
+			icon.setImageDrawable(context.getResources().getDrawable(R.drawable.stop48));
+			upText.setText(holder.stop.toString());
+			upText.setTextSize(16f);
+			upText.setTextColor(Color.WHITE);
+			
+			downText.setText(holder.stop.getExtRouteName());
+			downText.setTextSize(12f);
+			downText.setTextColor(Color.WHITE);
+			
 			return convertView;
 		}
 	}
