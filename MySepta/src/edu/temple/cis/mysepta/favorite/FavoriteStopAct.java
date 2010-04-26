@@ -7,17 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.Stop;
@@ -29,6 +32,8 @@ import edu.temple.cis.mysepta.myclass.Stop;
 public class FavoriteStopAct extends Activity {
 
 	public static class Holder {
+		TextView text;
+		ImageView icon;
 		CheckBox checkBox;
 		Stop stop;
 	}
@@ -75,6 +80,8 @@ public class FavoriteStopAct extends Activity {
 	
 	public class FavoriteStopListAdapter extends BaseAdapter {
 
+		private LayoutInflater inflater;
+
 		/* (non-Javadoc)
 		 * @see android.widget.Adapter#getCount()
 		 */
@@ -105,22 +112,18 @@ public class FavoriteStopAct extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			Holder holder = holderList.get(position);
+			Context context = parent.getContext();
+			inflater = LayoutInflater.from(context);
+			convertView = inflater.inflate(R.layout.listitem01, null);
 			
-			LinearLayout layout = new LinearLayout(parent.getContext());
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT, 
-					ViewGroup.LayoutParams.WRAP_CONTENT);
-			params.setMargins(5, 3, 5, 0);
-			
-			CheckBox check = new CheckBox(parent.getContext());
-			check.setText(holder.stop.toString());
-			check.setTextSize(16f);
-			check.setTextColor(Color.WHITE);
-			holder.checkBox = check;
-			
-			layout.setTag(holder);
-			layout.addView(check, params);
-			convertView = layout;
+			holder.text = (TextView) convertView.findViewById(R.id.ListItem01Text);
+			holder.icon = (ImageView) convertView.findViewById(R.id.ListItem01Icon);
+			holder.checkBox = (CheckBox) convertView.findViewById(R.id.ListItem01Check);
+
+			holder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.stop48));
+			holder.text.setText(holder.stop.toString());
+			holder.text.setTextSize(16f);
+			holder.text.setTextColor(Color.WHITE);
 			return convertView;
 		}
 	}
@@ -162,15 +165,21 @@ public class FavoriteStopAct extends Activity {
 	}
 
 	private void handleDelete() {
-		for (int i = holderList.size() - 1; i >= 0; i--) {
-			Holder holder = (Holder) holderList.get(i);
-			if (holder.checkBox != null && holder.checkBox.isChecked()) {
-				Stop stop = holder.stop;
-				//TODO: remove the route from favorite;
-				holderList.remove(i);
-				holder.checkBox.setChecked(false);
+		try {
+			SeptaDB septaDB = new SeptaDB(this);
+			septaDB.open();
+			for (int i = holderList.size() - 1; i >= 0; i--) {
+				Holder holder = (Holder) holderList.get(i);
+				if (holder.checkBox != null && holder.checkBox.isChecked()) {
+					Stop stop = holder.stop;
+					septaDB.updateFavoriteRoute(stop.getStopID(), 0);
+					holderList.remove(i);
+					holder.checkBox.setChecked(false);
+				}
 			}
+			this.stopAdapter.notifyDataSetChanged();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		this.stopAdapter.notifyDataSetChanged();
 	}
 }

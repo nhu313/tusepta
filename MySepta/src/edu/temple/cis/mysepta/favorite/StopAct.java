@@ -7,15 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.DayOfService;
@@ -28,6 +31,8 @@ import edu.temple.cis.mysepta.myclass.Stop;
 public class StopAct extends ListActivity {
 
 	public static class Holder {
+		TextView text;
+		ImageView icon;
 		CheckBox checkBox;
 		Stop stop;
 	}
@@ -70,9 +75,11 @@ public class StopAct extends ListActivity {
 		Button btDel = (Button) findViewById(R.id.ReturnToDosList);
 		btDel.setOnClickListener(new ReturnButtonOnClick());
 	}
-	
-	public class StopListAdapter extends BaseAdapter {
 
+	public class StopListAdapter extends BaseAdapter {
+		
+		private LayoutInflater inflater;
+				
 		/* (non-Javadoc)
 		 * @see android.widget.Adapter#getCount()
 		 */
@@ -103,22 +110,19 @@ public class StopAct extends ListActivity {
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			Holder holder = holderList.get(position);
+			Context context = parent.getContext();
+			inflater = LayoutInflater.from(context);
+			convertView = inflater.inflate(R.layout.listitem01, null);
+			
+			holder.text = (TextView) convertView.findViewById(R.id.ListItem01Text);
+			holder.icon = (ImageView) convertView.findViewById(R.id.ListItem01Icon);
+			holder.checkBox = (CheckBox) convertView.findViewById(R.id.ListItem01Check);
 
-			LinearLayout layout = new LinearLayout(parent.getContext());
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT, 
-					ViewGroup.LayoutParams.WRAP_CONTENT);
-			params.setMargins(5, 3, 5, 0);
-
-			CheckBox check = new CheckBox(parent.getContext());
-			check.setText(holder.stop.toString());
-			check.setTextSize(16f);
-			check.setTextColor(Color.WHITE);
-			holder.checkBox = check;
-
-			layout.setTag(holder);
-			layout.addView(check, params);
-			convertView = layout;
+			holder.icon.setImageDrawable(context.getResources().getDrawable(
+					R.drawable.stop48));
+			holder.text.setText(holder.stop.toString());
+			holder.text.setTextSize(16f);
+			holder.text.setTextColor(Color.WHITE);
 			return convertView;
 		}
 	}
