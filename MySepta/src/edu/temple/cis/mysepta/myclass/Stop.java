@@ -7,6 +7,8 @@ public class Stop {
 	private String stopName;
 	private int isFavorite;
 	
+	private String extRouteName;
+	
 	public Stop(long stopID, long dayOfServiceID, String stopName, int isFavorite) {
 		this.stopID = stopID;
 		this.dayOfServiceID = dayOfServiceID;
@@ -36,6 +38,12 @@ public class Stop {
 	}
 	public void setIsFavorite(int isFavorite) {
 		this.isFavorite = isFavorite;
+	}
+	public String getExtRouteName() {
+		return extRouteName;
+	}
+	public void setExtRouteName(String extRouteName) {
+		this.extRouteName = extRouteName;
 	}
 	@Override
 	public String toString() {
