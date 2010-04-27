@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:id="@+id/LayoutForHeadline">
+		<TextView android:id="@+id/MyFavoriteTitle"
+			android:layout_height="wrap_content" android:text="My Favorite"
+			android:textColor="#FFFFFF" android:gravity="center"
+			android:layout_gravity="center" android:layout_width="fill_parent"
+			android:background="@android:drawable/alert_dark_frame">
+		</TextView>
+	</LinearLayout>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:layout_gravity="center"
+		android:gravity="center">
+		<Button android:id="@+id/AddFavorite"
+			android:layout_height="wrap_content" android:width="150px"
+			android:text="Add Stop" android:layout_width="wrap_content"
+			android:layout_marginTop="0px" android:drawableLeft="@drawable/edit"></Button>
+		<Button android:id="@+id/DeleteFavorite"
+			android:layout_height="wrap_content" android:width="150px"
+			android:text="Delete Stop" android:layout_width="wrap_content"
+			android:layout_marginTop="0px" android:drawableLeft="@drawable/delete"></Button>
+	</LinearLayout>
+	<LinearLayout android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:id="@+id/LayoutForBody">
+		<ListView android:layout_width="fill_parent"
+			android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/FavoriteList" android:choiceMode="multipleChoice"
+			android:background="@android:drawable/alert_dark_frame"></ListView>
+	</LinearLayout>
+</LinearLayout>
