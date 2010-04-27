@@ -5,12 +5,16 @@ package edu.temple.cis.mysepta.news;
 
 import java.util.List;
 
+import edu.temple.cis.mysepta.R;
+
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +26,7 @@ public class NewsListAdapter extends BaseAdapter {
 
 	private final Context context;
 	private final List<News> newsList;
+	private LayoutInflater inflater;
 	
 	public NewsListAdapter(Context context, List<News> newsList) {
 		this.context = context;
@@ -63,26 +68,24 @@ public class NewsListAdapter extends BaseAdapter {
 	
 	private final class NewsView extends LinearLayout {
 
-		private TextView textView;
-
 		/**
 		 * @param context
 		 * @param attrs
 		 */
 		public NewsView(Context context, News news) {
 			super(context);
-			setOrientation(LinearLayout.VERTICAL);
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT, 
-					ViewGroup.LayoutParams.WRAP_CONTENT);
-			params.setMargins(5, 3, 5, 0);
+			inflater = LayoutInflater.from(context);
+			View convertView = inflater.inflate(R.layout.listitem02, null);
 			
-			this.textView = new TextView(context);
-			this.textView.setText(news.toString());
-			this.textView.setTextSize(16f);
-			this.textView.setTextColor(Color.BLACK);
-			this.addView(this.textView, params);
-
+			TextView text = (TextView) convertView.findViewById(R.id.ListItem02Text);
+			ImageView icon = (ImageView) convertView.findViewById(R.id.ListItem02Icon);
+			
+			icon.setImageDrawable(context.getResources().getDrawable(R.drawable.news48));
+			text.setText(news.toString());
+			text.setTextSize(16f);
+			text.setTextColor(Color.BLACK);
+			
+			this.addView(convertView);
 		}
 		
 	}

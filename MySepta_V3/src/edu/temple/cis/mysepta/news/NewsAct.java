@@ -22,8 +22,6 @@ import edu.temple.cis.mysepta.myclass.MySeptaScreen;
 public class NewsAct extends MySeptaScreen {
 
 	private static final String SEPTA = "SEPTA";
-	private static final String CAP_FAVORITE = "Favorite News";
-	private static final String CAP_ALL = "All News";
 	private static ListView list;
 	
 	/* (non-Javadoc)
