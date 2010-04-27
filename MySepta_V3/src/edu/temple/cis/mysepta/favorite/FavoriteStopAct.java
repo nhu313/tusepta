@@ -46,7 +46,7 @@ public class FavoriteStopAct extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favoriteroutes);
-		
+
 		refreshData();
 		
 		ListView listView = (ListView) findViewById(R.id.FavoriteList);
@@ -181,6 +181,7 @@ public class FavoriteStopAct extends Activity {
 					holder.checkBox.setChecked(false);
 				}
 			}
+			septaDB.close();
 			this.stopAdapter.notifyDataSetChanged();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
