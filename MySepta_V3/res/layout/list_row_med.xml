@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:layout_height="wrap_content" android:textColor="#041e2e"
+xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:id="@+id/list_row_txt" 
+ android:textSize="15px" android:typeface="sans" 
+ android:paddingTop="5px" android:paddingBottom="5px" android:minHeight="45px" android:gravity="center_vertical"></TextView>
