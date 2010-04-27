@@ -19,6 +19,12 @@
 <activity android:name=".search.SearchDayOfService"></activity>
 <activity android:name=".search.SearchStop"></activity>
 <activity android:name=".search.SearchSchedule"></activity>
+
+		<activity android:name=".favorite.FavoriteStopAct"></activity>
+		<activity android:name=".favorite.RouteAct"></activity>
+		<activity android:name=".favorite.ServiceAct"></activity>
+		<activity android:name=".favorite.DateOfServiceAct"></activity>
+		<activity android:name=".favorite.StopAct"></activity>
 </application>
     <uses-sdk android:minSdkVersion="7" />
 
