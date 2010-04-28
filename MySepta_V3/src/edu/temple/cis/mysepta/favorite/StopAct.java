@@ -6,7 +6,6 @@ package edu.temple.cis.mysepta.favorite;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,17 +17,19 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.DayOfService;
+import edu.temple.cis.mysepta.myclass.MySeptaScreen;
 import edu.temple.cis.mysepta.myclass.Stop;
 
 /**
  * @author Yu Liang
  * 
  */
-public class StopAct extends ListActivity {
+public class StopAct extends MySeptaScreen {
 
 	public static class Holder {
 		TextView text;
@@ -50,6 +51,8 @@ public class StopAct extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stops);
 
+		initialize();
+		
 		Bundle bundle = getIntent().getExtras();
 		DayOfService dos = (DayOfService) bundle.getSerializable("DOS");
 		SeptaDB septaDB = new SeptaDB(this);
@@ -67,8 +70,9 @@ public class StopAct extends ListActivity {
 			throw new RuntimeException(e);
 		}
 
+		ListView listView = (ListView) findViewById(R.id.StopList);
 		this.stopAdapter = new StopListAdapter();
-		setListAdapter(stopAdapter);
+		listView.setAdapter(stopAdapter);
 
 		Button btAdd = (Button) findViewById(R.id.AddStops);
 		btAdd.setOnClickListener(new AddButtonOnClick());

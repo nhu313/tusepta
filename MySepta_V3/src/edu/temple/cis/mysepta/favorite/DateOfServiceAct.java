@@ -21,13 +21,14 @@ import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
 import edu.temple.cis.mysepta.myclass.DayOfService;
+import edu.temple.cis.mysepta.myclass.MySeptaScreen;
 import edu.temple.cis.mysepta.myclass.Route;
 
 /**
  * @author Yu Liang
  *
  */
-public class DateOfServiceAct extends Activity {
+public class DateOfServiceAct extends MySeptaScreen {
 
 	List<DayOfService> dosList;
 	
@@ -38,6 +39,8 @@ public class DateOfServiceAct extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dateofservice);
+		
+		initialize();
 		
 		Bundle bundle = getIntent().getExtras();
 		Route route = (Route) bundle.getSerializable("ROUTE");

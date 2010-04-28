@@ -6,7 +6,6 @@ package edu.temple.cis.mysepta.favorite;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,9 +17,11 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
+import edu.temple.cis.mysepta.myclass.MySeptaScreen;
 import edu.temple.cis.mysepta.myclass.Route;
 import edu.temple.cis.mysepta.myclass.Service;
 
@@ -28,7 +29,7 @@ import edu.temple.cis.mysepta.myclass.Service;
  * @author Yu Liang
  * 
  */
-public class RouteAct extends ListActivity {
+public class RouteAct extends MySeptaScreen {
 
 	List<Route> routeList;
 
@@ -42,6 +43,8 @@ public class RouteAct extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.routes);
 
+		initialize();
+		
 		Bundle bundle = getIntent().getExtras();
 		Service service = (Service) bundle.getSerializable("SERVICE");
 		SeptaDB septaDB = new SeptaDB(this);
@@ -53,8 +56,9 @@ public class RouteAct extends ListActivity {
 			throw new RuntimeException(e);
 		}
 
+		ListView listView = (ListView) findViewById(R.id.RouteList);
 		RouteListAdapter routeAdapter = new RouteListAdapter();
-		setListAdapter(routeAdapter);
+		listView.setAdapter(routeAdapter);
 
 		Button btAdd = (Button) findViewById(R.id.AddRoutes);
 		btAdd.setOnClickListener(new AddButtonOnClick());

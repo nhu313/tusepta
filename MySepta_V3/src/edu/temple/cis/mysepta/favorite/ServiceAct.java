@@ -18,13 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
+import edu.temple.cis.mysepta.myclass.MySeptaScreen;
 import edu.temple.cis.mysepta.myclass.Service;
 
 /**
  * @author Yu Liang
  *
  */
-public class ServiceAct extends Activity {
+public class ServiceAct extends MySeptaScreen {
 
 	List<Service> serviceList;
 	
@@ -35,6 +36,8 @@ public class ServiceAct extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.services);
+		
+		initialize();
 		
 		SeptaDB septaDB = new SeptaDB(this);
 		try {

@@ -6,7 +6,6 @@ package edu.temple.cis.mysepta.favorite;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,13 +22,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
+import edu.temple.cis.mysepta.myclass.MySeptaScreen;
 import edu.temple.cis.mysepta.myclass.Stop;
 
 /**
  * @author Yu Liang
  *
  */
-public class FavoriteStopAct extends Activity {
+public class FavoriteStopAct extends MySeptaScreen {
 
 	public static class Holder {
 		CheckBox checkBox;
@@ -46,6 +46,8 @@ public class FavoriteStopAct extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favoriteroutes);
+		
+		initialize();
 
 		refreshData();
 		
