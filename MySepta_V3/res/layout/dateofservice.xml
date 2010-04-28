@@ -1,18 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="#dddddd" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<LinearLayout android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:id="@+id/LayoutForHeadline">
-		<TextView android:id="@+id/DateOfServiceListTitle"
-			android:layout_height="wrap_content" android:text="Select The Date Of Service"
-			android:textColor="#FFFFFF" android:gravity="center"
-			android:layout_gravity="center" android:layout_width="fill_parent"
-			android:background="@android:drawable/alert_dark_frame">
-		</TextView>
+	<LinearLayout android:id="@+id/header_menu"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:gravity="right">
+		<TextView android:paddingRight="5px" android:paddingLeft="5px"
+			android:id="@+id/header_t_mysched" android:layout_height="20px"
+			android:layout_width="wrap_content" android:typeface="sans"
+			android:textSize="15px" android:gravity="center_vertical|center_horizontal"
+			android:text="MySchedule" android:textColor="#041e2e"></TextView>
+		<TextView android:paddingRight="10px" android:paddingLeft="10px"
+			android:id="@+id/header_t_news" android:layout_height="20px"
+			android:layout_width="wrap_content" android:typeface="sans"
+			android:textSize="15px" android:gravity="center_vertical|center_horizontal"
+			android:text="Alerts" android:textColor="#041e2e"></TextView>
+		<TextView android:paddingRight="10px" android:paddingLeft="10px"
+			android:id="@+id/header_t_search" android:layout_height="20px"
+			android:layout_width="wrap_content" android:typeface="sans"
+			android:textSize="15px" android:gravity="center_vertical|center_horizontal"
+			android:text="Search" android:textColor="#041e2e"></TextView>
+		<TextView android:paddingRight="10px" android:paddingLeft="10px"
+			android:id="@+id/header_t_options" android:layout_height="20px"
+			android:layout_width="wrap_content" android:typeface="sans"
+			android:textSize="15px" android:gravity="center_vertical|center_horizontal"
+			android:text="Edit Fav" android:textColor="#dddddd"
+			android:background="#041e2e"></TextView>
 	</LinearLayout>
-	<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@+id/DateOfServiceList" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:background="@android:drawable/alert_dark_frame">
-	</ListView>
-</LinearLayout>
+	<ImageView android:background="#041e2e" android:layout_below="@+id/header_menu"
+		android:layout_width="wrap_content" android:id="@+id/header_icon"
+		android:src="@drawable/septaicon" android:layout_height="40px"></ImageView>
+	<TextView android:layout_toRightOf="@+id/header_icon"
+		android:layout_below="@+id/header_menu" android:layout_width="fill_parent"
+		android:id="@+id/header_title" android:background="#041e2e"
+		android:typeface="sans" android:paddingRight="5px"
+		android:paddingBottom="3px" android:layout_height="40px"
+		android:gravity="right|bottom" android:textSize="20px"
+		android:text="Select Day of Service"></TextView>
+	<TextView android:layout_height="2px" android:layout_width="fill_parent"
+		android:background="#ffffff" android:layout_below="@+id/header_icon"
+		android:id="@+id/line_below_title"></TextView>
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_below="@+id/line_below_title">
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:id="@+id/LayoutForHeadline">
+			<TextView android:id="@+id/DateOfServiceListTitle"
+				android:layout_height="wrap_content" android:text="Select The Day Of Service"
+				android:textColor="#FFFFFF" android:gravity="center"
+				android:layout_gravity="center" android:layout_width="fill_parent"
+				android:background="@android:drawable/alert_dark_frame" android:visibility="gone">
+			</TextView>
+		</LinearLayout>
+		<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/DateOfServiceList" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:background="@android:drawable/alert_dark_frame">
+		</ListView>
+	</LinearLayout>
+
+</RelativeLayout>
