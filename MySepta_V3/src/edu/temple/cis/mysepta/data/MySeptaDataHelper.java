@@ -22,12 +22,12 @@ public class MySeptaDataHelper {
 			if (time >= 24.0){
 				ret = MySeptaDataHelper.round2(time - 12) + " AM";
 			} else if (time < 13.0){
-				ret = time + " PM";
+				ret = MySeptaDataHelper.round2(time) + " PM";
 			} else {
 				ret = MySeptaDataHelper.round2(time - 12) + " PM";
 			}
 		} else {
-			ret = time + " AM";
+			ret = MySeptaDataHelper.round2(time) + " AM";
 		}
 		return ret;
 	}
