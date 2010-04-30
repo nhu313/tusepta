@@ -1,9 +1,14 @@
 package edu.temple.cis.mysepta.myclass;
 
-public class Schedule {
+import java.io.Serializable;
+
+
+
+public class Schedule implements Serializable{
 	private long scheduleID;
 	private long stopID;
 	private double time;
+	
 	public Schedule(long scheduleID, long stopID, double time) {
 		super();
 		this.scheduleID = scheduleID;
@@ -30,7 +35,26 @@ public class Schedule {
 	}
 	@Override
 	public String toString() {
-		return String.format("%.2f", time) + "";
+		String ret = "";
+		if (time >= 12.0){
+			if (time >= 24.0){
+				ret = round2(time - 12) + " AM";
+			} else if (time < 13.0){
+				ret = round2(time) + " PM";
+			} else {
+				ret = round2(time - 12) + " PM";
+			}
+			} else {
+			ret = round2(time) + " AM";
+		    }
+		    return ret;
+		
+		
 	}
+	public static float round2(double t){
+		return (float) (Math.round(100.0 * t)/100.0);
+	}
+	
+ }
 
-}
+
