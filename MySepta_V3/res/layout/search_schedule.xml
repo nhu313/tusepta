@@ -27,7 +27,9 @@
 		android:gravity="center" android:layout_below="@+id/line_below_title">
 		<EditText android:id="@+id/search_sched_txttime" android:layout_height="wrap_content" android:text="00.00" android:textSize="18sp" android:layout_width="70px" android:singleLine="true">
 		</EditText>
-		
+		<Spinner android:id="@+id/Spinner01" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="AM"
+			android:textSize="18sp"  />
 		<Button android:id="@+id/search_bnt_time"
 			android:layout_height="wrap_content" 
 			android:text="Update Time" android:layout_width="wrap_content"
