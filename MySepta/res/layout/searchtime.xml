@@ -18,6 +18,9 @@
 		<EditText android:id="@+id/txttime" android:layout_width="wrap_content"
 	android:layout_height="47px" android:text="00.00" android:textSize="18sp">
 		</EditText>
+		<Spinner android:id="@+id/Spinner01" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="AM"
+			android:textSize="18sp"  />
 		<Button android:id="@+id/bntsearchtime"
 			android:layout_height="wrap_content" android:width="150px"
 			android:text="Search with specific time" android:layout_width="wrap_content"
