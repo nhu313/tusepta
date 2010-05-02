@@ -22,9 +22,13 @@
 			android:layout_height="wrap_content" android:text="AM"
 			android:textSize="18sp"  />
 		<Button android:id="@+id/bntsearchtime"
-			android:layout_height="wrap_content" android:width="150px"
-			android:text="Search with specific time" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:width="90px"
+			android:text="Update time" android:layout_width="wrap_content"
 			android:layout_marginTop="0px" android:drawableLeft="@drawable/edit"></Button>
+		<Button android:id="@+id/bntexit"
+			android:layout_height="wrap_content" android:width="50px"
+			android:text="Exit" android:layout_width="wrap_content"
+			android:layout_marginTop="0px"></Button>
 	</LinearLayout>
 	<ListView xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@id/android:list" android:layout_width="fill_parent"
