@@ -1,5 +1,7 @@
 package edu.temple.cis.mysepta.search;
+import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import edu.temple.cis.mysepta.R;
 import edu.temple.cis.mysepta.data.SeptaDB;
+import edu.temple.cis.mysepta.favorite.StopAct;
 import edu.temple.cis.mysepta.myclass.Schedule;
 
 public class MFL extends ListActivity{
@@ -17,7 +20,7 @@ public Schedule[] s = null;
 public long stopid=2;   //189
 private double time;
 private static final String[] am_pm = {"AM", "PM"};  
-Spinner   spinner1; 
+Spinner spinner1; 
 
 	
 	@Override  
@@ -42,7 +45,10 @@ Spinner   spinner1;
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, am_pm);  
 			spinner1.setAdapter(adapter);
 			Button bntSearch = (Button) findViewById(R.id.bntsearchtime);
+			Button bntExit = (Button)findViewById(R.id.bntexit);
+			bntExit.setOnClickListener(new ExitButtonOnClick());
 			bntSearch.setOnClickListener(new SearchButtonOnClick());
+			
     	}
 		class SearchButtonOnClick implements OnClickListener {
 			
@@ -51,12 +57,22 @@ Spinner   spinner1;
 				EditText txttimesearch=(EditText)findViewById(R.id.txttime);
 				String s = (String)spinner1.getSelectedItem();
 				time = Double.parseDouble(txttimesearch.getText().toString());
-				if(s=="PM"){
+				if(s == "PM"){
 					time = time + 12;
 				}
 				handleSearch();
+				
 			}
 		}
+		class ExitButtonOnClick implements OnClickListener{
+			public void onClick(View v) {
+			finish();
+			Intent intent = new Intent(v.getContext(), ServiceList.class);
+			((Activity) v.getContext()).startActivityForResult(intent, 2);
+		}
+	  }
+			
+		
 		private void handleSearch() {
 						
 			try {
