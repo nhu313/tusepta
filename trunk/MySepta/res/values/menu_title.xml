@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="home">Home</string>
+	<string name="alert">Alerts</string>
+	<string name="search">Search</string>
+	<string name="edit_fav">Edit Fav</string>
+	<string name="info">Info</string>
+		
+	<string name="c_home">MY SCHEDULE</string>
+	<string name="c_alert">ALERTS</string>
+	<string name="c_search">SEARCH</string>
+	<string name="c_edit_fav">EDIT FAVORITE</string>
+	<string name="c_info">INFO</string>
+</resources>

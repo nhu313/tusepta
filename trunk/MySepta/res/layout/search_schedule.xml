@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+  android:background="#ffffff" android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout android:id="@+id/header_menu" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center"> 
+		<TextView android:paddingRight="10px" android:id="@+id/header_t_mysched" android:layout_height="33px" 
+			android:layout_width="wrap_content" android:typeface="sans" android:textSize="15px" android:drawableLeft="@drawable/home"
+			android:gravity="center_vertical|center_horizontal" android:text="@string/home" android:textColor="#041e2e"></TextView>  
+		<TextView android:paddingRight="05px" android:id="@+id/header_t_news" android:layout_height="33px" 
+			android:layout_width="wrap_content" android:typeface="sans" android:textSize="15px" android:drawableLeft="@drawable/alert"
+			android:gravity="center_vertical|center_horizontal" android:text="@string/alert" android:textColor="#041e2e"></TextView>
+		<TextView android:paddingRight="10px" android:id="@+id/header_t_search" android:layout_height="33px" 
+			android:layout_width="wrap_content" android:typeface="sans" android:textSize="15px" android:drawableLeft="@drawable/search"
+			android:gravity="center_vertical|center_horizontal" android:text="@string/search" android:textColor="#041e2e"></TextView>
+	</LinearLayout>
+	
+	<ImageView android:background="#041e2e" android:layout_below="@+id/header_menu" android:layout_width="wrap_content" android:id="@+id/header_icon" android:src="@drawable/septaicon" android:layout_height="40px"></ImageView>
+	<TextView android:layout_toRightOf="@+id/header_icon" android:layout_below="@+id/header_menu" android:layout_width="fill_parent" android:id="@+id/header_title" android:background="#041e2e" android:typeface="sans" android:paddingRight="5px" android:paddingBottom="3px" android:layout_height="40px" android:gravity="right|bottom" android:textSize="20px" android:text="SEARCH"></TextView>
+	<TextView android:layout_height="2px" android:layout_width="fill_parent" android:background="#ffffff" android:layout_below="@+id/header_icon" android:id="@+id/line_below_title"></TextView>
+	
+	<LinearLayout 
+		android:id="@+id/search_btn_lay" 
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:layout_gravity="center"
+		android:gravity="center" android:layout_below="@+id/line_below_title">
+		<EditText android:id="@+id/search_sched_txttime" android:layout_height="wrap_content" android:text="00.00" android:textSize="18sp" android:layout_width="70px" android:singleLine="true">
+		</EditText>
+		<Spinner android:id="@+id/Spinner01" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="AM"
+			android:textSize="18sp"  />
+		<Button android:id="@+id/search_bnt_time"
+			android:layout_height="wrap_content" 
+			android:text="Update Time" android:layout_width="wrap_content"
+			android:drawableLeft="@drawable/edit"></Button>
+	
+</LinearLayout>
+	<TextView android:layout_height="1px" android:layout_width="fill_parent" android:background="#555555" android:layout_below="@+id/search_btn_lay" android:id="@+id/line_below_row_title"></TextView>
+	<ListView android:layout_width="fill_parent" android:layout_height="fill_parent"  
+	android:layout_below="@+id/line_below_row_title" android:typeface="sans" android:textSize="15px" android:id="@+id/search_list"></ListView>
+
+
+</RelativeLayout>
