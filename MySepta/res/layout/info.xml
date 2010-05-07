@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+  android:background="#ffffff" android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout android:id="@+id/header_menu" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center"> 
+		<TextView android:paddingRight="10px" android:id="@+id/header_t_mysched" android:layout_height="33px" 
+			android:layout_width="wrap_content" android:typeface="sans" android:textSize="15px" android:drawableLeft="@drawable/home"
+			android:gravity="center_vertical|center_horizontal" android:text="@string/home" android:textColor="#041e2e"></TextView>  
+		<TextView android:paddingRight="05px" android:id="@+id/header_t_news" android:layout_height="33px" 
+			android:layout_width="wrap_content" android:typeface="sans" android:textSize="15px" android:drawableLeft="@drawable/alert"
+			android:gravity="center_vertical|center_horizontal" android:text="@string/alert" android:textColor="#041e2e"></TextView>
+		<TextView android:paddingRight="10px" android:id="@+id/header_t_search" android:layout_height="33px" 
+			android:layout_width="wrap_content" android:typeface="sans" android:textSize="15px" android:drawableLeft="@drawable/search"
+			android:gravity="center_vertical|center_horizontal" android:text="@string/search" android:textColor="#041e2e"></TextView>
+	</LinearLayout>
+	<ImageView android:background="#041e2e" android:layout_below="@+id/header_menu" android:layout_width="wrap_content" android:id="@+id/header_icon" android:src="@drawable/septaicon" android:layout_height="40px"></ImageView>
+	<TextView android:layout_toRightOf="@+id/header_icon" android:layout_below="@+id/header_menu" android:layout_width="fill_parent" android:id="@+id/header_title" android:background="#041e2e" android:typeface="sans" android:paddingRight="5px" android:paddingBottom="3px" android:layout_height="40px" android:gravity="right|bottom" android:textSize="20px" android:text="@string/c_info"></TextView>
+	<TextView android:layout_height="2px" android:layout_width="fill_parent" android:background="#ffffff" android:layout_below="@+id/header_icon" android:id="@+id/line_below_title"></TextView>
+
+	<Spinner android:layout_width="fill_parent" android:layout_below="@+id/line_below_title" android:layout_marginTop="5px" android:id="@+id/info_spinner" android:typeface="sans" android:textSize="15px" android:layout_height="40px"></Spinner>
+
+<LinearLayout android:id="@+id/info_contact_lay" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@+id/info_spinner" android:gravity="left" android:orientation="vertical" android:visibility="visible">
+  	<TextView android:text="SEPTA's Contact" android:id="@+id/info_fare_title" android:textSize="20px" android:textColor="#880000" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+	<View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent" />
+        <TextView android:text="Phone:" android:textColor="#000000" android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <TextView android:text="(215) 580-7800" android:textColor="#000000" android:paddingRight="7px" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent"/>
+        <TextView android:text="Address:" android:textColor="#000000" android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="1234 Market Street, Philadelphia PA 19107" android:textColor="#000000" android:paddingRight="7px" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent"/>
+</LinearLayout>
+
+<LinearLayout android:id="@+id/info_fare_lay" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@+id/info_spinner" android:gravity="left" android:visibility="invisible" android:orientation="vertical">
+    
+	<TextView android:text="Bus/Trolley/Subway Fares" android:id="@+id/info_fare_title" android:textSize="20px" android:textColor="#880000" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+	<View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent" />
+        <TextView android:text="Cash:" android:textColor="#000000" android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="$2.00" android:textColor="#000000" android:paddingRight="7px" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+    <View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent"/>
+        <TextView android:text="Token:" android:textColor="#000000" android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="1($1.45), 2 ($2.90), 5 ($7.25), 10 ($14.50)" android:textColor="#000000" android:paddingRight="7px" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent"/>
+        <TextView android:text="Transfer:" android:textColor="#000000" android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="$0.75" android:textColor="#000000" android:paddingRight="7px" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent"/>
+        <TextView android:text="Zone Fare:" android:textColor="#000000" android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="$0.50" android:textColor="#000000" android:paddingRight="7px" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent"/>
+        <TextView android:text="Weekly TransPass:" android:textColor="#000000" android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="$20.75" android:textColor="#000000" android:paddingRight="7px" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+    <View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent"/>
+        <TextView android:text="Monthly TransPass:" android:textColor="#000000" android:textStyle="bold" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="$78.00" android:textColor="#000000" android:paddingRight="7px" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+    <View android:layout_height="1dip" android:background="#000000" android:layout_width="fill_parent"/>
+</LinearLayout>
+</RelativeLayout>

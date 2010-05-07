@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/ListItem02"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:gravity="center_vertical" android:layout_height="wrap_content">
+
+	<ImageView android:id="@+id/ListItem02Icon" android:layout_width="wrap_content" android:gravity="center_vertical"
+		android:layout_height="fill_parent" android:layout_alignParentLeft="true" />
+
+	<TextView android:id="@+id/ListItem02Text" android:layout_height="fill_parent"
+		android:layout_marginLeft="10dip" android:textSize="24sp"
+		android:layout_width="fill_parent" android:gravity="center_vertical"
+		android:layout_toRightOf="@+id/ListItem02Icon" android:textColor="#000000" android:minHeight="45px"/>
+
+</RelativeLayout>

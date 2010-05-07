@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/ListItem03"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:gravity="center_vertical">
+
+	<ImageView android:id="@+id/ListItem03Icon" android:gravity="center_vertical"
+		android:layout_width="wrap_content" android:layout_height="fill_parent"
+		android:layout_alignParentLeft="true" />
+
+	<LinearLayout android:layout_width="wrap_content" android:gravity="center_vertical"
+		android:layout_height="wrap_content" android:visibility="visible"
+		android:id="@+id/ListItem03Linear" android:layout_toRightOf="@+id/ListItem03Icon"
+		android:layout_toLeftOf="@+id/ListItem03Check" android:orientation="vertical">
+
+		<TextView android:id="@+id/ListItem03UpText"
+			android:layout_height="wrap_content" android:layout_marginLeft="5dip"
+			android:textSize="24sp" android:textColor="#000000" android:gravity="center_vertical"
+			android:layout_width="fill_parent" android:text="Select Your Favorite Routes" />
+
+		<TextView android:id="@+id/ListItem03DownText"
+			android:layout_height="wrap_content" android:layout_marginLeft="5dip"
+			android:textSize="18sp" android:textColor="#000000" android:gravity="center_vertical"
+			android:layout_width="fill_parent" android:text="Select Your Favorite Routes" />
+
+	</LinearLayout>
+
+	<CheckBox android:id="@+id/ListItem03Check" android:gravity="center"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:layout_alignParentRight="true" />
+
+</RelativeLayout>
